@@ -11,11 +11,6 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
-
 Route::get('test', function(){
 
 	$jira = App::make('Jira');
@@ -30,4 +25,4 @@ Route::post('register', 'AuthController@postRegistration');
 Route::get('logout', 'AuthController@getLogout');
 Route::get('login', 'AuthController@getLogin');
 Route::post('login', 'AuthController@postLogin');
-Route::get('dashboard', ['before' => 'auth', 'uses' => 'DashboardController@getDashboard']);
+Route::get('/', ['before' => 'auth', 'uses' => 'DashboardController@getDashboard']);
