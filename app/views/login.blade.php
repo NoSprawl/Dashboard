@@ -1,8 +1,6 @@
 @extends('layouts.front')
 
-@section('header')
-	@parent
-@stop
+@section('signin_link') uk-active @stop
 
 @section('content')
 <article class="uk-article">

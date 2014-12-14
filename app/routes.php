@@ -21,10 +21,10 @@ Route::get('test', function(){
 });
 
 
-Route::get('register', 'AuthController@getRegistration');
+Route::get('register', ['uses' => 'AuthController@getRegistration', 'as' => 'signup']);
 Route::post('register', 'AuthController@postRegistration');
-Route::get('logout', 'AuthController@getLogout');
-Route::get('login', 'AuthController@getLogin');
+Route::get('logout', ['uses' => 'AuthController@getLogout', 'as' => 'signout']);
+Route::get('login', ['uses' => 'AuthController@getLogin', 'as' => 'signin']);
 Route::post('login', 'AuthController@postLogin');
 
 Route::group(array('before' => 'auth'), function()
