@@ -1,14 +1,14 @@
 <?php
 
-class DashboardController extends Controller {
-
+class DashboardController extends BaseController {
+	protected $layout = 'layouts.front';
+	
 	public function __construct() {
 
 	}
 
 	public function getDashboard() {
-
-		return View::make('dashboard.main');
+		$this->layout->content = View::make('dashboard.main');
 
 	}
 

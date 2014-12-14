@@ -3,17 +3,26 @@
 @section('header')
 	@parent
 @stop
-<?php //dd($errors->first('email')); ?>
+
 @section('content')
-	{{ Form::open(['url' => 'register']) }}
-
-    	{{ Form::label('email', 'E-mail') }}
-    	{{ $errors->first('email', '<span class="error">:message</span>') }}
-    	{{ Form::text('email') }}
-		{{ Form::label('password', 'Password') }}
-		{{ $errors->first('password', '<span class="error">:message</span>') }}
-		{{ Form::password('password') }}
-		{{ Form::submit('Register') }}
-
+<article class="uk-article">
+	{{ Form::open(['url' => 'register', 'class' => 'uk-form']) }}
+		<fieldset>
+			<legend>Sign up</legend>
+			<div class="uk-form-row">
+				{{ $errors->first('email', '<span class="error">:message</span>') }}
+				{{ Form::text('email', '', ['placeholder' => 'E-Mail Address']) }}
+			</div>
+			<div class="uk-form-row">
+				{{ $errors->first('password', '<span class="error">:message</span>') }}
+				{{ Form::text('password', '', ['placeholder' => 'Password']) }}
+			</div>
+			<div class="uk-form-row">
+				{{ Form::submit('Register', ['class' => 'uk-button uk-button-success']) }}
+			</div>
+		</fieldset>
 	{{ Form::close() }}
+</article>
 @stop
+
+

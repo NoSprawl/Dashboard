@@ -43,9 +43,9 @@ return array(
 
 		'sqs' => array(
 			'driver' => 'sqs',
-			'key'    => 'your-public-key',
-			'secret' => 'your-secret-key',
-			'queue'  => 'your-queue-url',
+			'key'    => 'AKIAJZTLMIUA4I7JDKTA',
+			'secret' => 'ZWLRqRUa7nYrRqRSOko5RdGpK4Pa+3NAARkmlVEw',
+			'queue'  => 'nosprawl_agents',
 			'region' => 'us-east-1',
 		),
 
@@ -78,7 +78,7 @@ return array(
 
 	'failed' => array(
 
-		'database' => 'mysql', 'table' => 'failed_jobs',
+		'database' => 'pgsql', 'table' => 'failed_jobs',
 
 	),
 

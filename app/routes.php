@@ -20,9 +20,18 @@ Route::get('test', function(){
 	dd($jira->getStatuses());
 });
 
+
 Route::get('register', 'AuthController@getRegistration');
 Route::post('register', 'AuthController@postRegistration');
 Route::get('logout', 'AuthController@getLogout');
 Route::get('login', 'AuthController@getLogin');
 Route::post('login', 'AuthController@postLogin');
-Route::get('/', ['before' => 'auth', 'uses' => 'DashboardController@getDashboard']);
+
+Route::group(array('before' => 'auth'), function()
+{
+	Route::get('/', ['uses' => 'CheckController@getCheck']); // This one is only here because I can't figure out how to define a default route that refers to another named route
+	Route::get('check', ['uses' => 'CheckController@getCheck', 'as' => 'check']);
+	Route::get('zones', ['uses' => 'ZonesController@getZones', 'as' => 'zones']);
+	Route::get('integrations', ['uses' => 'IntegrationsController@getIntegrations', 'as' => 'integrations']);
+	Route::get('alerts', ['uses' => 'AlertsController@getAlerts', 'as' => 'alerts']);
+});
