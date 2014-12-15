@@ -6,7 +6,8 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"guzzlehttp/guzzle": "~5.0@dev"
+		"guzzlehttp/guzzle": "~5.0@dev",
+		"stripe/stripe-php": "~1.17"
 	},
 	"autoload": {
 		"classmap": [

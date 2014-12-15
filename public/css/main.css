@@ -740,3 +740,71 @@ article.uk-article {
 	margin: 20px 0 0 0;
 	padding: 15px;
 }
+
+/* NoS Pricing Table */
+.pricing {
+	position: relative;
+	padding: 30px 0 30px 0;
+}
+
+.agree {
+	position: relative;
+	top: 30px;
+}
+
+.billing legend {
+	padding-bottom: 30px;
+}
+
+.plan {
+	border: 1px solid #efefef;
+	border-radius: 3px;
+	padding: 20px;
+	background: rgba(255,255,255,.8);
+}
+
+.plan.feature {
+	z-index: 1;
+	border-color: #39f;
+}
+
+.plan h3 {
+	margin: 0 0 20px 0;
+	border-bottom: 1px solid #efefef;
+	padding-bottom: 10px;
+}
+
+.plan.feature h3 {
+	color: #39f;
+	border-color: #39f;
+}
+
+.plan ul li strike {
+	color: #999;
+}
+
+.plan ul li .muted {
+	color: #888;
+	font-size: 88%;
+}
+
+.plan ul li:last-child {
+	text-align: center;
+	font-size: 140%;
+	padding-top: 14%;
+}
+
+input.lone {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.card-container {
+	margin: 0;
+	position: relative;
+	top: 25px;
+}
+
+input {
+	width: 100%;
+}

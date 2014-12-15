@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a7807d64fff7592e01aad01980baa0b3",
+    "hash": "2bea8d6f00f849a25e00a627166f216c",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1005,6 +1005,54 @@
                 "stack"
             ],
             "time": "2014-11-23 20:37:11"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v1.17.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "d07ee46fe6862a36ca5cd30107493e1e335b35d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d07ee46fe6862a36ca5cd30107493e1e335b35d5",
+                "reference": "d07ee46fe6862a36ca5cd30107493e1e335b35d5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "simpletest/simpletest": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/Stripe/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "time": "2014-11-07 04:41:03"
         },
         {
             "name": "swiftmailer/swiftmailer",

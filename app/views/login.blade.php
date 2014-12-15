@@ -13,7 +13,7 @@
 			</div>
 			<div class="uk-form-row">
 				{{ $errors->first('password', '<span class="error">:message</span>') }}
-				{{ Form::text('password', '', ['placeholder' => 'Password']) }}
+				{{ Form::password('password', '', ['placeholder' => 'Password']) }}
 			</div>
 			<div class="uk-form-row">
 				{{ Form::submit('Sign in', ['class' => 'uk-button uk-button-success']) }}
