@@ -7,7 +7,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"guzzlehttp/guzzle": "~5.0@dev",
-		"stripe/stripe-php": "~1.17"
+		"stripe/stripe-php": "~1.17",
+		"aws/aws-sdk-php": "2.*"
 	},
 	"autoload": {
 		"classmap": [
@@ -15,6 +16,7 @@
 			"app/controllers",
 			"app/models",
 			"app/queues",
+			"app/integrations",
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php"

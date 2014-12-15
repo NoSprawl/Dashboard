@@ -11,7 +11,6 @@ class AuthController extends Controller {
 	public function postRegistration() {
 		
 		$input = Input::all();
-		Log::error('Whole bird', $input);
 		$rules = [
 			'full_name' => 'required',
 			'email' => 	'required|email|unique:users,email',
@@ -54,31 +53,6 @@ class AuthController extends Controller {
 
 		return Redirect::to('register')->withErrors($validator);
 
-	}
-	
-	public function chargeCard() {
-		
-		$token = Input::get('stripeToken');
-
-		try {
-		    $charge = Stripe_Charge::create(array(
-		      "amount" => 2000, // amount in cents
-		      "currency" => "usd",
-		      "card"  => $token,
-		      "description" => 'Charge for my product')
-		    );
-
-		} catch(Stripe_CardError $e) {
-		    $e_json = $e->getJsonBody();
-		    $error = $e_json['error'];
-		    // The card has been declined
-		    // redirect back to checkout page
-		    return Redirect::to('pay')
-		        ->withInput()->with('stripe_errors',$error['message']);
-		}
-		// Maybe add an entry to your DB that the charge was successful, or at least Log the charge or errors
-		// Stripe charge was successfull, continue by redirecting to a page with a thank you message
-		return Redirect::to('pay/success');
 	}
 
 	public function getLogout() {

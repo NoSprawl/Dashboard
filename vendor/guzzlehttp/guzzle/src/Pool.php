@@ -52,9 +52,9 @@ class Pool implements FutureInterface
     private $isRealized = false;
 
     /**
-     * The option values for 'before', 'after', and 'error' can be a callable,
-     * an associative array containing event data, or an array of event data
-     * arrays. Event data arrays contain the following keys:
+     * The option values for 'before', 'complete', 'error' and 'end' can be a 
+     * callable, an associative array containing event data, or an array of
+     * event data arrays. Event data arrays contain the following keys:
      *
      * - fn: callable to invoke that receives the event
      * - priority: Optional event priority (defaults to 0)
@@ -63,10 +63,14 @@ class Pool implements FutureInterface
      * @param ClientInterface $client   Client used to send the requests.
      * @param array|\Iterator $requests Requests to send in parallel
      * @param array           $options  Associative array of options
-     *     - pool_size: (int) Maximum number of requests to send concurrently
+     *     - pool_size: (callable|int)   Maximum number of requests to send
+     *                                   concurrently, or a callback that receives
+     *                                   the current queue size and returns the
+     *                                   number of new requests to send
      *     - before:    (callable|array) Receives a BeforeEvent
-     *     - after:     (callable|array) Receives a CompleteEvent
+     *     - complete:  (callable|array) Receives a CompleteEvent
      *     - error:     (callable|array) Receives a ErrorEvent
+     *     - end:       (callable|array) Receives an EndEvent
      */
     public function __construct(
         ClientInterface $client,
@@ -145,6 +149,26 @@ class Pool implements FutureInterface
         (new self($client, $requests, $options))->wait();
     }
 
+    private function getPoolSize()
+    {
+        return is_callable($this->poolSize)
+            ? call_user_func($this->poolSize, count($this->waitQueue))
+            : $this->poolSize;
+    }
+
+    /**
+     * Add as many requests as possible up to the current pool limit.
+     */
+    private function addNextRequests()
+    {
+        $limit = max($this->getPoolSize() - count($this->waitQueue), 0);
+        while ($limit--) {
+            if (!$this->addNextRequest()) {
+                break;
+            }
+        }
+    }
+
     public function wait()
     {
         if ($this->isRealized) {
@@ -152,11 +176,7 @@ class Pool implements FutureInterface
         }
 
         // Seed the pool with N number of requests.
-        for ($i = 0; $i < $this->poolSize; $i++) {
-            if (!$this->addNextRequest()) {
-                break;
-            }
-        }
+        $this->addNextRequests();
 
         // Stop if the pool was cancelled while transferring requests.
         if ($this->isRealized) {
@@ -283,7 +303,7 @@ class Pool implements FutureInterface
         // Use this function for both resolution and rejection.
         $thenFn = function ($value) use ($request, $hash) {
             $this->finishResponse($request, $value, $hash);
-            $this->addNextRequest();
+            $this->addNextRequests();
         };
 
         $promise->then($thenFn, $thenFn);
