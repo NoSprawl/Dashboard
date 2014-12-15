@@ -5,7 +5,9 @@
 	<title>NoSprawl</title>
 	<link rel="stylesheet" href="/css/uikit.min.css">
 	<link rel="stylesheet" href="/css/uikit.almost-flat.min.css">
+	<link rel="stylesheet" href="/css/card.css">
 	<link rel="stylesheet" href="/css/main.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/uikit.min.js"></script>
 </head>
 <body>
@@ -25,6 +27,7 @@
 				<div class="uk-navbar-flip">
         	<ul class="uk-navbar-nav">
 						@if(Auth::check())
+							<li><a>Welcome, {{ucfirst(explode(' ', Auth::user()->full_name)[0])}}!</a></li>
 							<li>{{link_to_route('signout', 'Sign out')}}</li>
 						@else
 							<li class="@section('signin_link')@show">{{link_to_route('signin', 'Sign in')}}</li>
@@ -37,15 +40,15 @@
 		</header>
 	@show
 
-	<div id="main" class="uk-container uk-container-center">	
-		@yield('content', 'You should add your content here')	
+	<div id="main" class="uk-container uk-container-center">
+		@yield('content', 'You should add your content here')
 	</div> <!-- .container-fluid -->
 	
 	@section('footer')
 	@show
 
 	@section('scripts')
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	
 	@show
 
 </body>
