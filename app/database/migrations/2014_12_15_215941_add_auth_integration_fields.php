@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIntegrationFields extends Migration {
+class AddAuthIntegrationFields extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,8 +14,8 @@ class AddIntegrationFields extends Migration {
 	{
 		Schema::table('integrations', function($table)
 		{
-			$table->string('service_provider_id');
-			$table->integer('user_id');
+			$table->string('authorization_field_1');
+			$table->string('authorization_field_2');
 		});
 	}
 
@@ -28,8 +28,8 @@ class AddIntegrationFields extends Migration {
 	{
 		Schema::table('integrations', function($table)
 		{
-			$table->dropColumn('service_provider_id');
-			$table->dropColumn('user_id');
+			$table->dropColumn('authorization_field_1');
+			$table->dropColumn('authorization_field_2');
 		});
 	}
 

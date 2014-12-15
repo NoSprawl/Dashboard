@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddAuthIntegrationFields' => $baseDir . '/app/database/migrations/2014_12_15_215941_add_auth_integration_fields.php',
     'AddIntegrationFields' => $baseDir . '/app/database/migrations/2014_12_15_162125_add_integration_fields.php',
     'AddMoreUserInfo' => $baseDir . '/app/database/migrations/2014_12_14_173652_add_more_user_info.php',
     'AddStripeIdToUser' => $baseDir . '/app/database/migrations/2014_12_15_020937_add_stripe_id_to_user.php',
