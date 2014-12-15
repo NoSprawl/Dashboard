@@ -27,7 +27,7 @@
 				<div class="uk-navbar-flip">
         	<ul class="uk-navbar-nav">
 						@if(Auth::check())
-							<li><a>Welcome, {{ucfirst(explode(' ', Auth::user()->full_name)[0])}}!</a></li>
+							<li class="plain">Welcome, {{ucfirst(explode(' ', Auth::user()->full_name)[0])}}!</li>
 							<li>{{link_to_route('signout', 'Sign out')}}</li>
 						@else
 							<li class="@section('signin_link')@show">{{link_to_route('signin', 'Sign in')}}</li>

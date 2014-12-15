@@ -245,7 +245,7 @@ select {
 		$("select[name='plan']").val("nosprawl-test-starter");
 		$(".plan").first().addClass('feature');
 		$("#select_starter").addClass('uk-button-primary');
-		$("#total_due_today").html("Due Today: <strong>$0.00</strong>");
+		$("#total_due_today").html("<strong>$0.00</strong>");
 		return false;
 	});
 	
@@ -256,7 +256,7 @@ select {
 		plans = $(".plan");
 		$(plans[1]).addClass('feature');
 		$("#select_business").addClass('uk-button-primary');
-		$("#total_due_today").html("Due Today: <strong>$100.00</strong>");
+		$("#total_due_today").html("<strong>$100.00</strong>");
 		return false;
 	});
 	

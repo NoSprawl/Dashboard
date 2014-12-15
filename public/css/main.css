@@ -725,6 +725,11 @@ body {
 	min-width: 680px;
 }
 
+li.plain {
+	padding: 10px 0 0 0;
+	color: #fff;
+}
+
 .uk-active a {
 	background: #0078EF !important;
 }
