@@ -8,20 +8,22 @@
 	  	<tr>
 	    	<th>Access Status</th>
 				<th>Service Provider</th>
-				<th>Details</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Good</td>
-				<td>AWS</td>
-				<td><em>Something something something</em></td>
-			</tr>
+			<?php foreach($integrations as $integration) { ?>
+				<tr>
+					<td>Confirmed</td>
+					<td><?php echo $integration['service_provider_id']; ?></td>
+					<td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+				</tr>
+			<?php } ?>
 		</tbody>
 	</table>
 </article>
-<button class="uk-button" data-uk-modal="{target:'#my-id'}">Add Integration</button>
-<div id="my-id" class="uk-modal">
+<button class="uk-button" data-uk-modal="{target:'#new-integration-form'}">Add Integration</button>
+<div id="new-integration-form" class="uk-modal">
   <div class="uk-modal-dialog">
   	<a class="uk-modal-close uk-close"></a>
 		{{ Form::open(['url' => 'integration', 'class' => 'uk-form-stacked uk-form']) }}
@@ -49,16 +51,16 @@ $(window.document).on('change', "select[name='integration_type']", function(chan
 	(function getValidationFields($service_provider_field) {
 		$service_provider_field.removeClass('uk-form-danger');
 		selected_service_provider = $service_provider_field.val();
+		$("#custom_integration_fields").html("");
+		$("#submit_new_integration").css('display', 'none');
 		if(selected_service_provider == -1) {
 			$service_provider_field.addClass('uk-form-danger');
 		} else {
-			$("#custom_integration_fields").html("");
-			$("#submit_new_integration").css('display', 'none');
 			$.post('/integrations/fields', {service_provider_name: selected_service_provider}, function(response) {
 				fields = eval("(" + response.service_provider_authorization_fields + ")");
 				for(var i = 0; i < fields.length; i++) {
 					field = fields[i];
-					htmlField = '<div class="uk-form-row"><label class="uk-form-label">' + field[1] + '</label><input type="text" name="' + field[0] + '"></div>';
+					htmlField = '<div class="uk-form-row"><label class="uk-form-label">' + field[1] + '</label><input type="text" name="authorization_field_' + (i + 1) + '"></div>';
 					$("#custom_integration_fields").append(htmlField);
 					$("#submit_new_integration").css('display', 'block');
 				}
@@ -68,6 +70,15 @@ $(window.document).on('change', "select[name='integration_type']", function(chan
 		}
 		
 	})($field);
+});
+
+$(window.document).on('submit', "#new-integration-form", function(click_event) {
+	$form = $("#new-integration-form form")
+	$.post($form.attr("action"), $form.serialize(), function(post_response) {
+		$(".uk-modal-close:visible").trigger('click');
+	});
+	
+	return false;
 });
 </script>
 @stop
