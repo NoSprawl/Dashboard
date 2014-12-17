@@ -6,43 +6,46 @@ class IntegrationsController extends BaseController {
 	protected $layout = 'layouts.front';
 	
 	public function __construct() {
-
+		
 	}
 
 	public function getIntegrations() {
-		$this->layout->content = View::make('integrations.list');
+		$integrations = Auth::user()->integrations->toArray();
+		$this->layout->content = View::make('integrations.list')->with("integrations", $integrations);
 	}
 	
 	public function getFieldsForServiceProvider() {
 		$input = Input::all();
 		$integration_class_name = $input['service_provider_name'] . "Integration";
 		$service_provider_class_instance = new $integration_class_name();
-		return Response::json(array('service_provider_name' => $input['service_provider_name'], 'service_provider_authorization_fields' => json_encode($service_provider_class_instance->fields)));
+		return Response::json(array('service_provider_name' => $input['service_provider_name'],
+																'service_provider_authorization_fields' => json_encode($service_provider_class_instance->fields)));
 	}
 	
 	public function postIntegration() {
 		$input = Input::all();
-		$integration_class_name = $input['service_provider_name'] . "Integration";
+		$response = array("status" => "error", "data" => "");
+		$integration_class_name = $input['integration_type'] . "Integration";
 		$service_provider_class_instance = new $integration_class_name();
 		
-		$rules = array();
-		
-		foreach($service_provider_class_instance->fields as $field) {
-			array_push($rules, array($field[0] => 'required'));
-		}
-
+		$rules = array('authorization_field_1' => 'required',
+									 'authorization_field_2' => 'required');
+									 
 		$validator = Validator::make($input, $rules);
 		if($validator->passes()) {
 			$integration = new Integration;
-			$integration->user_id = Auth::user()->getId();
+			$integration->name = "";
+			$integration->user_id = Auth::id();
 			$integration->service_provider_id = $integration_class_name;
-			$integration->authorization_field_1 = $input[$service_provider_class_instance[0][0]];
-			$integration->authorization_field_2 = $input[$service_provider_class_instance[0][1]];
-			$user->save();
-			return Redirect::to('/integrations');
+			$integration->authorization_field_1 = $input['authorization_field_1'];
+			$integration->authorization_field_2 = $input['authorization_field_2'];
+			$integration->save();
+			$response['status'] = "created";
+			$response['data'] = $integration->toJson();
+			return Response::json($response);
 		}
 		
-		return Redirect::to('integrations')->withErrors($validator);
+		return Response::json($response);
 	}
 
 }
