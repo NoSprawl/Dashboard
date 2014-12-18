@@ -192,35 +192,8 @@ select {
 @stop
 
 @section('scripts')
+
 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+	<script type="text/javascript" src="{{ url('js/registration.js') }}"></script>
 
-	<script type="text/javascript" src="{{ url('js/stripe-integration.js') }}"></script>
-
-	<script type="text/javascript">
-	$("#select_starter").click(function(ev) {
-		$(".plan.feature").removeClass('feature');
-		$(".uk-button-primary").removeClass('uk-button-primary');
-		$("select[name='plan']").val("nosprawl-test-starter");
-		$(".plan").first().addClass('feature');
-		$("#select_starter").addClass('uk-button-primary');
-		$("#total_due_today").html("<strong>$0.00</strong>");
-		return false;
-	});
-	
-	$("#select_business").click(function(ev) {
-		$(".plan.feature").removeClass('feature');
-		$(".uk-button-primary").removeClass('uk-button-primary');
-		$("select[name='plan']").val("nosprawl-test-business");
-		plans = $(".plan");
-		$(plans[1]).addClass('feature');
-		$("#select_business").addClass('uk-button-primary');
-		$("#total_due_today").html("<strong>$100.00</strong>");
-		return false;
-	});
-	
-	$("#select_enterprise").click(function(ev) {
-		window.location = "http://nosprawl.com/contact.html"
-		return false;
-	});
-	</script>
 @stop
