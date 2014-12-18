@@ -170,12 +170,9 @@ select {
 			</div>
 			</div>
 			<script type="text/javascript" src="/js/card.js"></script>
-			<script type="text/javascript">
-			
-			</script>
 		</fieldset>
 		
-		<br /><br /><br />
+		<br /><br /><br />{{-- @TODO style this so a br isn't necessary --}}
 		
 	{{ Form::close() }}
 </article>
