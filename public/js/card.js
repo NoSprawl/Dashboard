@@ -900,3 +900,15 @@ $.fn.extend({
 },{"jquery.payment":1}]},{},[2])
 (2)
 });
+
+$("#billing_cc_expiry_month, #billing_cc_expiry_year").change(function(ev) {
+        $("#temp_expmonthyear").val($("#billing_cc_expiry_month").val() + "/" + $("#billing_cc_expiry_year").val());
+      });
+      
+      $('form').card({
+          container: '#card_area_preview',
+          nameInput: 'input[name="billing_cc_name"]',
+        numberInput: 'input[name="billing_cc_number"]',
+        expiryInput: 'input[name="temp_expmonthyear"]',
+           cvcInput: 'input[name="billing_cc_cvc"]'
+      });

@@ -11,7 +11,7 @@ select {
 <article class="uk-article">
 	<h1>Sign up</h1>
 	{{ Form::open(['url' => 'register', 'class' => 'uk-form-stacked uk-form']) }}
-		<input type="hidden" name="temp_expmonthyear" id="temp_expmonthyear">
+		{{ Form::hidden('temp_expmonthyear', null, ['id' => 'temp_expmonthyear']) }}
 		<fieldset>
 			<legend>Account Information</legend>
 			<div class="uk-grid uk-grid-preserve">
@@ -19,43 +19,42 @@ select {
 				<p>Our patch management solutions are designed to give you and your team increased visibility into where your infrastructure stands from a patching perspective.</p>
 				<p>If you have any questions about NoSprawl then just <a target="_blank" href="http://nosprawl.com/contact-us.html">contact us</a>. We can create custom plans if you have 100 or more nodes that you want to manage.</p>
 			</div>
-			<div class="uk-width-2-3">
-			<div class="uk-form-row">
-			
-				<label class="uk-form-label">Full Name</label>
-				{{ $errors->first('full_name', '<span class="error">:message</span>') }}
-				{{ Form::text('full_name') }}
-			</div>
-			<div class="uk-form-row">
-			  <label class="uk-form-label">Company Name</label>
-				{{ $errors->first('company', '<span class="error">:message</span>') }}
-				{{ Form::text('company', '') }}
-			</div>
-			<div class="uk-form-row">
-				<label class="uk-form-label">Email Address</label>
-				{{ $errors->first('email', '<span class="error">:message</span>') }}
-				{{ Form::text('email') }}
-			</div>
-			<div class="uk-form-row">
-			<div class="uk-grid uk-grid-preserve">
-				<div class="uk-width-1-2">
-					<label class="uk-form-label">Password</label>
-					{{ $errors->first('password', '<span class="error">:message</span>') }}
-					{{ Form::password('password') }}
-				</div>
-				<div class="uk-width-1-2">
-					<label class="uk-form-label">Confirm Password</label>
-					{{ $errors->first('confirm_password', '<span class="error">:message</span>') }}
-					{{ Form::password('confirm_password') }}
-				</div>
-			</div>
-			</div>
-			</div>
-			</div>
+				<div class="uk-width-2-3">
+					<div class="uk-form-row">	
+						{{ Form::label('full_name', 'Full Name', ['class' => 'uk-form-label'] ) }}
+						{{ $errors->first('full_name', '<span class="error">:message</span>') }}
+						{{ Form::text('full_name') }}
+					</div>
+					<div class="uk-form-row">
+					  {{ Form::label('company', 'Company Name', ['class' => 'uk-form-label'] ) }}
+						{{ $errors->first('company', '<span class="error">:message</span>') }}
+						{{ Form::text('company') }}
+					</div>
+					<div class="uk-form-row">
+						{{ Form::label('email', 'Email Address', ['class' => 'uk-form-label'] ) }}
+						{{ $errors->first('email', '<span class="error">:message</span>') }}
+						{{ Form::text('email') }}
+					</div>
+					<div class="uk-form-row">
+						<div class="uk-grid uk-grid-preserve">
+							<div class="uk-width-1-2">
+								{{ Form::label('password', 'Password', ['class' => 'uk-form-label'] ) }}
+								{{ $errors->first('password', '<span class="error">:message</span>') }}
+								{{ Form::password('password') }}
+							</div>
+							<div class="uk-width-1-2">
+								{{ Form::label('confirm_password', 'Confirm Password', ['class' => 'uk-form-label'] ) }}
+								{{ $errors->first('confirm_password', '<span class="error">:message</span>') }}
+								{{ Form::password('confirm_password') }}
+							</div>
+						</div><!-- /uk-width-1-2 -->
+					</div><!-- /uk-form-row -->
+				</div><!-- /uk-width-2-3 -->
+			</div><!-- /uk-grid uk-grid-preserve -->
 		</fieldset>
-		<br />
+		<br />{{-- @TODO style this so a br isn't necessary --}}
 		<fieldset>
-			{{ Form::select('plan', array('nosprawl-test-business' => 'Business', 'nosprawl-test-starter' => 'Starter')) }}
+			{{ Form::select('plan', ['nosprawl-test-business' => 'Business', 'nosprawl-test-starter' => 'Starter']) }}
 			<legend>Pick a Plan</legend>
 			<div class="pricing uk-grid uk-grid-preserve">
 				<div class="uk-width-1-3">
@@ -114,27 +113,28 @@ select {
 				</div>
 			</div>
 		</fieldset>
-		<br />
+		<br />{{-- @TODO style this so a br isn't necessary --}}
 		<fieldset class="billing">
 			<legend>Billing Information</legend>
 			<div class="uk-grid uk-grid-preserve">
 			<div class="uk-width-1-3 card-wrapper">
 				<div class="uk-form-row">
-					<label class="uk-form-label">Card Number</label>
-			    <input type="text" name="billing_cc_number" placeholder="XXXX XXXX XXXX XXXX" data-stripe="number">
+					{{ Form::label('billing_cc_number', 'Card Number', ['class' => 'uk-form-label'] ) }}
+					{{ Form::text('billing_cc_number', null, ['placeholder' => 'XXXX XXXX XXXX XXXX', 'data-stripe' => 'number'])}}
 				</div>
 				<div class="uk-form-row">
-					<label class="uk-form-label">Name on Card</label>
-			    <input type="text" name="billing_cc_name" placeholder="Thurman Thomas">
+					{{ Form::label('billing_cc_name', 'Name on Card', ['class' => 'uk-form-label'] ) }}
+					{{ Form::text('billing_cc_name', null, ['placeholder' => 'Thurman Thomas']) }}
 				</div>
 				<div class="uk-form-row uk-grid uk-grid-preserve">
 					<div class="uk-width-1-3">
-						<label class="uk-form-label">Exp. Month</label>
-				    <input type="text" id="billing_cc_expiry_month" name="billing_cc_expiry_month" placeholder="MM" style="width: 100px;" data-stripe="exp-month">
+						{{ Form::label('billing_cc_expiry_month', 'Exp. Month', ['class' => 'uk-form-label'] ) }}
+						{{ Form::text('billing_cc_expiry_month', null, ['placeholder' => 'MM', 'style' => 'width: 100px;', 'data-stripe' => 'exp-month']) }}{{-- @TODO remove inline styles --}}
 					</div>
 					<div class="uk-width-1-3">
-						<label class="uk-form-label">Exp. Year</label>
-				    <input type="text" id="billing_cc_expiry_year" name="billing_cc_expiry_year" placeholder="YYYY" style="width: 100px;" data-stripe="exp-year">
+						{{ Form::label('billing_cc_expiry_year', 'Exp. Year', ['class' => 'uk-form-label'] ) }}
+						{{ Form::text('billing_cc_expiry_year', null, ['id' => 'billing_cc_expiry_year', 'placeholder' => 'YYYY', 'style' => 'width: 100px;', 'data-stripe' => 'exp-year']) }}
+						{{-- @TODO remove inline styles --}}
 					</div>
 				</div>
 				<div class="uk-form-row">
@@ -171,17 +171,7 @@ select {
 			</div>
 			<script type="text/javascript" src="/js/card.js"></script>
 			<script type="text/javascript">
-			$("#billing_cc_expiry_month, #billing_cc_expiry_year").change(function(ev) {
-				$("#temp_expmonthyear").val($("#billing_cc_expiry_month").val() + "/" + $("#billing_cc_expiry_year").val());
-			});
 			
-			$('form').card({
-			    container: '#card_area_preview',
-			    nameInput: 'input[name="billing_cc_name"]',
-				numberInput: 'input[name="billing_cc_number"]',
-				expiryInput: 'input[name="temp_expmonthyear"]',
-				   cvcInput: 'input[name="billing_cc_cvc"]'
-			});
 			</script>
 		</fieldset>
 		
