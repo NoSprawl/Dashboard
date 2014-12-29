@@ -16,13 +16,13 @@
 				<tr>
 					<td>Confirmed</td>
 					<td><?php echo $integration['service_provider_id']; ?></td>
-					<td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+					<td><a data-method="post" href="/integration/delete/<?php echo $integration['id'] ?>">Delete</a></td>
 				</tr>
 			<?php } ?>
 		</tbody>
 	</table>
+	<button class="uk-button" data-uk-modal="{target:'#new-integration-form'}">Add Integration</button>
 </article>
-<button class="uk-button" data-uk-modal="{target:'#new-integration-form'}">Add Integration</button>
 <div id="new-integration-form" class="uk-modal">
   <div class="uk-modal-dialog">
   	<a class="uk-modal-close uk-close"></a>
@@ -49,6 +49,7 @@
 $(window.document).on('change', "select[name='integration_type']", function(change_event) {
 	$field = $(this);
 	(function getValidationFields($service_provider_field) {
+		$(".ajax-error").remove();
 		$service_provider_field.removeClass('uk-form-danger');
 		selected_service_provider = $service_provider_field.val();
 		$("#custom_integration_fields").html("");
@@ -58,6 +59,7 @@ $(window.document).on('change', "select[name='integration_type']", function(chan
 		} else {
 			$.post('/integrations/fields', {service_provider_name: selected_service_provider}, function(response) {
 				fields = eval("(" + response.service_provider_authorization_fields + ")");
+				$("#custom_integration_fields").append(eval("(" + response.service_provider_description + ")"));
 				for(var i = 0; i < fields.length; i++) {
 					field = fields[i];
 					htmlField = '<div class="uk-form-row"><label class="uk-form-label">' + field[1] + '</label><input type="text" name="authorization_field_' + (i + 1) + '"></div>';
@@ -73,12 +75,32 @@ $(window.document).on('change', "select[name='integration_type']", function(chan
 });
 
 $(window.document).on('submit', "#new-integration-form", function(click_event) {
-	$form = $("#new-integration-form form")
+	$form = $("#new-integration-form form");
 	$.post($form.attr("action"), $form.serialize(), function(post_response) {
-		$(".uk-modal-close:visible").trigger('click');
+		if(post_response['status'] == 'created') {
+			$(".uk-modal-close:visible").trigger('click');
+		} else {
+			$(".ajax-error").remove();
+			$(".uk-modal:visible form:visible .uk-form-row").first().prepend("<div class='ajax-error uk-alert uk-alert-danger'>Invalid credentials or insuficient permissions. Integration not added.</div>");
+			$(".uk-modal:visible form:visible input[type='text']").addClass('uk-form-danger');
+		}
+		
 	});
 	
 	return false;
+});
+
+// Rails style delete links
+$(function(){
+	$('[data-method]').append(function(){
+		return "\n"+
+		"<form action='"+$(this).attr('href')+"' method='post' style='display:none;'>\n"+
+		"	<input type='hidden' name='_method' value='"+$(this).attr('data-method')+"'>\n"+
+		"</form>\n"
+  })
+  .removeAttr('href')
+  .attr('style','cursor:pointer;')
+  .attr('onclick','$(this).find("form").submit();');
 });
 </script>
 @stop

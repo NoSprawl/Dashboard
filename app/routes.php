@@ -33,6 +33,9 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('check', ['uses' => 'CheckController@getCheck', 'as' => 'check']);
 	Route::get('zones', ['uses' => 'ZonesController@getZones', 'as' => 'zones']);
 	Route::get('integrations', ['uses' => 'IntegrationsController@getIntegrations', 'as' => 'integrations']);
+	
+	Route::post('integration/delete/{id}', ['uses' => 'IntegrationsController@deleteIntegration', 'as' => 'delete_integration']);
+	
 	Route::post('integration', ['uses' => 'IntegrationsController@postIntegration', 'as' => 'create_integration']);
 	Route::post('integrations/fields', ['uses' => 'IntegrationsController@getFieldsForServiceProvider', 'as' => 'service_provider_fields']);
 	Route::get('alerts', ['uses' => 'AlertsController@getAlerts', 'as' => 'alerts']);

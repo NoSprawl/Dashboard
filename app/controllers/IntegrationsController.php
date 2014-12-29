@@ -19,7 +19,8 @@ class IntegrationsController extends BaseController {
 		$integration_class_name = $input['service_provider_name'] . "Integration";
 		$service_provider_class_instance = new $integration_class_name();
 		return Response::json(array('service_provider_name' => $input['service_provider_name'],
-																'service_provider_authorization_fields' => json_encode($service_provider_class_instance->fields)));
+																'service_provider_authorization_fields' => json_encode($service_provider_class_instance->fields),
+																'service_provider_description' => json_encode($service_provider_class_instance->description)));
 	}
 	
 	public function postIntegration() {
@@ -39,13 +40,27 @@ class IntegrationsController extends BaseController {
 			$integration->service_provider_id = $integration_class_name;
 			$integration->authorization_field_1 = $input['authorization_field_1'];
 			$integration->authorization_field_2 = $input['authorization_field_2'];
-			$integration->save();
-			$response['status'] = "created";
-			$response['data'] = $integration->toJson();
+			
+			// This will dynamically get the integration class
+			$client = new $integration->service_provider_id();
+			if($client->verifyAuthentication($integration->authorization_field_1, $integration->authorization_field_2)) {
+				$integration->save();
+				$response['status'] = "created";
+				$response['data'] = $integration->toJson();
+			} else {
+				$response['status'] = "error";
+				$response['data'] = "Could not list EC2 instances. NoSprawl requires at least read access to EC2.";
+			}
+			
 			return Response::json($response);
 		}
 		
 		return Response::json($response);
+	}
+	
+	public function deleteIntegration($id) {
+		Integration::destroy($id);
+		return Redirect::to('/integrations');
 	}
 
 }
