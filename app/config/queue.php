@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'default' => 'sync',
+	'default' => 'sqs',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -43,9 +43,9 @@ return array(
 
 		'sqs' => array(
 			'driver' => 'sqs',
-			'key'    => 'AKIAJZTLMIUA4I7JDKTA',
-			'secret' => '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',
-			'queue'  => 'nosprawl_agents',
+			'key'    => 'AKIAIODKIWDN7A6Z5QVQ',
+			'secret' => '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',
+			'queue'  => 'https://sqs.us-east-1.amazonaws.com/480589117377/nosprawl_agents',
 			'region' => 'us-east-1',
 		),
 

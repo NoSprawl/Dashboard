@@ -36,7 +36,7 @@ Route::group(array('before' => 'auth'), function()
 	
 	Route::post('integration/delete/{id}', ['uses' => 'IntegrationsController@deleteIntegration', 'as' => 'delete_integration']);
 	
-	Route::post('integration', ['uses' => 'IntegrationsController@postIntegration', 'as' => 'create_integration']);
+	Route::post('integration', ['uses' => 'IntegrationsController@createIntegration', 'as' => 'create_integration']);
 	Route::post('integrations/fields', ['uses' => 'IntegrationsController@getFieldsForServiceProvider', 'as' => 'service_provider_fields']);
 	Route::get('alerts', ['uses' => 'AlertsController@getAlerts', 'as' => 'alerts']);
 });

@@ -59,7 +59,8 @@ $(window.document).on('change', "select[name='integration_type']", function(chan
 		} else {
 			$.post('/integrations/fields', {service_provider_name: selected_service_provider}, function(response) {
 				fields = eval("(" + response.service_provider_authorization_fields + ")");
-				$("#custom_integration_fields").append(eval("(" + response.service_provider_description + ")"));
+				description = eval("(" + response.service_provider_description + ")");
+				$("#custom_integration_fields").append(description);
 				for(var i = 0; i < fields.length; i++) {
 					field = fields[i];
 					htmlField = '<div class="uk-form-row"><label class="uk-form-label">' + field[1] + '</label><input type="text" name="authorization_field_' + (i + 1) + '"></div>';
