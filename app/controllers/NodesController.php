@@ -9,7 +9,9 @@ class NodesController extends \BaseController {
 	 */
 	public function index()
 	{
-		dd('index function');
+		$nodes = Auth::user()->nodes();
+
+		
 	}
 
 
