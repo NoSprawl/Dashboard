@@ -11,7 +11,7 @@ class NodesController extends \BaseController {
 	{
 		$nodes = Auth::user()->nodes();
 
-		
+		Return View::make();
 	}
 
 
