@@ -20,4 +20,17 @@ class AmazonWebServicesIntegration
 		return $success;
 	}
 	
+	public function listNodes($access_key_id, $secret_access_key) {
+		$success = false;
+		try {
+			$client = \Aws\Ec2\Ec2Client::factory(array('key' => $access_key_id, 'secret' => $secret_access_key, 'region' => 'us-east-1'));
+			$res = $client->DescribeInstances();
+			$success = $res;
+		} catch(Exception $exception) {
+			
+		}
+		
+		return $success;
+	}
+	
 }
