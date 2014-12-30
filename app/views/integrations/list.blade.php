@@ -82,8 +82,14 @@ $(window.document).on('submit', "#new-integration-form", function(click_event) {
 			$(".uk-modal-close:visible").trigger('click');
 		} else {
 			$(".ajax-error").remove();
-			$(".uk-modal:visible form:visible .uk-form-row").first().prepend("<div class='ajax-error uk-alert uk-alert-danger'>Invalid credentials or insuficient permissions. Integration not added.</div>");
+			if(post_response['status'] == "api_error") {
+				$(".uk-modal:visible form:visible .uk-form-row").first().prepend("<div class='ajax-error uk-alert uk-alert-danger'>Invalid credentials or insuficient permissions. Integration not added.</div>");
+			} else if(post_response['status'] == "form_error") {
+				$(".uk-modal:visible form:visible .uk-form-row").first().prepend("<div class='ajax-error uk-alert uk-alert-danger'>All fields are required and duplicate Integrations are not allowed. Integration not added.</div>");
+			}
+			
 			$(".uk-modal:visible form:visible input[type='text']").addClass('uk-form-danger');
+			
 		}
 		
 	});

@@ -1,7 +1,4 @@
 <?php
-require(dirname(__FILE__).'/../integrations/AmazonWebServicesIntegration.php');
-require(dirname(__FILE__).'/../integrations/RackspaceCloudIntegration.php');
-
 class IntegrationsController extends BaseController {
 	protected $layout = 'layouts.front';
 	
@@ -26,6 +23,7 @@ class IntegrationsController extends BaseController {
 	public function createIntegration() {
 		$input = Input::all();
 		$response = array("status" => "error", "data" => "");
+		
 		$rules = array();
 		
 		// Find out how many auth fields we are dealing with. One DB column is required for each.
@@ -33,8 +31,33 @@ class IntegrationsController extends BaseController {
 		foreach(array_keys($input) as $field_name) {
 			if(strstr($field_name, 'authorization_field_')) {
 				$authorization_field_count++;
-				$rules['authorization_field_' . $authorization_field_count] = 'required';
 			}
+			
+		}
+		
+		// Add validation rules now that we have the above info.
+		for($i = 1; $i <= $authorization_field_count; $i++) {
+			$auth_validation_rule = 'required';
+				
+			// Different validation rule for first auth field. Reason being that
+			// unique_with should only be set on one field.
+			if($i == 1) {
+				$auth_validation_rule .= '|unique_with:integrations';
+				// j starts at 2 because we are skipping the first field itself
+				for($j = 2; $j <= $authorization_field_count; $j++) {
+					$auth_validation_rule .= ", " . array_keys($input)[$i];
+				}
+				
+				// If we didn't do anything, just revert back to simply being required.
+				// this would only happen if a service provider only used a single field
+				// for validation.
+				if($auth_validation_rule == '|unique_with:integrations,') {
+					$auth_validation_rule = 'required';
+				}
+				
+			}
+			
+			$rules['authorization_field_' . $authorization_field_count] = $auth_validation_rule;
 			
 		}
 		
@@ -55,6 +78,7 @@ class IntegrationsController extends BaseController {
 			
 			// This will dynamically get the integration class instance.
 			$client = new $integration->service_provider_id();
+			
 			// Below line is the only place that is hardcoded to expect 2 auth fields.
 			// @todo Need to refactor this to pass in a dynamic array and/or use call_user_func_array
 			if($client->verifyAuthentication($integration->authorization_field_1, $integration->authorization_field_2)) {
@@ -64,14 +88,17 @@ class IntegrationsController extends BaseController {
 				$response['status'] = "created";
 				$response['data'] = $integrationJson;
 			} else {
-				$response['status'] = "error";
+				$response['status'] = "api_error";
 				$response['data'] = "Could not list EC2 instances. NoSprawl requires at least read access to EC2.";
 			}
 			
 			return Response::json($response);
+		} else {
+			$response['status'] = "form_error";
+			$response['data'] = "All fields are required &amp; you cannot create a duplicate integration.";
+			return Response::json($response);
 		}
 		
-		return Response::json($response);
 	}
 	
 	public function deleteIntegration($id) {

@@ -9,7 +9,8 @@
 		"guzzlehttp/guzzle": "~5.0@dev",
 		"stripe/stripe-php": "~1.17",
 		"aws/aws-sdk-php": "2.*",
-		"rackspace/php-opencloud": "dev-master"
+		"rackspace/php-opencloud": "dev-master",
+		"felixkiss/uniquewith-validator": "1.1.1"
 	},
 	"autoload": {
 		"classmap": [
