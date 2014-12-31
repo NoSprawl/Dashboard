@@ -74,7 +74,7 @@ class AuthController extends Controller {
 		if(Auth::attempt(['email' => Input::get('email'), 'password' => Input::get('password')], true))
 		{
 
-			return Redirect::intended('dashboard');
+			return Redirect::intended('nodes');
 
 		}
 

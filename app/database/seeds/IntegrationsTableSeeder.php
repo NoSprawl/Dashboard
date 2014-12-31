@@ -21,7 +21,7 @@ class IntegrationsTableSeeder extends Seeder {
 
 		foreach($user_ids as $id)
 		{
-			$integration = ['name' => 'Integ' . $id, 'service_provider_id' => 'SeededIntegration', 'user_id' => $id, 'authorization_field_1' => 'something', 'authorization_field_2' => 'something'];
+			$integration = ['name' => 'Integ' . $id, 'service_provider' => 'SeededIntegration', 'user_id' => $id, 'authorization_field_1' => 'something', 'authorization_field_2' => 'something'];
 			Integration::firstOrCreate($integration);
 		}
 		
