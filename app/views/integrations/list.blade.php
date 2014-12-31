@@ -15,7 +15,7 @@
 			<?php foreach($integrations as $integration) { ?>
 				<tr>
 					<td>Confirmed</td>
-					<td><?php echo $integration['service_provider_id']; ?></td>
+					<td><?php echo $integration['service_provider']; ?></td>
 					<td><a data-method="post" href="/integration/delete/<?php echo $integration['id'] ?>">Delete</a></td>
 				</tr>
 			<?php } ?>

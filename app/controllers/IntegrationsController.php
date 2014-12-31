@@ -69,7 +69,7 @@ class IntegrationsController extends BaseController {
 			$integration = new Integration;
 			$integration->name = "";
 			$integration->user_id = Auth::id();
-			$integration->service_provider_id = $integration_class_name;
+			$integration->service_provider = $integration_class_name;
 			
 			for($i = 1; $i <= $authorization_field_count; $i++) {
 				$dynamic_property_name = "authorization_field_" . $i;
@@ -77,7 +77,7 @@ class IntegrationsController extends BaseController {
 			}
 			
 			// This will dynamically get the integration class instance.
-			$client = new $integration->service_provider_id();
+			$client = new $integration->service_provider();
 			
 			// Below line is the only place that is hardcoded to expect 2 auth fields.
 			// @todo Need to refactor this to pass in a dynamic array and/or use call_user_func_array
