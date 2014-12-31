@@ -11,16 +11,6 @@
 |
 */
 
-Route::get('test', function(){
-
-	$jira = App::make('Jira');
-
-	$jira->connect(Config::get('jira.rest_version'), Config::get('jira.gh_version'), Config::get('jira.subdomain'), Config::get('jira.username'), Config::get('jira.password'));
-
-	dd($jira->getStatuses());
-});
-
-
 Route::get('register', ['uses' => 'AuthController@getRegistration', 'as' => 'signup']);
 Route::post('register', 'AuthController@postRegistration');
 Route::get('logout', ['uses' => 'AuthController@getLogout', 'as' => 'signout']);
@@ -39,4 +29,6 @@ Route::group(array('before' => 'auth'), function()
 	Route::post('integration', ['uses' => 'IntegrationsController@createIntegration', 'as' => 'create_integration']);
 	Route::post('integrations/fields', ['uses' => 'IntegrationsController@getFieldsForServiceProvider', 'as' => 'service_provider_fields']);
 	Route::get('alerts', ['uses' => 'AlertsController@getAlerts', 'as' => 'alerts']);
+
+	Route::resource('nodes', 'NodesController');
 });

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIntegrationFields extends Migration {
+class RenameServiceProviderColumnInIntegrations extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,8 +14,7 @@ class AddIntegrationFields extends Migration {
 	{
 		Schema::table('integrations', function($table)
 		{
-			$table->string('service_provider_id')->nullable();
-			$table->integer('user_id')->nullable();
+		    $table->renameColumn('service_provider_id', 'service_provider');
 		});
 	}
 
@@ -28,8 +27,7 @@ class AddIntegrationFields extends Migration {
 	{
 		Schema::table('integrations', function($table)
 		{
-			$table->dropColumn('service_provider_id');
-			$table->dropColumn('user_id');
+		    $table->renameColumn('service_provider', 'service_provider_id');
 		});
 	}
 
