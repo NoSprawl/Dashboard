@@ -10,7 +10,7 @@ class NodesController extends \BaseController {
 	public function index()
 	{
 		$nodes = Auth::user()->nodes;
-		
+
 		Return View::make('nodes.main')->with('nodes', $nodes);
 	}
 
@@ -79,7 +79,9 @@ class NodesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$node = Node::find($id);
+
+		return View::make('nodes.edit')->with('node', $node);
 	}
 
 
@@ -91,7 +93,28 @@ class NodesController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$input = Input::only('name', 'description');
+
+		$rules = [
+					'name' => 	'required|max:64',
+					'description' => 'max:200',
+				 ];
+
+		$validator = Validator::make($input, $rules);
+
+		if($validator->passes()) 
+		{
+
+			$node = Node::find($id);
+			$node->name = $input['name'];
+			$node->description = $input['description'];
+			$node->save();
+
+			return Redirect::to('nodes')->with('message', 'Node ' . $node->name . ' updated');
+
+		}
+
+		return Redirect::back()->withErrors($validator);
 	}
 
 

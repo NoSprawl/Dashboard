@@ -4,8 +4,12 @@
 
 	<h1 class="uk-article-title">Nodes</h1>
 
-	<div class="uk-grid" data-uk-grid-margin="">
+	@if(Session::has('message'))
+		<div class="uk-form-success">{{ Session::get('message') }}</div>
+	@endif
 
+	<div class="uk-grid" data-uk-grid-margin="">
+	
 		@foreach($nodes as $n)
 			<div class="node uk-width-medium-1-4" data-node_id="{{$n->id}}">
 				<div class="uk-panel uk-panel-box">
@@ -18,6 +22,7 @@
 							<li>No integration available</li>
 						@endif
 					</ul>
+					<a class="uk-button" href="{{ route('nodes.edit', $n->id) }}">Edit Node</a>
 				</div>
 			</div>	
 		@endforeach

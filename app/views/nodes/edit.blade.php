@@ -1,14 +1,32 @@
 @extends('layouts.front')
 
 @section('content')
-
-	{{ Form::model($node, ['route' => ['node.create']]) }}
+ 
+	{{ Form::model($node, ['route' => ['nodes.update', $node->id], 'method' => 'PUT', 'class' => 'uk-form']) }}
 		
-		{{ Form::label('name', 'Name') }}
-		{{ Form::text('name', $node->name, ['placeholder' => 'node name']) }}
+		<fieldset class="data-uk-margin">
+			<legend>Edit Node {{ $node->name }}</legend>
+			
+			<div class="uk-form-row">
+				{{ Form::label('name', 'Name') }}
+			</div>
+			<div class="uk-form-row">
+				{{ $errors->first('name', '<div class="uk-form-danger">:message</div>') }}
+				{{ Form::text('name') }}
+			</div>
 
-		{{ Form::label('description', 'Description') }}
-		{{ Form::textarea('name', $node->description, ['placeholder' => 'Something descriptive about this node']) }}
+			<div class="uk-form-row">
+				{{ $errors->first('description', '<div class="uk-form-danger">:message</div>') }}
+				{{ Form::label('description', 'Description') }}
+			</div>
+			<div class="uk-form-row">
+				{{ Form::textarea('description') }}
+			</div>
+
+			<div class="uk-form-row">
+				{{ Form::submit('Update Node', ['class' => 'uk-button']) }}
+			</div>
+		</fieldset>
 
 	{{ Form::close() }}
 
