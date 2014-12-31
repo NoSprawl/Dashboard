@@ -22,6 +22,17 @@ App::after(function($request, $response)
 	//
 });
 
+Route::filter('isNodeOwner', function($route){
+
+	$node_id = $route->getParameter('nodes');
+
+	if(Auth::user()->id !== Node::find($node_id)->owner_id)
+	{
+		App::abort(401, 'Unauthorized access attempt');
+	}
+
+});
+
 /*
 |--------------------------------------------------------------------------
 | Authentication Filters

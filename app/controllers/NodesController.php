@@ -2,6 +2,14 @@
 
 class NodesController extends \BaseController {
 
+	public function __construct()
+    {
+        
+        $this->beforeFilter('csrf', ['only' => ['store', 'update']] );
+        $this->beforeFilter('isNodeOwner', ['only' => ['edit', 'update', 'destroy']] );
+
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *

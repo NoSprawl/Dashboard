@@ -23,6 +23,7 @@
 						@endif
 					</ul>
 					<a class="uk-button" href="{{ route('nodes.edit', $n->id) }}">Edit Node</a>
+					<a class="uk-button" href="{{ route('nodes.edit', $n->id) }}">Delete Node</a>
 				</div>
 			</div>	
 		@endforeach
