@@ -23,7 +23,9 @@
 						@endif
 					</ul>
 					<a class="uk-button" href="{{ route('nodes.edit', $n->id) }}">Edit Node</a>
-					<a class="uk-button" href="{{ route('nodes.edit', $n->id) }}">Delete Node</a>
+					{{ Form::open(['route' => ['nodes.destroy', $n->id], 'method' => 'delete']) }}
+        				<button type="submit" class="uk-button">Delete Node</button>
+    				{{ Form::close() }}
 				</div>
 			</div>	
 		@endforeach

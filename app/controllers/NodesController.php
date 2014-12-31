@@ -134,7 +134,15 @@ class NodesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		
+		$node = Node::find($id);
+		$message = 'Node ' . $node->name . ' has been deleted';
+
+		$node->delete();
+
+		return Redirect::to('nodes')->with('message', $message);
+
+		
 	}
 
 
