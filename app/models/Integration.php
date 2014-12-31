@@ -13,7 +13,7 @@ class Integration extends Eloquent {
 
 	public function nodes() {
 
-		return $this->hasMany('node');
+		return $this->hasMany('Node');
 
 	}
 	

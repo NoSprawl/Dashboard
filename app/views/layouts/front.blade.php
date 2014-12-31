@@ -20,6 +20,7 @@
 				@if(Auth::check())
 	        <li class="@section('check_link')@show">{{link_to_route('check', 'Status')}}</li>
 	        <li class="@section('zones_link')@show">{{link_to_route('zones', 'Patch Management')}}</li>
+	        <li>{{ link_to('nodes', 'Nodes') }}</li>
 	        <li class="@section('integrations_link')@show">{{link_to_route('integrations', 'Integrations')}}</li>
 	        <li class="@section('alerts_link')@show">{{link_to_route('alerts', 'Alerts')}}</li>
 				@endif

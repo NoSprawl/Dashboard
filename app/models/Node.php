@@ -13,7 +13,7 @@ class Node extends Eloquent {
 
 	public function integration() {
 
-		return $this->belongsTo('Integration');
+		return $this->belongsTo('Integration', 'integration_id');
 
 	}
 
