@@ -2,21 +2,29 @@
 
 @section('content')
 <article class="uk-article">
-	<h1 class="uk-article-title">Check</h1>
+	<h1 class="uk-article-title">Status</h1>
+	<ul class="uk-tab" data-uk-tab>
+	    <li class="uk-disabled"><a href="#">Managed Nodes</a></li>
+	    <li class="uk-active"><a href="#">Unmanaged Nodes</a></li>
+	</ul>
 	<table class="uk-table">
 		<thead>
 	  	<tr>
-	    	<th>Access Status</th>
+	    	<th>Node Status</th>
 				<th>Service Provider</th>
-				<th>Details</th>
+				<th>Base Image</th>
+				<th>Base Image</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Good</td>
-				<td>AWS</td>
-				<td><em>Something something something</em></td>
-			</tr>
+			<?php foreach($nodes as $node) { ?>
+				<tr>
+					<td>Status</td>
+					<td>Mike</td>
+					<td>Help</td>
+					<td>Help</td>
+				</tr>
+			<?php } ?>
 		</tbody>
 	</table>
 </article>

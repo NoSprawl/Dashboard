@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIntegrationFields extends Migration {
+class AddMoreFieldsToNode extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,9 @@ class AddIntegrationFields extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('integrations', function($table)
+		Schema::table('nodes', function(Blueprint $table)
 		{
-			$table->string('service_provider_id')->nullable();
-			$table->integer('user_id')->nullable();
+			$table->string('service_provider_base_image_id')->nullable();
 		});
 	}
 
@@ -26,9 +25,9 @@ class AddIntegrationFields extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('integrations', function($table)
+		Schema::table('nodes', function(Blueprint $table)
 		{
-			$table->dropColumn('user_id');
+			$table->dropColumn('service_provider_base_image_id');
 		});
 	}
 

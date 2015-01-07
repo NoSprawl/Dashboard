@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIntegrationFields extends Migration {
+class AddStatusToIntegration extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,9 +14,9 @@ class AddIntegrationFields extends Migration {
 	{
 		Schema::table('integrations', function($table)
 		{
-			$table->string('service_provider_id')->nullable();
-			$table->integer('user_id')->nullable();
+			$table->string('status')->nullable();
 		});
+		
 	}
 
 	/**
@@ -28,8 +28,9 @@ class AddIntegrationFields extends Migration {
 	{
 		Schema::table('integrations', function($table)
 		{
-			$table->dropColumn('user_id');
+			$table->dropColumn('status');
 		});
+		
 	}
 
 }

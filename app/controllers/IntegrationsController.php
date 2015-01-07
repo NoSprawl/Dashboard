@@ -83,13 +83,14 @@ class IntegrationsController extends BaseController {
 			// @todo Need to refactor this to pass in a dynamic array and/or use call_user_func_array
 			if($client->verifyAuthentication($integration->authorization_field_1, $integration->authorization_field_2)) {
 				$integration->save();
+				$integration->db_integration_id = $integration->id;
 				$integrationJson = $integration->toJson();
 				Queue::push('ReauthenticateAndRefreshNodeList', array('message' => $integrationJson));
 				$response['status'] = "created";
 				$response['data'] = $integrationJson;
 			} else {
 				$response['status'] = "api_error";
-				$response['data'] = "Could not list EC2 instances. NoSprawl requires at least read access to EC2.";
+				$response['data'] = "Could not list instances. NoSprawl requires at least read access.";
 			}
 			
 			return Response::json($response);

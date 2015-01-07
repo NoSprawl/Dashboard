@@ -8,8 +8,8 @@ class CheckController extends BaseController {
 	}
 
 	public function getCheck() {
-		$this->layout->content = View::make('check.list');
-
+		$nodes = Auth::user()->nodes();
+		$this->layout->content = View::make('check.list')->with("nodes", $nodes);
 	}
 
 }

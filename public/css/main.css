@@ -730,7 +730,7 @@ li.plain {
 	color: #fff;
 }
 
-.uk-active a {
+.uk-navbar-nav .uk-active a {
 	background: #0078EF !important;
 }
 .uk-navbar-nav li a {
