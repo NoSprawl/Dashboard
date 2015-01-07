@@ -15,8 +15,6 @@ class ReauthenticateAndRefreshNodeList {
 				foreach($service_provider_nodes as $service_provider_node) {
 					$node = new Node();
 					$node->service_provider_uuid = $service_provider_node->service_provider_id;
-					$output = new Symfony\Component\Console\Output\ConsoleOutput();
-					$output->writeln(print_r("Hello"));
 					$node->service_provider_base_image_id = $service_provider_node->provider_base_image_id;
 					$node->description = $service_provider_node->private_dns_name . " " . $service_provider_node->public_dns_name;
 					$node->integration_id = $integration->id;

@@ -43,8 +43,8 @@ return array(
 
 		'sqs' => array(
 			'driver' => 'sqs',
-			'key'    => 'AKIAIODKIWDN7A6Z5QVQ',
-			'secret' => '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',
+			'key'    => 'AKIAJS5YYIOIIT3XI2EA',
+			'secret' => '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',
 			'queue'  => 'https://sqs.us-east-1.amazonaws.com/480589117377/nosprawl_agents',
 			'region' => 'us-east-1',
 		),

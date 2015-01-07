@@ -13,7 +13,7 @@
 	    	<th>Node Status</th>
 				<th>Service Provider</th>
 				<th>Base Image</th>
-				<th>Base Image</th>
+				<th>Service Provider</th>
 			</tr>
 		</thead>
 		<tbody>

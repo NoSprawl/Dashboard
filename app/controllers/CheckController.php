@@ -8,7 +8,7 @@ class CheckController extends BaseController {
 	}
 
 	public function getCheck() {
-		$nodes = Auth::user()->nodes();
+		$nodes = Auth::user()->nodes;
 		$this->layout->content = View::make('check.list')->with("nodes", $nodes);
 	}
 
