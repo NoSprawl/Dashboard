@@ -12,15 +12,11 @@ class Integration extends Eloquent {
 	protected $fillable = ['name', 'user_id', 'service_provider', 'authorization_field_1', 'authorization_field_2', 'status'];
 
 	public function nodes() {
-
 		return $this->hasMany('Node');
-
 	}
 	
 	public function user() {
-
 		return $this->belongsTo('User');
-
 	}
 
 }

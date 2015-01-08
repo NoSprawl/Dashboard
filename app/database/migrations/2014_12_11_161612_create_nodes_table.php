@@ -19,7 +19,6 @@ class CreateNodesTable extends Migration {
 			$table->string('description')->nullable();
 			$table->integer('owner_id');
 			$table->integer('integration_id')->nullable();
-			
 			$table->timestamps();
 		});
 	}

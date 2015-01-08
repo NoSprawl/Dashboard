@@ -13,16 +13,17 @@
 	    	<th>Node Status</th>
 				<th>Service Provider</th>
 				<th>Base Image</th>
-				<th>Service Provider</th>
+				<th>Description</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php foreach($nodes as $node) { ?>
 				<tr>
-					<td>Status</td>
-					<td>Mike</td>
-					<td>Help</td>
-					<td>Help</td>
+					<?php $integration = $node->integration()->get(); ?>
+					<td><?php echo $node['service_provider_status']; ?></td>
+					<td><?php echo $integration[0]['service_provider']; ?></td>
+					<td><?php echo $node['service_provider_base_image_id']; ?></td>
+					<td><?php echo $node['description']; ?></td>
 				</tr>
 			<?php } ?>
 		</tbody>

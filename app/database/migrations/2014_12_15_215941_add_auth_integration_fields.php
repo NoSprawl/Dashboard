@@ -14,8 +14,8 @@ class AddAuthIntegrationFields extends Migration {
 	{
 		Schema::table('integrations', function($table)
 		{
-			$table->string('authorization_field_1')->nullable();
-			$table->string('authorization_field_2')->nullable();
+			$table->string('authorization_field_1')->default('');
+			$table->string('authorization_field_2')->default('');
 		});
 	}
 

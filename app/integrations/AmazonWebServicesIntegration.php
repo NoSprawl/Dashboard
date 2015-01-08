@@ -35,11 +35,17 @@ class AmazonWebServicesIntegration
 			foreach($reservations as $reservation) {
 				$instances = $reservation['Instances'];
 				foreach ($instances as $instance) {
+					$interfaces = [];
+					foreach($instance['NetworkInterfaces'] as $network_interface) {
+						array_push($interfaces, $network_interface['MacAddress']);
+					}
+					
 	        array_push($nodes, array('service_provider_status' => $instance['State']['Name'],
 																	 'service_provider_base_image_id' => $instance['ImageId'],
 																	 'service_provider_id' => $instance['InstanceId'],
 																   'private_dns_name' => $instance['PrivateDnsName'],
-																   'public_dns_name' => $instance['PublicDnsName']));
+																   'public_dns_name' => $instance['PublicDnsName'],
+																   'network_interfaces' => $interfaces));
 				}
 				
 			}

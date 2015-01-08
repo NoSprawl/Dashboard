@@ -14,8 +14,8 @@ class AddFieldsToNode extends Migration {
 	{
 		Schema::table('nodes', function($table)
 		{
-			$table->string('service_provider_uuid')->nullable();
-			$table->string('service_provider_status')->nullable();
+			$table->string('service_provider_uuid');
+			$table->string('service_provider_status');
 		});
 		
 	}
@@ -29,8 +29,8 @@ class AddFieldsToNode extends Migration {
 	{
 		Schema::table('nodes', function($table)
 		{
-			$table->dropColumn('service_provider_uuid');
 			$table->dropColumn('service_provider_status');
+			$table->dropColumn('service_provider_uuid');
 		});
 		
 	}
