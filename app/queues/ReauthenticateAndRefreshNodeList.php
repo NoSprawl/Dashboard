@@ -61,9 +61,6 @@ class ReauthenticateAndRefreshNodeList {
 			$integration->save();
 		}
 		
-		$output = new Symfony\Component\Console\Output\ConsoleOutput();
-		$output->writeln(print_r($service_provider_nodes));
-		
 		$job->release(600);
 	}
 	
