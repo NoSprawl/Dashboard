@@ -17,9 +17,6 @@ class AddMacAddressesTableAndAssoc extends Migration {
 			$table->increments('id');
 			$table->string('address')->unique()->default('00:00:00:00:00:00');
 			$table->integer('node_id')->unsigned();
-		});
-
-		Schema::table('mac_addresses', function($table){
 			$table->foreign('node_id')->references('id')->on('nodes');
 		});
 		
