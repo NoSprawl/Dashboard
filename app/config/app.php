@@ -14,7 +14,7 @@ return array(
 	*/
 
 	'debug' => true,
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Application URL
@@ -121,6 +121,7 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+		'Darsain\Console\ConsoleServiceProvider',
 	),
 
 	/*
