@@ -10,7 +10,7 @@ class MacAddress extends Eloquent {
 	 */
 	protected $table = 'mac_addresses';
 
-	protected $fillable = ['user_id', 'address'];
+	protected $fillable = ['node_id', 'address'];
 
 	public $timestamps = false;
 

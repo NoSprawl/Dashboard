@@ -31,9 +31,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	public function nodes() {
-
 		return $this->hasMany('Node', 'owner_id');
-
+	}
+	
+	public function unmanaged_nodes() {
+		return $this->hasMany('Node', 'owner_id')->where('managed', '=', 'false')->groupBy('service_provider_cluster_id');
+	}
+	
+	public function managed_nodes() {
+		return $this->hasMany('Node', 'owner_id')->where('managed', '=', 'true');
 	}
 
 }

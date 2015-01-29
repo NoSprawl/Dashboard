@@ -8,9 +8,9 @@ class CheckController extends BaseController {
 	}
 
 	public function getCheck() {
-		$nodes = Auth::user()->nodes;
-		$managed_nodes = Auth::user()->nodes()->where("managed", "=", true);
-		$this->layout->content = View::make('check.list')->with("nodes", $nodes)->with("managed_nodes", $managed_nodes);
+		$unmanaged_nodes = Auth::user()->nodes;
+		$managed_nodes = Auth::user()->unmanaged_nodes;
+		$this->layout->content = View::make('check.list')->with("unmanaged_nodes", $unmanaged_nodes)->with("managed_nodes", $managed_nodes);
 	}
 
 }

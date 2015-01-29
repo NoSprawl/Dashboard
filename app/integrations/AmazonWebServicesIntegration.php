@@ -40,12 +40,27 @@ class AmazonWebServicesIntegration
 						array_push($interfaces, $network_interface['MacAddress']);
 					}
 					
+					// Find out if we're part of a cluster
+					$sp_cluster_id = null;
+					try {
+						foreach($instance['Tags'] as $tag) {
+							if($tag['Key'] == 'elasticbeanstalk:environment-id') {
+								$sp_cluster_id = $tag['Value'];
+							}
+					
+						}
+						
+					} catch(Exception $e) {
+					
+					}
+					
 	        array_push($nodes, array('service_provider_status' => $instance['State']['Name'],
 																	 'service_provider_base_image_id' => $instance['ImageId'],
 																	 'service_provider_id' => $instance['InstanceId'],
 																   'private_dns_name' => $instance['PrivateDnsName'],
 																   'public_dns_name' => $instance['PublicDnsName'],
-																   'network_interfaces' => $interfaces));
+																   'network_interfaces' => $interfaces,
+																 	 'service_provider_cluster_id' => $sp_cluster_id));
 				}
 				
 			}

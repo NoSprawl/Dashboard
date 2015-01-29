@@ -13,7 +13,7 @@ class Node extends Eloquent {
 	 */
 	protected $table = 'nodes';
 
-	protected $fillable = ['name', 'description', 'owner_id', 'integration_id', 'status', 'service_provider_uuid', 'service_provider_base_image_id', 'managed'];
+	protected $fillable = ['name', 'description', 'owner_id', 'integration_id', 'status', 'service_provider_uuid', 'service_provider_base_image_id', 'managed', 'base_image_id', 'service_provider_cluster_id'];
 
 	public function integration() {
 		return $this->belongsTo('Integration', 'integration_id');
