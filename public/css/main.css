@@ -725,6 +725,15 @@ body {
 	min-width: 680px;
 }
 
+* {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 li.plain {
 	padding: 10px 0 0 0;
 	color: #fff;
@@ -820,4 +829,81 @@ input {
 
 .infotool:hover {
 	text-decoration: none !important;
+}
+
+.handle {
+	position: relative;
+	top: 5px;
+	cursor: move;
+	width: 13px;
+	height: 15px;
+	display: block;
+	border-left: 1px solid #000;
+}
+
+.handle:before {
+	position: absolute;
+	height: 15px;
+	width: 1px;
+	background: #000;
+	content: " ";
+	left: 5px;
+}
+
+.handle:after {
+	position: absolute;
+	height: 15px;
+	width: 1px;
+	background: #000;
+	content: " ";
+	left: 11px;
+}
+
+.tooltipster-content span {
+	line-height: 1.4em !important;
+}
+
+td.shift {
+	position: relative;
+	top: 3px;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+}
+
+#whole-bird, #main {
+	transition: .3s -webkit-filter linear;
+}
+
+body.overlay #whole-bird {
+	-webkit-filter: blur(6px);
+}
+
+.disabler {
+	background: rgba(255, 255, 255, 0);
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 99;
+}
+
+.nos-modal {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	margin: 0;
+	background: rgba(255, 255, 255, 0);
+	box-shadow: 0px 0px 0 rgba(0, 0, 0, 0);
+	transition: 1s -webkit-filter linear;
+}
+
+.nos-modal.final {
+	background: red;
+	width: 50%;
 }

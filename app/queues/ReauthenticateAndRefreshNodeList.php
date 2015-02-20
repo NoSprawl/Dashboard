@@ -6,7 +6,15 @@ class ReauthenticateAndRefreshNodeList {
 		
 		$json_array = json_decode($data['message']);
 		$service_provider = new $json_array->service_provider();
-		$integration = Integration::find($json_array->db_integration_id);
+		
+		# Ensure the integration still exists. If not, delete all the nodes and remove the job from the queue forever.
+		try {
+			$integration = Integration::findOrFail($json_array->db_integration_id);
+		} catch (Exception $e) {
+			Node::where('integration_id', '=', $json_array->db_integration_id)->delete();
+			$job->delete();
+			return false;
+		}
 		
 		$service_provider->db_integration_id = $integration->id;
 		$nodes = null;
@@ -14,6 +22,8 @@ class ReauthenticateAndRefreshNodeList {
 		$service_provider_nodes = $service_provider->list_nodes();
 		
 		$current_nodes = $integration->nodes;
+		
+		$all_service_provider_ids = [];
 		
 		if($service_provider_nodes) {
 			$integration->status = "Confirmed";
@@ -23,6 +33,7 @@ class ReauthenticateAndRefreshNodeList {
 				$node = Node::firstOrNew(array('service_provider_uuid' => $service_provider_node['service_provider_id']));
 				$node->service_provider_status = $service_provider_node['service_provider_status'];
 				$node->service_provider_uuid = $service_provider_node['service_provider_id'];
+				array_push($all_service_provider_ids, $service_provider_node['service_provider_id']);
 				$node->service_provider_base_image_id = $service_provider_node['service_provider_base_image_id'];
 				$node->description = $service_provider_node['private_dns_name'] . " " . $service_provider_node['public_dns_name'];
 				$node->integration_id = $integration->id;
@@ -77,6 +88,11 @@ class ReauthenticateAndRefreshNodeList {
 		} else {
 			$integration->status = "Bad";
 			$integration->save();
+		}
+		
+		// This is where we delete Nodes that no longer exist on the service provider side.
+		if(sizeof($all_service_provider_ids) > 0) {
+			Node::whereNotIn('service_provider_uuid', $all_service_provider_ids)->delete();
 		}
 		
 		$job->release(600);

@@ -1,11 +1,11 @@
 <?php
 use Aws\Iam\IamClient;
 
-class AmazonWebServicesIntegration
+class AmazonWebServicesIntegration extends CloudIntegration
 {
 	public $fields = [['access_key_id', 'Access Key ID'], ['secret_access_key', 'Secret Access Key']];
 	
-	public $description = '<p>This IAM user must have access to EC2. NoSprawl will perform the following operations:</p><ul><li>Getting list of EC2 instances</li></ul>';
+	public $description = '<p>This IAM user must have access to EC2. NoSprawl will perform the following operations:</p><ul><li>Getting list of EC2 instances</li><li>Get list of Base Images</li><li>Get list of Elastic Beanstalk Clusters</li></ul></ul>';
 	
 	public $db_integration_id;
 	
@@ -60,7 +60,8 @@ class AmazonWebServicesIntegration
 																   'private_dns_name' => $instance['PrivateDnsName'],
 																   'public_dns_name' => $instance['PublicDnsName'],
 																   'network_interfaces' => $interfaces,
-																 	 'service_provider_cluster_id' => $sp_cluster_id));
+																 	 'service_provider_cluster_id' => $sp_cluster_id,
+																 	 'node_count' => $integration->nodes->count()));
 				}
 				
 			}

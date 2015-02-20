@@ -7,10 +7,16 @@
 	<link rel="stylesheet" href="/css/uikit.almost-flat.min.css">
 	<link rel="stylesheet" href="/css/card.css">
 	<link rel="stylesheet" href="/css/main.css">
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/tooltipster.css" />
+	<link rel="stylesheet" type="text/css" href="/css/themes/tooltipster-light.css" />
+	<link rel="stylesheet" type="text/css" href="/css/toggle.css" />
+ 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/uikit.min.js"></script>
+  <script type="text/javascript" src="/js/jquery.tooltipster.min.js"></script>
 </head>
 <body>
+	<div id="whole-bird">
 	@section('header')
 		<header>
 		<nav class="tm-navbar uk-navbar uk-navbar-attached">
@@ -46,10 +52,11 @@
 	
 	@section('footer')
 	@show
-
-	@section('scripts')
 	
+	
+	
+	@section('scripts')
 	@show
-
+	</div>
 </body>
 </html>
