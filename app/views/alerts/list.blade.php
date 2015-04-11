@@ -2,7 +2,8 @@
 
 @section('content')
 <article class="uk-article">
-	<h1 class="uk-article-title">Alerts</h1>
+	<h1 class="uk-article-title">Alerting</h1>
+	<a id="new_alert" href="#">New Alert</a>
 	<table class="uk-table">
 		<thead>
 	  	<tr>
@@ -20,4 +21,5 @@
 		</tbody>
 	</table>
 </article>
+<script type="text/javascript" src="/js/nos.toggle.js"></script>
 @stop

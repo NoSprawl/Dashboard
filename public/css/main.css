@@ -243,9 +243,10 @@ html {
  */
 
 .tm-navbar {
-    padding: 15px 0;
+    padding: 15px 0 15px 0;
     border: none;
-    background: #000;
+    background: transparent;
+		border-bottom: 1px solid #eee;
 }
 
 .tm-navbar .uk-navbar-content,
@@ -723,20 +724,32 @@ input.sp-input {
 /* NoS Start */
 body {
 	min-width: 680px;
+	height: 100%;
 }
 
-* {
+#main {
+	position: relative;
+}
+
+#new_alert {
+	position: absolute;
+	right: 0;
+	top: 1;
+	display: block;
+}
+
+/*#main {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
+}*/
 
 li.plain {
 	padding: 10px 0 0 0;
-	color: #fff;
+	color: #999;
 }
 
 .uk-navbar-nav .uk-active a {
@@ -874,11 +887,18 @@ html {
 }
 
 #whole-bird, #main {
-	transition: .3s -webkit-filter linear;
+	transition: .25s -webkit-filter linear;
+	opacity: 1;
+}
+
+#whole-bird {
+	-webkit-filter: blur(0);
+	opacity: 1;
 }
 
 body.overlay #whole-bird {
 	-webkit-filter: blur(6px);
+	opacity: .6;
 }
 
 .disabler {
@@ -892,18 +912,53 @@ body.overlay #whole-bird {
 }
 
 .nos-modal {
-	width: 100%;
-	height: 100%;
 	position: fixed;
-	left: 0;
-	top: 0;
-	margin: 0;
-	background: rgba(255, 255, 255, 0);
-	box-shadow: 0px 0px 0 rgba(0, 0, 0, 0);
-	transition: 1s -webkit-filter linear;
+	background: rgba(255, 255, 255, .8);
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, .35);
+	-webkit-filter: blur(4px);
+	opacity: 0;
+	transition: .25s -webkit-filter linear;
+	border-radius: 16px;
+	bottom: 0;
+	width: 480px;
+	left: 50%;
+	margin-left: -240px;
+	height: 285px;
+	top: 50%;
+	margin-top: -145px;
+	padding: 20px 30px 20px 30px;
+}
+
+.modal-out {
+	-webkit-transform: scale(.9);
+	-webkit-transform-origin: top left;
+	position: relative;
+	top: 10px;
+}
+
+.nos-modal h1 {
+	font-size: 1.2em;
+	border-bottom: 1px solid rgba(0,0,0,.2);
+	padding: 0 0 5px 0;
 }
 
 .nos-modal.final {
-	background: red;
-	width: 50%;
+	-webkit-filter: blur(0px);
+	opacity: 1;
+}
+
+code {
+	color: green !important;
+}
+
+.uk-navbar-nav li a {
+	color: #888;
+}
+
+.uk-navbar-nav li a:hover {
+	color: #999 !important;
+}
+
+.uk-navbar-nav li.uk-active a:hover {
+	color: #fff !important;
 }

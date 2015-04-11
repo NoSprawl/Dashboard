@@ -21,19 +21,19 @@
 		<header>
 		<nav class="tm-navbar uk-navbar uk-navbar-attached">
 			<div class="uk-container uk-container-center">
-		  	<a class="uk-navbar-brand" href="/"><img width="72" class="uk-margin uk-margin-remove" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOC4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDI1MyA2MTIgMzQzIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMjUzIDYxMiAzNDMiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGcgaWQ9IkxheWVyXzFfMV8iPg0KCTxjaXJjbGUgZmlsbD0iIzAwNzhFRiIgY3g9IjQ0Ny42IiBjeT0iNDI3LjciIHI9IjE1NC4yIi8+DQoJPGcgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAgICAiPg0KCQk8cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNODEuNiwyNzMuNGwxMjguNywyMDYuOWgwLjhWMjczLjRoNjMuNXYzMDguNGgtNjcuOEw3OC42LDM3NS40aC0wLjl2MjA2LjVIMTQuMlYyNzMuNEg4MS42eiIvPg0KCTwvZz4NCgk8ZyBlbmFibGUtYmFja2dyb3VuZD0ibmV3ICAgICI+DQoJCTxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik0zOTcuNSw0NjYuN2MxLjQsMTQuNCw2LjksMjQuNSwxNi40LDMwLjNjOS41LDUuOCwyMC45LDguNiwzNC4xLDguNmM0LjYsMCw5LjktMC4zLDE1LjgtMS4xDQoJCQljNS45LTAuNywxMS40LTIuMSwxNi42LTQuMWM1LjItMiw5LjUtNC45LDEyLjgtOC45YzMuMy0zLjksNC45LTksNC41LTE1LjNjLTAuMy02LjMtMi42LTExLjUtNi45LTE1LjVjLTQuMy00LTkuOS03LjItMTYuNi05LjcNCgkJCXMtMTQuNS00LjUtMjMuMS02LjNjLTguNi0xLjctMTcuNC0zLjYtMjYuMy01LjZjLTkuMi0yLTE4LjEtNC40LTI2LjYtNy4zYy04LjUtMi45LTE2LjEtNi43LTIyLjktMTEuNw0KCQkJYy02LjctNC45LTEyLjItMTEuMi0xNi4yLTE4LjhjLTQtNy42LTYtMTctNi0yOC4zYzAtMTIuMSwzLTIyLjIsOC45LTMwLjRjNS45LTguMiwxMy40LTE0LjgsMjIuNS0xOS44czE5LjItOC42LDMwLjMtMTAuNg0KCQkJYzExLjEtMiwyMS42LTMsMzEuOC0zYzExLjUsMCwyMi41LDEuMiwzMy4xLDMuN2MxMC41LDIuNSwyMCw2LjQsMjguNSwxMS44YzguNSw1LjUsMTUuNSwxMi42LDIxLjEsMjEuNA0KCQkJYzUuNiw4LjgsOS4xLDE5LjMsMTAuNiwzMS44aC01MS40Yy0yLjMtMTEuOC03LjctMTkuNy0xNi4yLTIzLjhTNDUzLjksMzQ4LDQ0MywzNDhjLTMuNSwwLTcuNiwwLjMtMTIuMywwLjkNCgkJCWMtNC44LDAuNi05LjIsMS42LTEzLjQsMy4ycy03LjcsMy45LTEwLjYsNi45cy00LjMsNy00LjMsMTEuOGMwLDYuMSwyLjEsMTAuOSw2LjMsMTQuN2M0LjIsMy44LDkuNiw2LjgsMTYuNSw5LjMNCgkJCWM2LjcsMi41LDE0LjUsNC41LDIzLjEsNi4zYzguNiwxLjcsMTcuNSwzLjYsMjYuNyw1LjZjOC45LDIuMSwxNy43LDQuNCwyNi4zLDcuM2M4LjYsMi45LDE2LjQsNi43LDIzLjEsMTEuNw0KCQkJYzYuNyw0LjksMTIuMywxMS4xLDE2LjUsMTguNmM0LjIsNy41LDYuMywxNi43LDYuMywyNy42YzAsMTMuMi0zLDI0LjUtOSwzMy42Yy02LjEsOS4yLTEzLjksMTYuNy0yMy41LDIyLjUNCgkJCWMtOS42LDUuOC0yMC40LDEwLTMyLjIsMTIuNWMtMTEuOCwyLjYtMjMuNCwzLjktMzUsMy45Yy0xNC4xLDAtMjcuMS0xLjYtMzkuMS00LjhjLTExLjktMy4xLTIyLjMtOC0zMS4xLTE0LjUNCgkJCWMtOC44LTYuNS0xNS43LTE0LjYtMjAuNy0yNC4yYy01LTkuNi03LjctMjEuMS04LTM0LjNMMzk3LjUsNDY2LjdMMzk3LjUsNDY2Ljd6Ii8+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=" title="NoSprawl" alt="NoSprawl"></a>
+		  	<a class="uk-navbar-brand" href="/"><img width="79" class="uk-margin uk-margin-remove" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOC4xLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgMTAwMCAxMDAwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMDAwIDEwMDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGcgaWQ9IkxheWVyXzFfMV8iPg0KCTxjaXJjbGUgZmlsbD0iIzAwNzhFRiIgY3g9IjczMS40IiBjeT0iMjUyLjEiIHI9IjI1MiIvPg0KCTxnPg0KCQk8cGF0aCBmaWxsPSIjMzUzNTM1IiBkPSJNMTMzLjMsMGwyMTAuMywzMzguMWgxLjNWMGgxMDMuOHY1MDMuOUgzMzcuOUwxMjguNCwxNjYuN0gxMjd2MzM3LjRIMjMuMlYwSDEzMy4zeiIvPg0KCTwvZz4NCgk8ZyBlbmFibGUtYmFja2dyb3VuZD0ibmV3ICAgICI+DQoJCTxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik02NDkuNSwzMTUuOGMyLjMsMjMuNSwxMS4zLDQwLDI2LjgsNDkuNXMzNC4yLDE0LjEsNTUuNywxNC4xYzcuNSwwLDE2LjItMC41LDI1LjgtMS44DQoJCQljOS42LTEuMSwxOC42LTMuNCwyNy4xLTYuN2M4LjUtMy4zLDE1LjUtOCwyMC45LTE0LjVjNS40LTYuNCw4LTE0LjcsNy40LTI1Yy0wLjUtMTAuMy00LjItMTguOC0xMS4zLTI1LjNzLTE2LjItMTEuOC0yNy4xLTE1LjgNCgkJCWMtMTAuOS00LjEtMjMuNy03LjQtMzcuNy0xMC4zYy0xNC4xLTIuOC0yOC40LTUuOS00My05LjJjLTE1LTMuMy0yOS42LTcuMi00My41LTExLjljLTEzLjktNC43LTI2LjMtMTAuOS0zNy40LTE5LjENCgkJCWMtMTAuOS04LTE5LjktMTguMy0yNi41LTMwLjdjLTYuNS0xMi40LTkuOC0yNy44LTkuOC00Ni4yYzAtMTkuOCw0LjktMzYuMywxNC41LTQ5LjdjOS42LTEzLjQsMjEuOS0yNC4yLDM2LjgtMzIuNA0KCQkJYzE0LjktOC4yLDMxLjQtMTQuMSw0OS41LTE3LjNjMTguMS0zLjMsMzUuMy00LjksNTItNC45YzE4LjgsMCwzNi44LDIsNTQuMSw2YzE3LjIsNC4xLDMyLjcsMTAuNSw0Ni42LDE5LjMNCgkJCWMxMy45LDksMjUuMywyMC42LDM0LjUsMzVjOS4yLDE0LjQsMTQuOSwzMS41LDE3LjMsNTJoLTg0Yy0zLjgtMTkuMy0xMi42LTMyLjItMjYuNS0zOC45Yy0xMy45LTYuNy0zMC4xLTEwLTQ3LjktMTANCgkJCWMtNS43LDAtMTIuNCwwLjUtMjAuMSwxLjVjLTcuOCwxLTE1LDIuNi0yMS45LDUuMmMtNi45LDIuNi0xMi42LDYuNC0xNy4zLDExLjNjLTQuNyw0LjktNywxMS40LTcsMTkuM2MwLDEwLDMuNCwxNy44LDEwLjMsMjQNCgkJCWM2LjksNi4yLDE1LjcsMTEuMSwyNywxNS4yYzEwLjksNC4xLDIzLjcsNy40LDM3LjcsMTAuM2MxNC4xLDIuOCwyOC42LDUuOSw0My42LDkuMmMxNC41LDMuNCwyOC45LDcuMiw0MywxMS45DQoJCQljMTQuMSw0LjcsMjYuOCwxMC45LDM3LjcsMTkuMWMxMC45LDgsMjAuMSwxOC4xLDI3LDMwLjRjNi45LDEyLjMsMTAuMywyNy4zLDEwLjMsNDUuMWMwLDIxLjYtNC45LDQwLTE0LjcsNTQuOQ0KCQkJYy0xMCwxNS0yMi43LDI3LjMtMzguNCwzNi44Yy0xNS43LDkuNS0zMy4zLDE2LjMtNTIuNiwyMC40Yy0xOS4zLDQuMi0zOC4yLDYuNC01Ny4yLDYuNGMtMjMsMC00NC4zLTIuNi02My45LTcuOA0KCQkJYy0xOS40LTUuMS0zNi40LTEzLjEtNTAuOC0yMy43Yy0xNC40LTEwLjYtMjUuNy0yMy45LTMzLjgtMzkuNWMtOC4yLTE1LjctMTIuNi0zNC41LTEzLjEtNTZMNjQ5LjUsMzE1LjhMNjQ5LjUsMzE1Ljh6Ii8+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=" title="NoSprawl" alt="NoSprawl"></a>
 	    	<ul class="uk-navbar-nav">
 				@if(Auth::check())
-	        <li class="@section('check_link')@show">{{link_to_route('check', 'Status')}}</li>
+	        <li class="@section('check_link')@show">{{link_to_route('check', 'Cloud Topology')}}</li>
 	        <li class="@section('zones_link')@show">{{link_to_route('zones', 'Patch Management')}}</li>
-	        <li class="@section('integrations_link')@show">{{link_to_route('integrations', 'Integrations')}}</li>
-	        <li class="@section('alerts_link')@show">{{link_to_route('alerts', 'Alerts')}}</li>
+	        <li class="@section('integrations_link')@show">{{link_to_route('integrations', 'Cloud Integrations')}}</li>
+	        <li class="@section('alerts_link')@show">{{link_to_route('alerts', 'Alerting')}}</li>
 				@endif
 	    	</ul>
 				<div class="uk-navbar-flip">
         	<ul class="uk-navbar-nav">
 						@if(Auth::check())
-							<li class="plain">Welcome, {{ucfirst(explode(' ', Auth::user()->full_name)[0])}}!</li>
+							<li class="plain">Hi, {{ucfirst(explode(' ', Auth::user()->full_name)[0])}}!</li>
 							<li>{{link_to_route('signout', 'Sign out')}}</li>
 						@else
 							<li class="@section('signin_link')@show">{{link_to_route('signin', 'Sign in')}}</li>
@@ -48,12 +48,9 @@
 
 	<div id="main" class="uk-container uk-container-center">
 		@yield('content', 'You should add your content here')
-	</div> <!-- .container-fluid -->
-	
+	</div><!-- .container-fluid -->
 	@section('footer')
 	@show
-	
-	
 	
 	@section('scripts')
 	@show

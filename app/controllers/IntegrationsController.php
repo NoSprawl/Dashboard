@@ -20,6 +20,13 @@ class IntegrationsController extends BaseController {
 																'service_provider_description' => json_encode($service_provider_class_instance->description)));
 	}
 	
+	public function ensureBackgroundWorkerIsCreated($integration_id) {
+		$integration = Integration::find($integration_id);
+		$integration->db_integration_id = $integration->id;
+		$integrationJson = $integration->toJson();
+		Queue::push('ReauthenticateAndRefreshNodeList', array('message' => $integrationJson));
+	}
+	
 	public function createIntegration() {
 		$input = Input::all();
 		$response = array("status" => "error", "data" => "");

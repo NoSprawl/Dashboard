@@ -16,7 +16,7 @@
 				<tr>
 					<td>Confirmed</td>
 					<td><?php echo $integration['service_provider']; ?></td>
-					<td><a data-method="post" href="/integration/delete/<?php echo $integration['id'] ?>">Delete</a></td>
+					<td><a data-method="post" href="/integration/delete/<?php echo $integration['id'] ?>">Delete</a> | <a data-method="post" href="/integration/enqueueJobs/<?php echo $integration['id'] ?>">Check Queue</a></td>
 				</tr>
 			<?php } ?>
 		</tbody>
@@ -33,7 +33,8 @@
 					<label class='uk-form-label'>Integration Provider</label>
 					{{ Form::select('integration_type', array('-1' => 'Select a provider',
 																										'AmazonWebServices' => 'Amazon Web Services',
-																										'RackspaceCloud' => 'Rackspace Cloud')) }}
+																										'RackspaceCloud' => 'Rackspace Cloud',
+																										'OpenStack' => 'OpenStack')) }}
         </div><br />
 				<div id="custom_integration_fields">
 				

@@ -38,7 +38,10 @@ class ReauthenticateAndRefreshNodeList {
 				$node->description = $service_provider_node['private_dns_name'] . " " . $service_provider_node['public_dns_name'];
 				$node->integration_id = $integration->id;
 				$node->owner_id = $integration->user_id;
-				$node->managed = false;
+				if(!$node->managed) {
+					$node->managed = false;
+				}
+				
 				$node->name = "";
 				
 				$base_image = null;
@@ -55,6 +58,9 @@ class ReauthenticateAndRefreshNodeList {
 					$base_image = BaseImage::find($node->base_image_id);
 				}
 				
+				$output = new Symfony\Component\Console\Output\ConsoleOutput();
+				$output->writeln(print_r($service_provider_node));
+				
 				$node->save();
 				
 				$base_image->rollback_index = 0; // this is going to fuck something up at some point.
@@ -67,14 +73,8 @@ class ReauthenticateAndRefreshNodeList {
 				
 				// Get the mac info for correlation. The try/catch is dumb but will stop dupes for now.
 				foreach($service_provider_node['network_interfaces'] as $network_interface) {
-					try {
-						$mac_address = new MacAddress();
-						$mac_address->address = $network_interface;
-						$mac_address->node_id = $node_id;
-						$mac_address->save();
-					} catch(Exception $e) {
-						
-					}
+					$mac_address = MacAddress::firstOrNew(array('address' => strtoupper($network_interface), 'node_id' => $node->id));
+					$mac_address->save();
 					
 				}
 				

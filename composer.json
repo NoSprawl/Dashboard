@@ -12,7 +12,8 @@
 		"rackspace/php-opencloud": "dev-master",
 		"felixkiss/uniquewith-validator": "1.1.1",
 		"doctrine/dbal": "~2",
-		"darsain/laravel-console": "dev-master"
+		"darsain/laravel-console": "dev-master",
+		"rackspace/php-opencloud": "working"
 	},
 	"autoload": {
 		"classmap": [
