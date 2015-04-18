@@ -58,8 +58,8 @@ class ReauthenticateAndRefreshNodeList {
 					$base_image = BaseImage::find($node->base_image_id);
 				}
 				
-				$output = new Symfony\Component\Console\Output\ConsoleOutput();
-				$output->writeln(print_r($service_provider_node));
+				#$output = new Symfony\Component\Console\Output\ConsoleOutput();
+				#$output->writeln(print_r($service_provider_node));
 				
 				$node->save();
 				

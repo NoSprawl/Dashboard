@@ -6,14 +6,13 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"guzzlehttp/guzzle": "~5.0@dev",
 		"stripe/stripe-php": "~1.17",
 		"aws/aws-sdk-php": "2.*",
 		"rackspace/php-opencloud": "dev-master",
 		"felixkiss/uniquewith-validator": "1.1.1",
 		"doctrine/dbal": "~2",
 		"darsain/laravel-console": "dev-master",
-		"rackspace/php-opencloud": "working"
+		"mongofill/mongofill": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

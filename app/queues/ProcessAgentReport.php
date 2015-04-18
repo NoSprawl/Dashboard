@@ -7,14 +7,24 @@ class ProcessAgentReport {
 		
 		if($matches) {
 			if(sizeOf($matches) == 1) {
-				$output = new Symfony\Component\Console\Output\ConsoleOutput();
 				$node = Node::find(intval($matches[0]->node_id));
 				$node->managed = true;
+				$node->hostname = $data['message']['hostname'];
+				$node->last_updated = $data['message']['pkginfo']['last_updated'];
+				$node->package_manager = $data['message']['pkginfo']['package_manager'];
+				$node->platform = $data['message']['pkginfo']['platform'];
 				$node->save();
+				foreach($data['message']['pkginfo']['installed'] as $package_version) {
+					$package_record = NodePackageRecord::firstOrNew(array('package' => $package_version[0], 'node_id' => $node->id));
+					$package_record->version = $package_version[1];
+					$package_record->save();
+				}
+				
 			} else {
 				$output = new Symfony\Component\Console\Output\ConsoleOutput();
 				$output->writeln("facked ahp");
 			}
+			
 		}
 		
 		

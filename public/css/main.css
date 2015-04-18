@@ -962,3 +962,18 @@ code {
 .uk-navbar-nav li.uk-active a:hover {
 	color: #fff !important;
 }
+
+span.slash {
+	color: #888;
+	padding: 0 4px 0 4px;
+	font-size: .8em;
+}
+
+span.package_man {
+	color: #888;
+	font-size: .8em;
+}
+
+a:hover span.slash, a:hover span.package_man {
+	text-decoration: none !important;
+}

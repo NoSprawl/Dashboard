@@ -2,12 +2,12 @@
 
 @section('content')
 <article class="uk-article">
-	<h1 class="uk-article-title">Cloud Topology</h1>
+	<h1 class="uk-article-title">Cloud Status</h1>
 	<?php if(!empty($page_data['unmanaged_nodes']) || !empty($page_data['managed_nodes'])) { ?>
 	<ul class="uk-tab" data-uk-tab>
 	    <li class="<?php if(!sizeof($page_data['managed_nodes']) > 0) {echo 'uk-disabled';} ?>"><a rel='managed_nodes' href="#">
 			<?php if(sizeof($page_data['managed_nodes']) > 0) { ?>
-			<div data-uk-tooltip title="These nodes are not currently being monitored." class="uk-badge uk-badge-success">
+			<div class="uk-badge uk-badge-success">
 			<?= sizeof($page_data['managed_nodes']); ?>
 			
 			</div>
@@ -65,25 +65,7 @@
 					</div>
 				</td>
 				<td class="shift"><a id='integration-tooltip-<?= $node->id; ?>' href="#"><?= $integration->service_provider; ?></a></td>
-				<script type="text/javascript">
-				$('#integration-tooltip-<?= $node->id; ?>').tooltipster({
-					content: $('<span><strong>Status:</strong> <?= $integration->status; ?><br /><strong>Nodes:</strong> <?= $integration->nodes->count(); ?><br /><strong>Base Images:</strong> <?= $integration->nodes->unique("service_provider_base_image_id")->count(); ?><br /><a href="#"><div style="text-align: center; padding-top: 5px;"><i style="font-size: 1.5em;" class="fa fa-refresh"></i></div></a></span>'),
-					delay: 0,
-					interactive: true,
-					positionTracker: true,
-					theme: 'tooltipster-light'
-				});
-				</script>
 				<td class="shift"><?= $node->service_provider_base_image_id; ?></td>
-				<script type="text/javascript">
-				$('#integration-tooltip-<?= $node->id; ?>').tooltipster({
-					content: $('<span><strong>Status:</strong> <?= $integration->status; ?><br /><strong>Nodes:</strong> <?= $integration->nodes->count(); ?><br /><strong>Base Images:</strong> <?= $integration->nodes->unique("service_provider_base_image_id")->count(); ?><br /><a href="#"><div style="text-align: center; padding-top: 5px;"><i style="font-size: 1.5em;" class="fa fa-refresh"></i></div></a></span>'),
-					delay: 0,
-					interactive: true,
-					positionTracker: true,
-					theme: 'tooltipster-light'
-				});
-				</script>
 				<td class="shift"><?= $service_provider_cluster_id; ?></td>
 				<td class="shift"><?= $service_provider_description; ?></td>
 			</tr>
@@ -94,11 +76,14 @@
 		<thead>
 	  	<tr>
 				<!--<th></th>-->
-				<th>Patch Management</th>
-				<th>Service Provider</th>
+				<th width="140">Patch Management</th>
+				<th width="180">Service Provider</th>
+				<th>Host Name</th>
+				<th>Last Updated</th>
+				
 				<th>Base Image</th>
-				<th>Cluster</th>
-				<th>Description</th>
+				
+				<th>More</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -131,28 +116,21 @@
 					  <span class="switch-selection"></span>
 					</div>
 				</td>
-				<td class="shift"><a id='integration-tooltip-<?= $node->id; ?>' href="#"><?= $integration->service_provider; ?></a></td>
-				<script type="text/javascript">
-				$('#integration-tooltip-<?= $node->id; ?>').tooltipster({
-					content: $('<span><strong>Status:</strong> <?= $integration->status; ?><br /><strong>Nodes:</strong> <?= $integration->nodes->count(); ?><br /><strong>Base Images:</strong> <?= $integration->nodes->unique("service_provider_base_image_id")->count(); ?><br /><a href="#"><div style="text-align: center; padding-top: 5px;"><i style="font-size: 1.5em;" class="fa fa-refresh"></i></div></a></span>'),
-					delay: 0,
-					interactive: true,
-					positionTracker: true,
-					theme: 'tooltipster-light'
-				});
-				</script>
+				<td class="shift"><a id='integration-tooltip-<?= $node->id; ?>' href="#"><?php
+					switch($integration->service_provider) {
+						case "AmazonWebServicesIntegration":
+							print "<img style='top: -1px; position: relative;' src='/svg/aws.svg' width='40px'>";
+						break;
+					}
+					
+					print "<span class='slash'>/</span>";
+					print "<span class='package_man'>" . $node->platform . "</span>";
+					print "<span class='slash'>/</span>";
+					print "<span class='package_man'>" . $node->package_manager . "</span>";
+				?></a></td>
+				<td class="shift"><?= $node->hostname; ?></td>
+				<td class="shift"><?php if($node->last_updated != "") {print $node->last_updated;} else {print "Never";} ?></td>
 				<td class="shift"><?= $node->service_provider_base_image_id; ?></td>
-				<script type="text/javascript">
-				$('#integration-tooltip-<?= $node->id; ?>').tooltipster({
-					content: $('<span><strong>Status:</strong> <?= $integration->status; ?><br /><strong>Nodes:</strong> <?= $integration->nodes->count(); ?><br /><strong>Base Images:</strong> <?= $integration->nodes->unique("service_provider_base_image_id")->count(); ?><br /><a href="#"><div style="text-align: center; padding-top: 5px;"><i style="font-size: 1.5em;" class="fa fa-refresh"></i></div></a></span>'),
-					delay: 0,
-					interactive: true,
-					positionTracker: true,
-					theme: 'tooltipster-light'
-				});
-				</script>
-				<td class="shift"><?= $service_provider_cluster_id; ?></td>
-				<td class="shift"><?= $service_provider_description; ?></td>
 			</tr>
 		<?php } ?>
 		</tbody>
