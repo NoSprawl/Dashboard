@@ -14,8 +14,12 @@
  	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/uikit.min.js"></script>
   <script type="text/javascript" src="/js/jquery.tooltipster.min.js"></script>
+	<script type="text/javascript" src="/js/nos.keyupload.js"></script>
 </head>
 <body>
+	@if(Session::has('message'))
+	<p class="alert alert-info">{{ Session::get('message') }}</p>
+	@endif
 	<div id="whole-bird">
 	@section('header')
 		<header>
@@ -28,8 +32,8 @@
 	        <!--<li class="@section('zones_link')@show">{{link_to_route('zones', 'Patch Management')}}</li>-->
 	        <li class="@section('integrations_link')@show">{{link_to_route('integrations', 'Cloud Integrations')}}</li>
 	        <li class="@section('alerts_link')@show">{{link_to_route('alerts', 'Alerts')}}</li>
-					<li class="@section('users_link')@show">{{link_to_route('alerts', 'Users')}}</li>
-					<li class="@section('users_link')@show">{{link_to_route('alerts', 'Settings')}}</li>
+					<li class="@section('users_link')@show">{{link_to_route('users', 'Users')}}</li>
+					<li class="@section('settings_link')@show">{{link_to_route('settings', 'Settings')}}</li>
 				@endif
 	    	</ul>
 				<div class="uk-navbar-flip">

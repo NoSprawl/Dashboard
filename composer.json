@@ -12,7 +12,8 @@
 		"felixkiss/uniquewith-validator": "1.1.1",
 		"doctrine/dbal": "~2",
 		"darsain/laravel-console": "dev-master",
-		"mongofill/mongofill": "dev-master"
+		"mongofill/mongofill": "dev-master",
+		"intouch/laravel-newrelic": "*"
 	},
 	"autoload": {
 		"classmap": [

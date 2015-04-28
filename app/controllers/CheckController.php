@@ -10,8 +10,8 @@ class CheckController extends BaseController {
 	public function getCheck() {
 		$clusters_color_array = array('bdfcf5', 'dab2fb', 'bdd2fc', 'f5bdfc');
 		
-		$unmanaged_nodes = Auth::user()->nodes()->where('managed', '=', 'false')->get();
-		$managed_nodes = Auth::user()->nodes()->where('managed', '=', 'true')->get();
+		$unmanaged_nodes = Auth::user()->nodes()->where('managed', '=', 'false')->where('service_provider_status', '!=', 'terminated')->get();
+		$managed_nodes = Auth::user()->nodes()->where('managed', '=', 'true')->where('service_provider_status', '!=', 'terminated')->get();
 		
 		$integration_count = Auth::user()->integrations->count();
 		

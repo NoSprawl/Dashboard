@@ -122,6 +122,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Darsain\Console\ConsoleServiceProvider',
+		'Intouch\LaravelNewrelic\LaravelNewrelicServiceProvider',
 	),
 
 	/*
@@ -188,6 +189,7 @@ return array(
 		'URL'               => 'Illuminate\Support\Facades\URL',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
+		'Newrelic'        => 'Intouch\LaravelNewrelic\Facades\Newrelic',
 	),
 
 );

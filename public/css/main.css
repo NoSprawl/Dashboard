@@ -977,3 +977,49 @@ span.package_man {
 a:hover span.slash, a:hover span.package_man {
 	text-decoration: none !important;
 }
+
+td {
+	position: relative;
+}
+
+.advice {
+	margin: 17px;
+	line-height: 7px;
+	font-size: 12px;
+}
+
+.alert {
+	width: 100%;
+	padding: 30px 0 40px 0;
+	border-bottom: #eee;
+	height: 1px;
+	text-align: center;
+}
+
+span.stopped {
+	position: relative;
+	top: 5px;
+	width: 16px;
+	height: 16px;
+	border-radius: 16px;
+	display: block;
+	background: #F96B6B;
+}
+
+span.running {
+	position: relative;
+	top: 5px;
+	width: 16px;
+	height: 16px;
+	border-radius: 16px;
+	display: block;
+	background: #6BF9A6;
+}
+
+span.statuslabel {
+	position: absolute;
+	top: 11px;
+	left: 28px;
+	opacity: .8;
+	font-size: 11px;
+}

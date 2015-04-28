@@ -1,6 +1,6 @@
 <?php
 class OpenStackIntegration extends CloudIntegration {
-	public $fields = [['access_key_id', 'Access Key ID'], ['secret_access_key', 'Secret Access Key']];
+	public $fields = [['username', 'Username'], ['password', 'Password'], ['tenant_id', 'Tenant ID']];
 	
 	public $description = '<p>This OpenStack user must have access to view node details. NoSprawl will perform the following operations:</p><ul><li>Getting list of OpenStack Instances</li><li>Get list of Base Images</li></ul></ul>';
 	

@@ -2,7 +2,7 @@
 
 class ProcessAgentReport {
 	public function fire($job, $data) {
-		#$packages = $data['message']['packages'];
+		$packages = $data['message']['pkginfo']['installed_package'];
 		$matches = DB::table('mac_addresses')->whereIn('address', $data['message']['network'])->get();
 		
 		if($matches) {
@@ -13,6 +13,8 @@ class ProcessAgentReport {
 				$node->last_updated = $data['message']['pkginfo']['last_updated'];
 				$node->package_manager = $data['message']['pkginfo']['package_manager'];
 				$node->platform = $data['message']['pkginfo']['platform'];
+				$output = new Symfony\Component\Console\Output\ConsoleOutput();
+				$output->writeln($data['message']['pkginfo']);
 				$node->save();
 				foreach($data['message']['pkginfo']['installed'] as $package_version) {
 					$package_record = NodePackageRecord::firstOrNew(array('package' => $package_version[0], 'node_id' => $node->id));

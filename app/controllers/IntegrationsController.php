@@ -7,7 +7,7 @@ class IntegrationsController extends BaseController {
 	}
 
 	public function getIntegrations() {
-		$integrations = Auth::user()->integrations->toArray();
+		$integrations = Auth::user()->integrations;
 		$this->layout->content = View::make('integrations.list')->with("integrations", $integrations);
 	}
 	

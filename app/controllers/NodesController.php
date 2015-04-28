@@ -21,6 +21,12 @@ class NodesController extends \BaseController {
 
 		Return View::make('nodes.main')->with('nodes', $nodes);
 	}
+	
+	public function placeNodeInLimbo($node_id) {
+		$node = Node::find($node_id);
+		$node->limbo = true;
+		$node->save();
+	}
 
 
 	/**

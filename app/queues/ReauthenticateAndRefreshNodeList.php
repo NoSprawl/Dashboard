@@ -2,8 +2,6 @@
 
 class ReauthenticateAndRefreshNodeList {
 	public function fire($job, $data) {
-		$output = new Symfony\Component\Console\Output\ConsoleOutput();
-		
 		$json_array = json_decode($data['message']);
 		$service_provider = new $json_array->service_provider();
 		
@@ -71,12 +69,12 @@ class ReauthenticateAndRefreshNodeList {
 				$base_image->integration_id = $integration->id;
 				$base_image->save();
 				
-				// Get the mac info for correlation. The try/catch is dumb but will stop dupes for now.
 				foreach($service_provider_node['network_interfaces'] as $network_interface) {
 					$mac_address = MacAddress::firstOrNew(array('address' => strtoupper($network_interface), 'node_id' => $node->id));
-					$mac_address->save();
-					
+					$mac_address->save();					
 				}
+				
+				
 				
 				if(!is_null($service_provider_node['service_provider_cluster_id'])) {
 					$node->service_provider_cluster_id = $service_provider_node['service_provider_cluster_id'];
