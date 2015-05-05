@@ -26,5 +26,9 @@ class Node extends Eloquent {
 	public function owner() {
 		return $this->belongsTo('User', 'owner_id');
 	}
+	
+	public function packages() {
+		return $this->hasMany('Package');
+	}
 
 }

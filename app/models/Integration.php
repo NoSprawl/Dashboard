@@ -18,5 +18,9 @@ class Integration extends Eloquent {
 	public function user() {
 		return $this->belongsTo('User');
 	}
+	
+	public function node_count() {
+		return $this->hasMany('Node')->whereNull("deleted_at")->count();
+	}
 
 }

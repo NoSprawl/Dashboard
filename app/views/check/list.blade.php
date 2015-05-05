@@ -134,7 +134,7 @@ div.limbo {
 					<?php if(!$node->limbo) { ?>
 					<div class="switch switch-yellow">
 					  <input type="radio" class="switch-input" name="toggle-enable-<?= $node->id; ?>" value="enable" id="toggle-enable-<?= $node->id; ?>">
-					  <label for="toggle-enable-<?= $node->id; ?>" class="switch-label switch-label-off">Enabled</label>
+					  <label data-integration="<?= $integration->id ?>" for="toggle-enable-<?= $node->id; ?>" class="switch-label switch-label-off">Enabled</label>
 					  <input type="radio" class="switch-input" name="toggle-enable-<?= $node->id; ?>" value="disable" id="toggle-disable-<?= $node->id; ?>" checked>
 					  <label for="toggle-disable-<?= $node->id; ?>" class="switch-label switch-label-on">Disabled</label>
 					  <span class="switch-selection"></span>
@@ -184,9 +184,9 @@ div.limbo {
 	<table style="display: none;" id="managed_nodes" class="uk-table">
 		<thead>
 	  	<tr>
-			<th>Status</th>
-				<th width="180">Cloud</th>
-				<th>Last Updated</th>
+				<th>Attack Risk</th>
+				<th width="180">Cloud &amp; Platform</th>
+				<th>Last Patch</th>
 				<th>Base Image</th>
 				<th>Host Name</th>
 				<th>Installed Software</th>
@@ -244,6 +244,15 @@ div.limbo {
 				<td class="shift"><?php if($node->last_updated != "") {print $node->last_updated;} else {print "Never";} ?></td>
 				<td class="shift"><?= $node->service_provider_base_image_id; ?></td>
 				<td class="shift"><?= $node->hostname; ?></td>
+				<td width="30%" class="shift">
+				<?php $count = 0; ?>
+				<a class="trigger-node-info" data-node-id="<?= $node->id; ?>" href="#">
+				<?php foreach($node->packages as $package) { $count++; if ($count == 3) {break;} ?>
+				<strong><?= $package->name; ?></strong>
+				<?= $package->version; ?>
+				<?php } ?>
+				</a>
+				</td>
 			</tr>
 		<?php } ?>
 		</tbody>
@@ -251,6 +260,22 @@ div.limbo {
 	<?php } ?>
 		
 </article>
+
+<div id="node-info-modal" class="uk-modal">
+  <div class="uk-modal-dialog">
+  	<a class="uk-modal-close uk-close"></a>
+		<div class="uk-grid">
+			<div class="uk-width-1-2">
+				<div class="uk-panel uk-panel-box">
+					Hi
+				</div>
+		</div>
+		<div class="uk-width-1-2">
+			Hi
+		</div>
+  </div>
+</div>
+
 <script type="text/javascript" src="/js/nos.toggle.js"></script>
 <script type="text/javascript" src="/js/nos.tabs.js"></script>
 @stop

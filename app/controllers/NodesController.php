@@ -22,9 +22,10 @@ class NodesController extends \BaseController {
 		Return View::make('nodes.main')->with('nodes', $nodes);
 	}
 	
-	public function placeNodeInLimbo($node_id) {
+	public function placeNodeInLimbo($node_id, $integration_id) {
 		$node = Node::find($node_id);
 		$node->limbo = true;
+		Queue::push('DeployAgentToNode', array('message' => array('node_id' => $node_id, 'integration_id' => $integration_id)));
 		$node->save();
 	}
 
@@ -123,7 +124,6 @@ class NodesController extends \BaseController {
 			$node->name = $input['name'];
 			$node->description = $input['description'];
 			$node->save();
-
 			return Redirect::to('nodes')->with('message', 'Node ' . $node->name . ' updated');
 
 		}

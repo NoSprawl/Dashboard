@@ -36,6 +36,7 @@ class ReauthenticateAndRefreshNodeList {
 				$node->description = $service_provider_node['private_dns_name'] . " " . $service_provider_node['public_dns_name'];
 				$node->integration_id = $integration->id;
 				$node->owner_id = $integration->user_id;
+				$node->public_dns_name = $service_provider_node['public_dns_name'];
 				if(!$node->managed) {
 					$node->managed = false;
 				}
@@ -56,9 +57,6 @@ class ReauthenticateAndRefreshNodeList {
 					$base_image = BaseImage::find($node->base_image_id);
 				}
 				
-				#$output = new Symfony\Component\Console\Output\ConsoleOutput();
-				#$output->writeln(print_r($service_provider_node));
-				
 				$node->save();
 				
 				$base_image->rollback_index = 0; // this is going to fuck something up at some point.
@@ -73,8 +71,6 @@ class ReauthenticateAndRefreshNodeList {
 					$mac_address = MacAddress::firstOrNew(array('address' => strtoupper($network_interface), 'node_id' => $node->id));
 					$mac_address->save();					
 				}
-				
-				
 				
 				if(!is_null($service_provider_node['service_provider_cluster_id'])) {
 					$node->service_provider_cluster_id = $service_provider_node['service_provider_cluster_id'];

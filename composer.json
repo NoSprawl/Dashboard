@@ -13,7 +13,8 @@
 		"doctrine/dbal": "~2",
 		"darsain/laravel-console": "dev-master",
 		"mongofill/mongofill": "dev-master",
-		"intouch/laravel-newrelic": "*"
+		"intouch/laravel-newrelic": "*",
+		"keis/just-ssh": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

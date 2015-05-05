@@ -6,7 +6,7 @@
 	<table class="uk-table">
 		<thead>
 	  	<tr>
-				<th width="70">Provider</th>
+				<th width="70">Cloud</th>
 				<th width="110">Access Status</th>
 				<th width="160">Manage All</th>
 				<th>PEM Keys</th>
@@ -16,7 +16,7 @@
 		</thead>
 		<tbody>
 			<?php foreach($integrations as $integration) { ?>
-				<tr>
+				<tr data-integration-id="<?= $integration->id; ?>">
 					<td>
 						<?php
 						switch($integration['service_provider']) {
@@ -65,7 +65,7 @@
 					
 					
 					<td><a rel="<?= $integration['id']; ?>" data-uk-modal="{target:'#new-key-form'}" class="key_manage" href="#">Manage Keys</a></td>
-					<td><?php echo $integration->node_count; ?></td>
+					<td><?php echo $integration->node_count(); ?></td>
 					<td><a data-method="post" href="/integration/delete/<?php echo $integration['id'] ?>">Delete</a> | <a data-method="post" href="/integration/enqueueJobs/<?php echo $integration['id'] ?>">Check Queue</a></td>
 				</tr>
 			<?php } ?>
@@ -96,25 +96,85 @@
 		{{ Form::close() }}
   </div>
 </div>
+<style type="text/css">
+.sk-spinner-wave.sk-spinner {
+  margin: 0 auto;
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  font-size: 10px; }
+.sk-spinner-wave div {
+  background-color: #333;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+  -webkit-animation: sk-waveStretchDelay 1.2s infinite ease-in-out;
+          animation: sk-waveStretchDelay 1.2s infinite ease-in-out; }
+.sk-spinner-wave .sk-rect2 {
+  -webkit-animation-delay: -1.1s;
+          animation-delay: -1.1s; }
+.sk-spinner-wave .sk-rect3 {
+  -webkit-animation-delay: -1s;
+          animation-delay: -1s; }
+.sk-spinner-wave .sk-rect4 {
+  -webkit-animation-delay: -0.9s;
+          animation-delay: -0.9s; }
+.sk-spinner-wave .sk-rect5 {
+  -webkit-animation-delay: -0.8s;
+          animation-delay: -0.8s; }
+
+@-webkit-keyframes sk-waveStretchDelay {
+  0%, 40%, 100% {
+    -webkit-transform: scaleY(0.4);
+            transform: scaleY(0.4); }
+
+  20% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1); } }
+
+@keyframes sk-waveStretchDelay {
+  0%, 40%, 100% {
+    -webkit-transform: scaleY(0.4);
+            transform: scaleY(0.4); }
+
+  20% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1); } }
+</style>
 <div id="new-key-form" class="uk-modal">
   <div class="uk-modal-dialog">
   	<a class="uk-modal-close uk-close"></a>
-		{{ Form::open(['url' => 'keys', 'class' => 'uk-form-stacked uk-form', 'id' => 'upload_key', 'files' => 'true']) }}
-	    <fieldset>
-        <legend>Add a New Key</legend>
-        <div class="uk-form-row">
-					<label class='uk-form-label'>PEM Key Name</label>
-					{{ Form::text('key_name'); }}
-					<br /><br />
-					<label class='uk-form-label'>Upload PEM</label>
-					{{ Form::file('key'); }}
-					<br />
-        </div>
-				<div id="submit_new_integration" class="uk-form-row">
-					{{ Form::submit('Securely Upload Key', ['class' => 'submit uk-button', 'style' => 'width: 150px;' ]) }}
-				</div>
-	    </fieldset>
-		{{ Form::close() }}
+		<div class="uk-grid">
+			<div class="uk-width-1-2"><div class="uk-panel uk-panel-box">
+				{{ Form::open(['url' => 'keys', 'class' => 'uk-form-stacked uk-form', 'id' => 'upload_key', 'files' => 'true']) }}
+			    <fieldset>
+		        <legend>Add a New Key</legend>
+		        <div class="uk-form-row">
+							<label class='uk-form-label'>Upload PEM</label>
+							{{ Form::file('key'); }}
+							<br />
+		        </div>
+						<div id="submit_new_integration" class="uk-form-row">
+							<?php echo Form::hidden('integration_id', $integration['id']); ?>
+							{{ Form::submit('Securely Upload Key', ['class' => 'submit uk-button', 'style' => 'width: 150px;' ]) }}
+						</div>
+			    </fieldset>
+				{{ Form::close() }}
+			</div>
+		</div>
+		<div class="uk-width-1-2">
+				<ul class="uk-list uk-list uk-width-medium-1-3" id="keys_area">
+					<li class="sk-spinner sk-spinner-wave">
+						<div class="sk-rect1"></div>
+					  <div class="sk-rect2"></div>
+					  <div class="sk-rect3"></div>
+					  <div class="sk-rect4"></div>
+					  <div class="sk-rect5"></div>
+					 </li>
+				</ul>
+			</div>
+		</div>
+		
   </div>
 </div>
 <script type="text/javascript">
@@ -146,6 +206,17 @@ $(window.document).on('change', "select[name='integration_type']", function(chan
 		
 	})($field);
 });
+
+$(function() {
+	$('.key_manage').click(function(ev) {
+		$.post("/keyNamesFor/" + $(this).parent().parent().data("integration-id"), function(response) {
+			$("#keys_area").html("");
+			$("#keys_area").append("<li>" + response + "</li>");
+		});
+		
+	});
+	
+})
 
 $(window.document).on('submit', "#new-integration-form", function(click_event) {
 	$form = $("#new-integration-form form");

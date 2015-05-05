@@ -11,6 +11,11 @@ class IntegrationsController extends BaseController {
 		$this->layout->content = View::make('integrations.list')->with("integrations", $integrations);
 	}
 	
+	public function getKeyNamesFor($integration_id) {
+		$keyNames = DB::table('key_references')->lists('remote_url');
+		return Response::json($keyNames);
+	}
+	
 	public function getFieldsForServiceProvider() {
 		$input = Input::all();
 		$integration_class_name = $input['service_provider_name'] . "Integration";

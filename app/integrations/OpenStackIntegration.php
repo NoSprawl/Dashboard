@@ -6,7 +6,27 @@ class OpenStackIntegration extends CloudIntegration {
 	
 	public $db_integration_id;
 	
+
+	
+	
 	public function verifyAuthentication($access_key_id, $secret_access_key) {
+    $time_stamp = date('YmdHis');
+    $data_to_sign = self::USER_KEY . self::USER_AGENT .
+    $time_stamp. self::SECRET_KEY;
+    $signature = base64_encode(sha1($data_to_sign, true));
+    $headers = array();
+    $headers[] = "User-Agent: " . self::USER_AGENT;
+    $headers[] = 'X-Api-Signature: ' .
+    self::USER_KEY . ":$time_stamp:$signature";
+    return $headers;
+		
+		
+		
+		$client = new Rackspace('{authUrl}', array(
+		    'username' => '{username}',
+		    'apiKey'   => '{apiKey}',
+		));
+		
 		$success = false;
 		try {
 			$client = \Aws\Ec2\Ec2Client::factory(array('key' => $access_key_id, 'secret' => $secret_access_key, 'region' => 'us-east-1'));

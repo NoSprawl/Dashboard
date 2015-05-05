@@ -29,39 +29,13 @@ return array(
 	*/
 
 	'connections' => array(
-
-		'sync' => array(
-			'driver' => 'sync',
-		),
-
-		'beanstalkd' => array(
-			'driver' => 'beanstalkd',
-			'host'   => 'localhost',
-			'queue'  => 'default',
-			'ttr'    => 60,
-		),
-
 		'sqs' => array(
 			'driver' => 'sqs',
 			'key'    => 'AKIAJS5YYIOIIT3XI2EA',
 			'secret' => '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',
 			'queue'  => 'https://sqs.us-east-1.amazonaws.com/480589117377/nosprawl_agents',
 			'region' => 'us-east-1',
-		),
-
-		'iron' => array(
-			'driver'  => 'iron',
-			'host'    => 'mq-aws-us-east-1.iron.io',
-			'token'   => 'your-token',
-			'project' => 'your-project-id',
-			'queue'   => 'your-queue-name',
-			'encrypt' => true,
-		),
-
-		'redis' => array(
-			'driver' => 'redis',
-			'queue'  => 'default',
-		),
+		)
 
 	),
 
@@ -77,9 +51,7 @@ return array(
 	*/
 
 	'failed' => array(
-
 		'database' => 'pgsql', 'table' => 'failed_jobs',
-
 	),
 
 );
