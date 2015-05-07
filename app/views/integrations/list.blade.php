@@ -3,6 +3,7 @@
 @section('content')
 <article class="uk-article">
 	<h1 class="uk-article-title">Integrations</h1>
+	<?php if(!$integrations->isEmpty()) { ?>
 	<table class="uk-table">
 		<thead>
 	  	<tr>
@@ -26,21 +27,6 @@
 						}
 						?>
 					</td>
-					<?php
-					/*switch($node->service_provider_status) {
-						case "stopped":
-							print "<span class='stopped'></span><span class='statuslabel'>Stopped</span>";
-						break;
-						
-						case "running":
-							print "<span class='running'></span><span class='statuslabel'>Running</span>";
-						break;
-						
-						case "terminated":
-							print "<span class='terminated'></span>";
-						break;
-					}*/
-					?>
 					<td>
 					<?php
 					switch($integration['status']) {
@@ -64,13 +50,19 @@
 					</td>
 					
 					
-					<td><a rel="<?= $integration['id']; ?>" data-uk-modal="{target:'#new-key-form'}" class="key_manage" href="#">Manage Keys</a></td>
+					<td><a rel="<?= $integration['id']; ?>" class="key_manage" href="#">Manage Keys</a></td>
 					<td><?php echo $integration->node_count(); ?></td>
 					<td><a data-method="post" href="/integration/delete/<?php echo $integration['id'] ?>">Delete</a> | <a data-method="post" href="/integration/enqueueJobs/<?php echo $integration['id'] ?>">Check Queue</a></td>
 				</tr>
 			<?php } ?>
 		</tbody>
 	</table>
+	<?php } else { ?>
+	<div class="advice">
+	<p>You haven&rsquo;t created any integrations yet.</p>
+	<p>To get started, click the Add Integration button below and choose your cloud provider.</p>
+	</div>
+	<?php } ?>
 	<button class="uk-button" data-uk-modal="{target:'#new-integration-form'}">Add Integration</button>
 </article>
 <div id="new-integration-form" class="uk-modal">
@@ -155,7 +147,7 @@
 							<br />
 		        </div>
 						<div id="submit_new_integration" class="uk-form-row">
-							<?php echo Form::hidden('integration_id', $integration['id']); ?>
+							<?php echo Form::hidden('integration_id', ""); ?>
 							{{ Form::submit('Securely Upload Key', ['class' => 'submit uk-button', 'style' => 'width: 150px;' ]) }}
 						</div>
 			    </fieldset>
@@ -239,6 +231,17 @@ $(window.document).on('submit', "#new-integration-form", function(click_event) {
 	
 	return false;
 });
+
+$(".key_manage").click(function(click_event) {
+	var modal = UIkit.modal("#new-key-form");
+	if (modal.isActive()) {
+	 	modal.hide();
+	} else {
+		$("input[name='integration_id']").val($(this).attr('rel'));
+		modal.show();
+	}
+	
+})
 
 // Rails style delete links
 $(function(){

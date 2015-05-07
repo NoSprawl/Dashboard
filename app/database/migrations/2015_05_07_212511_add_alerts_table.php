@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNodePackageRecord extends Migration {
+class AddAlertsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,14 @@ class CreateNodePackageRecord extends Migration {
 	 */
 	public function up()
 	{
-		
-		Schema::create('node_package_records', function(Blueprint $table)
+		Schema::create('alerts', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('package');
-			$table->string('version');
-			$table->integer('node_id');
+			$table->timestamps();
+			$table->integer('user_id');
+			$table->integer('condition');
+			$table->integer('value');
+			
 		});
 	}
 
@@ -29,8 +30,7 @@ class CreateNodePackageRecord extends Migration {
 	 */
 	public function down()
 	{
-		
+		Schema::drop('alerts');
 	}
-	
 
 }

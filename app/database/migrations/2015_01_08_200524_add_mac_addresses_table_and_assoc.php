@@ -15,7 +15,7 @@ class AddMacAddressesTableAndAssoc extends Migration {
 		Schema::create('mac_addresses', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('address')->unique()->default('00:00:00:00:00:00');
+			$table->string('address')->default('00:00:00:00:00:00');
 			$table->integer('node_id')->unsigned();
 			$table->foreign('node_id')->references('id')->on('nodes');
 		});

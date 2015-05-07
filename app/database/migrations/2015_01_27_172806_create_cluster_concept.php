@@ -29,7 +29,7 @@ class CreateClusterConcept extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::drop('clusters');
 	}
 
 }
