@@ -36,6 +36,11 @@ select {
 						{{ Form::text('email') }}
 					</div>
 					<div class="uk-form-row">
+						{{ Form::label('phone_number', 'Phone Number', ['class' => 'uk-form-label'] ) }}
+						{{ $errors->first('phone_number', '<span class="error">:message</span>') }}
+						{{ Form::text('phone_number') }}
+					</div>
+					<div class="uk-form-row">
 						<div class="uk-grid uk-grid-preserve">
 							<div class="uk-width-1-2">
 								{{ Form::label('password', 'Password', ['class' => 'uk-form-label'] ) }}

@@ -732,10 +732,7 @@ body {
 }
 
 #new_alert {
-	position: absolute;
-	right: 0;
-	top: 1;
-	display: block;
+	
 }
 
 /*#main {

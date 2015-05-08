@@ -7,9 +7,37 @@ class AuthController extends Controller {
 		return View::make('registration');
 
 	}
+	
+	public function createSubuser() {
+		$input = Input::all();
+		$rules = [
+			'full_name' => 'required',
+			'email' => 	'required|email|unique:users,email',
+			'password' => 'required|min:7',
+			'confirm_password' => 'required|same:password'
+		];
+		
+		$validator = Validator::make($input, $rules);
+		if($validator->passes()) {
+			$user = new User;
+			$user->email = $input['email'];
+			$user->name = $input['full_name'];
+			$user->password = Hash::make($input['password']);
+			$user->parent_user_id = Auth::user()->id;
+			$user->save();
+			Mail::queue('emails.auth.welcomesub', [], function($message) use($user){
+				$message->to($user->email)->subject('Welcome to NoSprawl!');
+			});
+			
+			return Redirect::to('/users');
+		} else {
+			return Redirect::to('register')->withErrors($validator);
+		}
+		
+	}
 
 	public function postRegistration() {
-		
+
 		$input = Input::all();
 		$rules = [
 			'full_name' => 'required',
@@ -23,7 +51,7 @@ class AuthController extends Controller {
 			Stripe::setApiKey(Config::get('stripe.stripe.secret'));
 			$user = new User;
 			$user->email = $input['email'];
-			$user->full_name = $input['full_name'];
+			$user->name = $input['full_name'];
 			$user->password = Hash::make($input['password']);
 			$user->save();
 			

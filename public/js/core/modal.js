@@ -1,5 +1,5 @@
-/*! UIkit 2.14.0 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
-(function($, UI) {
+/*! UIkit 2.20.3 | http://www.getuikit.com | (c) 2014 YOOtheme | MIT License */
+(function(UI) {
 
     "use strict";
 
@@ -10,7 +10,8 @@
         defaults: {
             keyboard: true,
             bgclose: true,
-            minScrollHeight: 150
+            minScrollHeight: 150,
+            center: false
         },
 
         scrollable: false,
@@ -18,20 +19,24 @@
 
         init: function() {
 
-            if (!body) body = $('body');
+            if (!body) body = UI.$('body');
+
+            if (!this.element.length) return;
 
             var $this = this;
 
-            this.transition = UI.support.transition;
             this.paddingdir = "padding-" + (UI.langdirection == 'left' ? "right":"left");
-            this.dialog     = this.find(".@-modal-dialog");
+            this.dialog     = this.find(".uk-modal-dialog");
 
-            this.on("click", ".@-modal-close", function(e) {
+            // Update ARIA
+            this.element.attr('aria-hidden', this.element.hasClass("uk-open"));
+
+            this.on("click", ".uk-modal-close", function(e) {
                 e.preventDefault();
                 $this.hide();
             }).on("click", function(e) {
 
-                var target = $(e.target);
+                var target = UI.$(e.target);
 
                 if (target[0] == $this.element[0] && $this.options.bgclose) {
                     $this.hide();
@@ -45,18 +50,25 @@
 
         show: function() {
 
+            if (!this.element.length) return;
+
             var $this = this;
 
             if (this.isActive()) return;
             if (active) active.hide(true);
 
-            this.element.removeClass("@-open").show();
+            this.element.removeClass("uk-open").show();
             this.resize();
-
             active = this;
-            $html.addClass("@-modal-page").height(); // force browser engine redraw
 
-            this.element.addClass("@-open").trigger("show.uk.modal");
+            this.element.addClass("uk-open");
+
+            $html.addClass("uk-modal-page").height(); // force browser engine redraw
+
+            // Update ARIA
+            this.element.attr('aria-hidden', 'false');
+
+            this.element.trigger("show.uk.modal");
 
             UI.Utils.checkDisplay(this.dialog, true);
 
@@ -73,7 +85,7 @@
 
                 this.one(UI.support.transition.end, function() {
                     $this._hide();
-                }).removeClass("@-open");
+                }).removeClass("uk-open");
 
             } else {
 
@@ -93,33 +105,49 @@
 
             this.element.css('overflow-y', this.scrollbarwidth ? 'scroll' : 'auto');
 
-            this.updateScrollable();
+            if (!this.updateScrollable() && this.options.center) {
 
+                var dh  = this.dialog.outerHeight(),
+                pad = parseInt(this.dialog.css('margin-top'), 10) + parseInt(this.dialog.css('margin-bottom'), 10);
+
+                if ((dh + pad) < window.innerHeight) {
+                    this.dialog.css({'top': (window.innerHeight/2 - dh/2) - pad });
+                } else {
+                    this.dialog.css({'top': ''});
+                }
+            }
         },
 
         updateScrollable: function() {
 
             // has scrollable?
-            var scrollable = this.dialog.find('.@-overflow-container:visible:first');
+            var scrollable = this.dialog.find('.uk-overflow-container:visible:first');
 
-            if (scrollable) {
+            if (scrollable.length) {
 
                 scrollable.css("height", 0);
 
                 var offset = Math.abs(parseInt(this.dialog.css("margin-top"), 10)),
-                    dh     = this.dialog.outerHeight(),
-                    wh     = window.innerHeight,
-                    h      = wh - 2*(offset < 20 ? 20:offset) - dh;
+                dh     = this.dialog.outerHeight(),
+                wh     = window.innerHeight,
+                h      = wh - 2*(offset < 20 ? 20:offset) - dh;
 
                 scrollable.css("height", h < this.options.minScrollHeight ? "":h);
+
+                return true;
             }
+
+            return false;
         },
 
         _hide: function() {
 
-            this.element.hide().removeClass("@-open");
+            this.element.hide().removeClass("uk-open");
 
-            $html.removeClass("@-modal-page");
+            // Update ARIA
+            this.element.attr('aria-hidden', 'true');
+
+            $html.removeClass("uk-modal-page");
 
             body.css(this.paddingdir, "");
 
@@ -139,7 +167,7 @@
         boot: function() {
 
             // init code
-            UI.$html.on("click.modal.uikit", "[data-@-modal]", function(e) {
+            UI.$html.on("click.modal.uikit", "[data-uk-modal]", function(e) {
 
                 var ele = UI.$(this);
 
@@ -148,7 +176,7 @@
                 }
 
                 if (!ele.data("modalTrigger")) {
-                    var modal = UI.modalTrigger(ele, UI.Utils.options(ele.attr("data-@-modal")));
+                    var modal = UI.modalTrigger(ele, UI.Utils.options(ele.attr("data-uk-modal")));
                     modal.show();
                 }
 
@@ -172,7 +200,7 @@
 
             var $this = this;
 
-            this.options = $.extend({
+            this.options = UI.$.extend({
                 "target": $this.element.is("a") ? $this.element.attr("href") : false
             }, this.options);
 
@@ -205,24 +233,24 @@
         return modal;
     };
 
-    UI.modal.dialog.template = '<div class="@-modal"><div class="@-modal-dialog"></div></div>';
+    UI.modal.dialog.template = '<div class="uk-modal"><div class="uk-modal-dialog" style="min-height:0;"></div></div>';
 
     UI.modal.alert = function(content, options) {
 
         UI.modal.dialog(([
-            '<div class="@-margin @-modal-content">'+String(content)+'</div>',
-            '<div class="@-modal-buttons"><button class="@-button @-button-primary @-modal-close">Ok</button></div>'
-        ]).join("").replace(/@-/g, UI._prefix+'-').replace(/@-/g, UI._prefix+'-'), $.extend({bgclose:false, keyboard:false}, options)).show();
+            '<div class="uk-margin uk-modal-content">'+String(content)+'</div>',
+            '<div class="uk-modal-footer uk-text-right"><button class="uk-button uk-button-primary uk-modal-close">Ok</button></div>'
+        ]).join(""), UI.$.extend({bgclose:false, keyboard:false}, options)).show();
     };
 
     UI.modal.confirm = function(content, onconfirm, options) {
 
-        onconfirm = $.isFunction(onconfirm) ? onconfirm : function(){};
+        onconfirm = UI.$.isFunction(onconfirm) ? onconfirm : function(){};
 
         var modal = UI.modal.dialog(([
-            '<div class="@-margin @-modal-content">'+String(content)+'</div>',
-            '<div class="@-modal-buttons"><button class="@-button @-button-primary js-modal-confirm">Ok</button> <button class="@-button @-modal-close">Cancel</button></div>'
-        ]).join("").replace(/@-/g, UI._prefix+'-'), $.extend({bgclose:false, keyboard:false}, options));
+            '<div class="uk-margin uk-modal-content">'+String(content)+'</div>',
+            '<div class="uk-modal-footer uk-text-right"><button class="uk-button uk-button-primary js-modal-confirm">Ok</button> <button class="uk-button uk-modal-close">Cancel</button></div>'
+        ]).join(""), UI.$.extend({bgclose:false, keyboard:false}, options));
 
         modal.element.find(".js-modal-confirm").on("click", function(){
             onconfirm();
@@ -230,6 +258,38 @@
         });
 
         modal.show();
+    };
+
+    UI.modal.prompt = function(text, value, onsubmit, options) {
+
+        onsubmit = UI.$.isFunction(onsubmit) ? onsubmit : function(value){};
+
+        var modal = UI.modal.dialog(([
+            text ? '<div class="uk-modal-content uk-form">'+String(text)+'</div>':'',
+            '<div class="uk-margin-small-top uk-modal-content uk-form"><p><input type="text" class="uk-width-1-1"></p></div>',
+            '<div class="uk-modal-footer uk-text-right"><button class="uk-button uk-button-primary js-modal-ok">Ok</button> <button class="uk-button uk-modal-close">Cancel</button></div>'
+        ]).join(""), UI.$.extend({bgclose:false, keyboard:false}, options)),
+        input = modal.element.find("input[type='text']").val(value || '');
+
+        modal.element.find(".js-modal-ok").on("click", function(){
+            if (onsubmit(input.val())!==false){
+                modal.hide();
+            }
+        });
+        modal.show();
+        setTimeout(function(){ input.focus(); }, 100);
+    };
+
+    UI.modal.blockUI = function(content, options) {
+
+        var modal = UI.modal.dialog(([
+            '<div class="uk-margin uk-modal-content">'+String(content || '<div class="uk-text-center">...</div>')+'</div>'
+        ]).join(""), UI.$.extend({bgclose:false, keyboard:false}, options));
+
+        modal.content = modal.element.find('.uk-modal-content:first');
+        modal.show();
+
+        return modal;
     };
 
 
@@ -249,15 +309,15 @@
             }
         }else if (typeof content === 'string' || typeof content === 'number') {
                 // just insert the data as innerHTML
-                content = $('<div></div>').html(content);
+                content = UI.$('<div></div>').html(content);
         }else {
                 // unsupported data type!
-                content = $('<div></div>').html('UIkit.modal Error: Unsupported data type: ' + typeof content);
+                content = UI.$('<div></div>').html('UIkit.modal Error: Unsupported data type: ' + typeof content);
         }
 
-        content.appendTo(modal.element.find('.@-modal-dialog'));
+        content.appendTo(modal.element.find('.uk-modal-dialog'));
 
         return modal;
     }
 
-})(jQuery, UIkit);
+})(UIkit);

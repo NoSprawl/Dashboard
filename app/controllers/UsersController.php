@@ -8,8 +8,8 @@ class UsersController extends BaseController {
 	}
 
 	public function listAccountUsers() {
-		$this->layout->content = View::make('users.list');
-
+		$subusers = Auth::user()->subusers()->get();
+		$this->layout->content = View::make('users.list')->with('subusers', $subusers);
 	}
 
 }

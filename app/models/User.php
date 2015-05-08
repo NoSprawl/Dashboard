@@ -21,8 +21,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['password', 'remember_token'];
-	protected $fillable = ['password', 'name', 'avatar', 'email', 'username', 'full_name'];
+	protected $hidden = ['password', 'remember_token', 'user_id'];
+	protected $fillable = ['password', 'name', 'avatar', 'email', 'username', 'name', 'phone_number'];
 
 	public function integrations() {
 		return $this->hasMany('Integration');
@@ -30,6 +30,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function nodes() {
 		return $this->hasMany('Node', 'owner_id');
+	}
+	
+	public function subusers() {
+		return $this->hasMany('User', 'parent_user_id');
+	}
+	
+	public function alerts() {
+		return $this->hasMany('Alert', 'owner_user_id');
 	}
 
 }

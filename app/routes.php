@@ -36,4 +36,6 @@ Route::group(array('before' => 'auth'), function()
 	Route::resource('nodes', 'NodesController');
 	Route::post('keys', ['uses' => 'KeysController@upload', 'as' => 'upload_key']);
 	Route::post('/keyNamesFor/{integration_id}', ['uses' => 'IntegrationsController@getKeyNamesFor', 'as' => 'key_names_for_integration']);
+	Route::post('subuser', ['uses' => 'AuthController@createSubuser', 'as' => 'create_subuser']);
+	Route::post('alert', ['uses' => 'AlertsController@addAlert', 'as' => 'create_alert']);
 });

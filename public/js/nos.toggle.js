@@ -46,35 +46,6 @@ $('.switch label').click(function(ev) {
 	ev.preventDefault();
 });
 
-
-$('#new_alert').click(function(ev) {
-	$('body').addClass('overlay');
-	$('body').append('<div class="disabler"></div>');
-	$('.disabler').append('<div class="nos-modal"><h1>New Alert</h1><p></p><a class="uk-button uk-button-large uk-button-primary modal-out" href="#">Back to List</a><form><label></label></form></div>');
-	var that = this;
-	$('.disabler').click(function(click_event) {
-		$('.disabler').remove();
-		$('.nos-modal').removeClass('final');
-		$('body').removeClass('overlay');
-	});
-	
-	$('.nos-modal').click(function(click_event) {
-		return false;
-	});
-	
-	$('.modal-out').click(function(click_event) {
-		$('.disabler').click();
-		return false;
-	});
-	
-	setTimeout(function(ev) {
-		$(".nos-modal").addClass('final');
-	}, 1);
-	
-	ev.stopPropagation();
-	ev.preventDefault();
-});
-
 $(window.document).on('.nos-modal', 'click', function(click_event) {
 	return false;
 });
