@@ -54,14 +54,15 @@ class AmazonWebServicesIntegration extends CloudIntegration
 					
 					}
 					
+					$output = new Symfony\Component\Console\Output\ConsoleOutput();
+					
 	        array_push($nodes, array('service_provider_status' => $instance['State']['Name'],
 																	 'service_provider_base_image_id' => $instance['ImageId'],
 																	 'service_provider_id' => $instance['InstanceId'],
 																   'private_dns_name' => $instance['PrivateDnsName'],
 																   'public_dns_name' => $instance['PublicDnsName'],
 																   'network_interfaces' => $interfaces,
-																 	 'service_provider_cluster_id' => $sp_cluster_id,
-																 	 'node_count' => $integration->nodes->count()));
+																 	 'service_provider_cluster_id' => $sp_cluster_id));
 				}
 				
 			}

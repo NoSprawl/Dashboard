@@ -9,7 +9,7 @@
 	  	<tr>
 				<th width="70">Cloud</th>
 				<th width="110">Access Status</th>
-				<th width="160">Manage All</th>
+				<th width="190">Automatically Manage All</th>
 				<th>PEM Keys</th>
 				<th>Associated Nodes</th>
 				<th>Actions</th>
@@ -22,7 +22,10 @@
 						<?php
 						switch($integration['service_provider']) {
 							case "AmazonWebServicesIntegration":
-								print "<img style='top: 0px; position: relative;' src='/svg/aws.svg' width='50px'>";
+								print "<img style='top: 0px; position: relative;' src='/svg/aws.svg' width='53px'>";
+							break;
+							case "RackspaceCloudIntegration":
+								print "<img style='top: 3px; position: relative;' src='/svg/rackspace.svg' width='60px'>";
 							break;
 						}
 						?>
@@ -35,7 +38,7 @@
 						break;
 						
 						default:
-							print "<span class='stopped'></span><span class='statuslabel'>Stopped</span>";
+							print "<span class='stopped'></span><span class='statuslabel'>Unauthorized</span>";
 					}
 					?>
 					</td>

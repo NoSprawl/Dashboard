@@ -8,10 +8,10 @@
 		<thead>
 			<tr>
 				<th>User</th>
-				<th>Package</th>
-				<th>Node</th>
-				<th>Condition</th>
-				<th>Action</th>
+				<th>Package(s)</th>
+				<th>Node(s)</th>
+				<th>Trigger</th>
+				<th>Modify Alert</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -53,7 +53,7 @@
 $('#new_alert').click(function(ev) {
 	$('body').addClass('overlay');
 	$('body').append('<div class="disabler"></div>');
-	$('.disabler').append('<div class="nos-modal"><h1>New Alert</h1><form id="new_alert_form" class="uk-form" action="alert" method="post"><fieldset><div class="uk-form-row"><label class="uk-form-label">Who should be notified?</label><div class="uk-form-row"><select name="user"><?php foreach($users as $user) { ?><option value="<?= $user->id; ?>"><?= $user->name; ?></option><?php } ?></select></div></div><div class="uk-form-row"><label>When</label><div class="uk-form-row"><select name="value"><option value="1">New vulnerabilities are discovered</option><option value="2">Existing vulnerabilities are remedied</option></select></div><div class="uk-form-row"><label>On</label></div><select name="condition"><option value="-1">Any Managed Node</option><?php foreach($managed_nodes as $node) { ?><option value="<?= $node->id; ?>"><?= $node->hostname; ?></option><?php } ?> ?></select></div></fieldset><span style="display: block; height: 2px;"></span><a class="uk-button uk-button-large uk-button modal-out" href="#">Back to List</a><a onclick=\'$("#new_alert_form").submit()\' class="uk-button uk-button-large uk-button-success modal-out" href="#">Create Alert</a></form></div>');
+	$('.disabler').append('<div class="nos-modal"><h1><strong>New Alert</strong></h1><form id="new_alert_form" class="uk-form" action="alert" method="post"><fieldset><div class="uk-form-row"><label class="uk-form-label">Who should be notified?</label><div class="uk-form-row"><select name="user"><?php foreach($users as $user) { ?><option value="<?= $user->id; ?>"><?= $user->name; ?></option><?php } ?></select></div></div><div class="uk-form-row"><label>When</label><div class="uk-form-row"><select name="value"><option value="1">New vulnerabilities are discovered</option><option value="2">Existing vulnerabilities are remedied</option></select></div><div class="uk-form-row"><label>On</label></div><select name="condition"><option value="-1">Any Managed Node</option><?php foreach($managed_nodes as $node) { ?><option value="<?= $node->id; ?>"><?= $node->hostname; ?></option><?php } ?> ?></select></div></fieldset><span style="display: block; height: 2px;"></span><a class="uk-button uk-button-large uk-button modal-out" href="#">Back to List</a><a onclick=\'$("#new_alert_form").submit()\' class="uk-button uk-button-large uk-button-success modal-out" href="#">Create Alert</a></form></div>');
 	var that = this;
 	$('.disabler').click(function(click_event) {
 		$('.disabler').remove();

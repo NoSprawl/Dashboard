@@ -980,7 +980,7 @@ td {
 }
 
 .advice {
-	margin: 17px;
+	margin: 17px 17px 17px 0;
 	line-height: 7px;
 	font-size: 12px;
 }

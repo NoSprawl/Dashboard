@@ -1,13 +1,88 @@
 <?php
-class RackspaceCloudIntegration extends OpenStackIntegration {
-	public $fields = [['endpoint', 'Identity Endpoint', ['Rackspace::US_IDENTITY_ENDPOINT']], ['username', 'Rackspace Username'], ['api_key', 'Rackspace API Key']];
+use OpenCloud\Rackspace;
+
+class RackspaceCloudIntegration extends CloudIntegration {
+	public $fields = [['username', 'Rackspace Username'], ['api_key', 'API Key']];
 	
 	public $description = '<p>This Rackspace user must have at least read access to Cloud Servers. NoSprawl will perform the following operations:</p><ul><li>Getting list of Cloud Server instances</li><li>Get list of Base Images</li><li>Get list of Clusters</li></ul>';
 	
-	public function verifyAuthentication($access_key_id, $secret_access_key) {
+	public function verifyAuthentication($username, $api_key) {
 		$success = false;
+		try {
+			$client = new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, array(
+				'username' => $username,
+			  'apiKey' => $api_key,
+			));
+			
+			$computeService = $client->computeService(null, 'IAD');
+			$serverList = $computeService->serverList();
+			$success = true;
+		} catch(Exception $e) {
+			
+		}
 		
 		return $success;
+	}
+	
+	public function list_nodes() {
+		$success = false;
+		$integration = Integration::find($this->db_integration_id);
+		$nodes = [];
+		
+		//try {
+			$client = new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, array(
+				'username' => $integration->authorization_field_1,
+			  'apiKey' => $integration->authorization_field_2,
+			));
+			
+			$computeService = $client->computeService(null, 'IAD', 'publicURL');
+			$serverList = $computeService->serverList();
+			$output = new Symfony\Component\Console\Output\ConsoleOutput();
+			
+			foreach($serverList as $server) {
+				
+			
+				//foreach($networks as $networkk) {
+					//$output->writeln("here i come");
+					//$output->writeln(print_r($server->image->id));
+					//$output->writeln("that was it");
+					//}
+				
+				$public_dns = null;
+				
+				foreach($server->addresses->private as $pubdns) {
+					$public_dns = $pubdns;
+				}
+			
+				$private_dns = null;
+				
+				foreach($server->addresses->private as $pdns) {
+					$private_dns = $pdns;
+				}
+				
+				//$output->writeln(print_r($server->networks));
+				
+				$server_status = 'terminated';
+				if($server->status == 'ACTIVE') {
+					$server_status = 'running';
+				}
+				
+				array_push($nodes, array('service_provider_status' => $server_status,
+																 'service_provider_base_image_id' => $server->image->id,
+															 	 'service_provider_id' => $server->id,
+															 	 'private_dns_name' => $pdns->addr,
+															   'public_dns_name' => $pubdns->addr,
+															   'network_interfaces' => [],
+															   'service_provider_cluster_id' => null));
+			}
+			
+			
+			
+			//} catch(Exception $e) {
+			//$nodes = false;
+			//}
+		
+		return $nodes;
 	}
 	
 }

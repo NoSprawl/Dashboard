@@ -71,10 +71,16 @@ div.limbo {
 }
 </style>
 <article class="uk-article">
-	<h1 class="uk-article-title">Cloud Status</h1>
+	<h1 class="uk-article-title">Environment Status</h1>
 	<?php if(!empty($page_data['unmanaged_nodes']) || !empty($page_data['managed_nodes'])) { ?>
+	<?php if(!sizeof($page_data['unmanaged_nodes']) && !sizeof($page_data['managed_nodes'])) { ?>
+		<div class="advice">
+		<p>We can&rsquo;t see any of your nodes yet.</p>
+		<p>To start monitoring your nodes, either create a <a data-uk-modal="{target:'#new-integration-form'}" href="#">cloud provider connection</a> or <a href="#">deploy our agent</a> to one of your nodes.</p>
+		</div>
+	<?php } else { ?>
 	<ul class="uk-tab" data-uk-tab>
-	    <li class="<?php if(!sizeof($page_data['managed_nodes']) > 0) {echo 'uk-disabled';} ?>"><a rel='managed_nodes' href="#">
+	    <li class="<?php if(sizeof($page_data['unmanaged_nodes']) == 0) {echo 'uk-active';} ?><?php if(!sizeof($page_data['managed_nodes']) > 0) {echo 'uk-disabled';} ?>" <?php if(sizeof($page_data['unmanaged_nodes']) == 0) {echo ' aria-expanded=\'true\'';} ?>><a <?php if(sizeof($page_data['unmanaged_nodes']) == 0) {echo "class='uk-active' aria-expanded='true'";} ?> rel='managed_nodes' href="#">
 			<?php if(sizeof($page_data['managed_nodes']) > 0) { ?>
 			<div class="uk-badge uk-badge-success">
 			<?= sizeof($page_data['managed_nodes']); ?>
@@ -89,13 +95,7 @@ div.limbo {
 			<?php } ?>
 			Unmanaged Assets</a></li>
 	</ul>
-	<table id="unmanaged_nodes" class="uk-table">
-		<?php if(!sizeof($page_data['unmanaged_nodes']) && !sizeof($page_data['managed_nodes'])) { ?>
-			<div class="advice">
-			<p>We can&rsquo;t see any of your nodes yet.</p>
-			<p>To start monitoring your nodes, either create a <a data-uk-modal="{target:'#new-integration-form'}" href="#">cloud provider connection</a> or <a href="#">deploy our agent</a> to one of your nodes.</p>
-			</div>
-		<?php } else { ?>
+	<table id="unmanaged_nodes" class="uk-table" style="<?php if(sizeof($page_data['unmanaged_nodes']) == 0 && sizeof($page_data['managed_nodes']) != 0) {echo 'display: none;';} ?>">
 		<thead>
 	  	<tr>
 				<!--<th></th>-->
@@ -172,6 +172,9 @@ div.limbo {
 						case "AmazonWebServicesIntegration":
 							print "<img style='top: 0px; position: relative;' src='/svg/aws.svg' width='55px'>";
 						break;
+						case "RackspaceCloudIntegration":
+							print "<img style='top: 3px; position: relative;' src='/svg/rackspace.svg' width='66px'>";
+						break;
 					}
 					?>
 				</td>
@@ -181,10 +184,10 @@ div.limbo {
 		<?php } ?>
 		</tbody>
 	</table>
-	<table style="display: none;" id="managed_nodes" class="uk-table">
+	<table style="<?php if((sizeof($page_data['managed_nodes']) == 0)) {echo 'display: none;';} ?>" id="managed_nodes" class="uk-table">
 		<thead>
 	  	<tr>
-				<th>Attack Risk</th>
+				<th>Patch Health</th>
 				<th width="180">Cloud &amp; Platform</th>
 				<th>Last Patch</th>
 				<th>Base Image</th>
@@ -216,11 +219,11 @@ div.limbo {
 				<?php
 				switch($node->service_provider_status) {
 					case "stopped":
-						print "<span class='stopped'></span><span class='statuslabel'>Stopped</span>";
+						print "<span class='stopped'></span><span class='statuslabel'>At Risk</span>";
 					break;
 					
 					case "running":
-						print "<span class='running'></span><span class='statuslabel'>Running</span>";
+						print "<span class='running'></span><span class='statuslabel'>Healthy</span>";
 					break;
 					
 					case "terminated":
