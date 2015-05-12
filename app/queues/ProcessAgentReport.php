@@ -3,16 +3,39 @@
 class ProcessAgentReport {
 	public function fire($job, $data) {
 		$output = new Symfony\Component\Console\Output\ConsoleOutput();
-		$packages = $data['message']['pkginfo']['installed'];
-		$matches = DB::table('mac_addresses')->whereIn('address', $data['message']['network'])->get();
-				
-		$matched_node = null;
+		$output->writeln("This is it");
 		
-		if($matches) {
-			// Right now just looks for a single matching Mac address. This is troublesome because VMs will prob match VMs
-			// across clients and even within clients. Need private IP list + Mac list to really make this work.
-			if(sizeOf($matches) == 1) {
-				$node = Node::find(intval($matches[0]->node_id));
+		//return true;
+		$packages = $data['message']['pkginfo']['installed'];
+		//$matches = DB::table('ip_addresses')->whereIn('address', $data['message']['ips'])->get();
+		
+		$matched_public_ip = false;
+		$node = null;
+		
+		$matches = 0;
+		$ip_node_id_count = array();
+		
+		foreach($data['message']['ips'] as $server_report_ip) {
+			$db_ips = IPAddress::where('address', '=', $server_report_ip)->get();
+			foreach($db_ips as $db_ip) {
+				if(!isset($ip_node_id_count[$db_ip->node_id])) {
+					$ip_node_id_count[$db_ip->node_id] = 0;
+				} else {
+					$ip_node_id_count[$db_ip->node_id]++;
+				}
+				
+			}
+			
+		}
+		
+		ksort($ip_node_id_count);
+		
+		$node = Node::find(array_keys($ip_node_id_count)[0]);
+		
+		$output->writeln("hi");
+								
+		if($node) {
+			//if(sizeOf($matches) == 1) {
 				$node->managed = true;
 				$node->limbo = false;
 				$node->hostname = $data['message']['hostname'];
@@ -84,10 +107,10 @@ class ProcessAgentReport {
 				
 				$node->save();
 				
-			} else {
-				$output = new Symfony\Component\Console\Output\ConsoleOutput();
-				$output->writeln("facked ahp");
-			}
+				//} else {
+				//$output = new Symfony\Component\Console\Output\ConsoleOutput();
+				//$output->writeln("facked ahp");
+				//}
 			
 		}
 		

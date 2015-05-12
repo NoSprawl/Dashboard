@@ -80,14 +80,14 @@ div.limbo {
 		</div>
 	<?php } else { ?>
 	<ul class="uk-tab" data-uk-tab>
-	    <li class="<?php if(sizeof($page_data['unmanaged_nodes']) == 0) {echo 'uk-active';} ?><?php if(!sizeof($page_data['managed_nodes']) > 0) {echo 'uk-disabled';} ?>" <?php if(sizeof($page_data['unmanaged_nodes']) == 0) {echo ' aria-expanded=\'true\'';} ?>><a <?php if(sizeof($page_data['unmanaged_nodes']) == 0) {echo "class='uk-active' aria-expanded='true'";} ?> rel='managed_nodes' href="#">
+	    <li class="<?php if(sizeof($page_data['managed_nodes']) != 0) {echo 'uk-active';} else {echo 'uk-disabled';} ?>"<?php if(sizeof($page_data['unmanaged_nodes']) == 0 || sizeof($page_data['managed_nodes']) != 0) {echo ' aria-expanded=\'true\'';} ?>><a <?php if(sizeof($page_data['unmanaged_nodes']) == 0 || sizeof($page_data['managed_nodes']) != 0) {echo "class='uk-active' aria-expanded='true'";} else {echo "class='uk-disabled' aria-expanded='false'";} ?> rel='managed_nodes' href="#">
 			<?php if(sizeof($page_data['managed_nodes']) > 0) { ?>
 			<div class="uk-badge uk-badge-success">
 			<?= sizeof($page_data['managed_nodes']); ?>
 			</div>
 			<?php } ?>
 			Managed Assets</a></li>
-	    <li class="<?php if(!sizeof($page_data['unmanaged_nodes']) > 0) {echo 'uk-disabled';} else {echo 'uk-active';} ?>"><a href="#" rel="unmanaged_nodes">
+	    <li class="<?php if(!sizeof($page_data['unmanaged_nodes']) > 0) {echo 'uk-disabled';} if(sizeof($page_data['managed_nodes']) == 0) {echo 'uk-active';} ?>"><a class="<?php if(sizeof($page_data['unmanaged_nodes']) == 0) {echo 'uk-disabled';} else {echo 'uk-active';} ?>" href="#" rel="unmanaged_nodes">
 			<?php if(sizeof($page_data['unmanaged_nodes']) > 0) { ?>
 			<div data-uk-tooltip title="These nodes are not currently being monitored." class="uk-badge uk-badge-warning">
 			<?= sizeof($page_data['unmanaged_nodes']); ?>
@@ -95,7 +95,7 @@ div.limbo {
 			<?php } ?>
 			Unmanaged Assets</a></li>
 	</ul>
-	<table id="unmanaged_nodes" class="uk-table" style="<?php if(sizeof($page_data['unmanaged_nodes']) == 0 && sizeof($page_data['managed_nodes']) != 0) {echo 'display: none;';} ?>">
+	<table id="unmanaged_nodes" class="uk-table" style="<?php if(sizeof($page_data['unmanaged_nodes']) != 0 && sizeof($page_data['managed_nodes']) != 0) {echo 'display: none;';} ?>">
 		<thead>
 	  	<tr>
 				<!--<th></th>-->
@@ -236,6 +236,9 @@ div.limbo {
 					switch($integration->service_provider) {
 						case "AmazonWebServicesIntegration":
 							print "<img style='top: -1px; position: relative;' src='/svg/aws.svg' width='40px'>";
+						break;
+						case "RackspaceCloudIntegration":
+							print "<img style='top: 1px; position: relative;' src='/svg/rackspace.svg' width='50px'>";
 						break;
 					}
 				

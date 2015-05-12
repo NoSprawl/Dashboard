@@ -7,8 +7,10 @@ $('.switch label').click(function(ev) {
 		$("#" + $(this).attr('for')).trigger('click');
 	}
 	var t = $(this);
-	t.parent().parent().html('<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="limbo">Activating</div>');
-	
+
+	setTimeout(function(t) {
+		t.parent().parent().html('<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div><div class="limbo">Activating</div>');
+	}, 300);
 	
 	if($(this).data('integration') > -1) {
 	$.post("/node/placeInLimbo/" + $(this).attr('for').substring(14,1000) + "/" + $(this).data('integration'), function(response) {

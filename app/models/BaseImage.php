@@ -9,7 +9,7 @@ class BaseImage extends Eloquent {
 	 */
 	protected $table = 'base_images';
 
-	protected $fillable = ['rollback_index', 'service_provider_id', 'service_provider_label', 'service_provider', 'label'];
+	protected $fillable = ['rollback_index', 'service_provider_id', 'service_provider_label', 'service_provider', 'label', 'integration_id'];
 
 	public function integration() {
 		return $this->belongsTo('Integration', 'integration_id');

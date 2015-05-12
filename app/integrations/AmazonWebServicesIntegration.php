@@ -54,7 +54,19 @@ class AmazonWebServicesIntegration extends CloudIntegration
 					
 					}
 					
-					$output = new Symfony\Component\Console\Output\ConsoleOutput();
+					$all_ips = array();
+					
+					foreach($instance['NetworkInterfaces'] as $ni) {
+						array_push($all_ips, $ni['PrivateIpAddress']);
+						
+						if(isset($ni['Association'])) {
+							if(isset($ni['PublicIp'])) {
+								array_push($all_ips, $ni['PublicIp']);
+							}
+							
+						}
+						
+					}
 					
 	        array_push($nodes, array('service_provider_status' => $instance['State']['Name'],
 																	 'service_provider_base_image_id' => $instance['ImageId'],
@@ -62,7 +74,8 @@ class AmazonWebServicesIntegration extends CloudIntegration
 																   'private_dns_name' => $instance['PrivateDnsName'],
 																   'public_dns_name' => $instance['PublicDnsName'],
 																   'network_interfaces' => $interfaces,
-																 	 'service_provider_cluster_id' => $sp_cluster_id));
+																 	 'service_provider_cluster_id' => $sp_cluster_id,
+																	 'service_provider_ip_addresses' => $all_ips));
 				}
 				
 			}

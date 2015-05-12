@@ -6,6 +6,7 @@ class ReauthenticateAndRefreshNodeList {
 		$json_array = json_decode($data['message']);
 		$service_provider = new $json_array->service_provider();
 		
+		
 		# Ensure the integration still exists. If not, delete all the nodes and remove the job from the queue forever.
 		try {
 			$integration = Integration::findOrFail($json_array->db_integration_id);
@@ -58,9 +59,9 @@ class ReauthenticateAndRefreshNodeList {
 				
 				$node->save();
 				
-				foreach($service_provider_node['network_interfaces'] as $network_interface) {
-					$mac_address = MacAddress::firstOrNew(array('address' => strtoupper($network_interface), 'node_id' => $node->id));
-					$mac_address->save();					
+				foreach($service_provider_node['service_provider_ip_addresses'] as $service_provider_ip) {
+					$db_ip = IPAddress::firstOrNew(array('address' => $service_provider_ip, 'node_id' => $node->id));
+					$db_ip->save();					
 				}
 				
 			}

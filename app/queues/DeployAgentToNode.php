@@ -58,7 +58,12 @@ class DeployAgentToNode {
 			
 			foreach($usernames as $username) {
 				$cmdout = "";
-				$res = exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " '(curl http://agent.nosprawl.software/`curl http://agent.nosprawl.software/latest` > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
+				
+				if($username == "root") {
+					$res = exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " '(curl http://agent.nosprawl.software/`curl http://agent.nosprawl.software/latest` > nosprawl-installer.rb) && ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
+				} else {
+					$res = exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " '(curl http://agent.nosprawl.software/`curl http://agent.nosprawl.software/latest` > nosprawl-installer.rb) && ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
+				}
 				
 				// Detect if Ruby is installed.
 				foreach($cmdout as $outputline) {
@@ -69,7 +74,11 @@ class DeployAgentToNode {
 						foreach($possible_installers as $possible_installer) {
 							$installer_check_result = false;
 							$found = false;
-							exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " 'sudo " . $possible_installer . " -y install ruby'", $installer_check_output, $installer_result);
+							if($username == "root") {
+								exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " '" . $possible_installer . " -y install ruby'", $installer_check_output, $installer_result);
+							} else {
+								exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " 'sudo " . $possible_installer . " -y install ruby'", $installer_check_output, $installer_result);
+							}
 							
 							if(!$installer_result) {
 								return $job->release();	

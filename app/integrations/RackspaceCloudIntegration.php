@@ -44,13 +44,23 @@ class RackspaceCloudIntegration extends CloudIntegration {
 			
 				//foreach($networks as $networkk) {
 					//$output->writeln("here i come");
-					//$output->writeln(print_r($server->image->id));
+					//$output->writeln(print_r($server));
 					//$output->writeln("that was it");
 					//}
+					
+				$server_ips = [];
+					
+				foreach($server->addresses->public as $ip) {
+					array_push($server_ips, $ip->addr);
+				}
+				
+				foreach($server->addresses->private as $ip) {
+					array_push($server_ips, $ip->addr);
+				}
 				
 				$public_dns = null;
 				
-				foreach($server->addresses->private as $pubdns) {
+				foreach($server->addresses->public as $pubdns) {
 					$public_dns = $pubdns;
 				}
 			
@@ -59,8 +69,6 @@ class RackspaceCloudIntegration extends CloudIntegration {
 				foreach($server->addresses->private as $pdns) {
 					$private_dns = $pdns;
 				}
-				
-				//$output->writeln(print_r($server->networks));
 				
 				$server_status = 'terminated';
 				if($server->status == 'ACTIVE') {
@@ -73,7 +81,8 @@ class RackspaceCloudIntegration extends CloudIntegration {
 															 	 'private_dns_name' => $pdns->addr,
 															   'public_dns_name' => $pubdns->addr,
 															   'network_interfaces' => [],
-															   'service_provider_cluster_id' => null));
+															   'service_provider_cluster_id' => null,
+															 	 'service_provider_ip_addresses' => $server_ips));
 			}
 			
 			
