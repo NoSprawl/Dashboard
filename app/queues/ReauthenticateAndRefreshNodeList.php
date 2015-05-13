@@ -6,7 +6,6 @@ class ReauthenticateAndRefreshNodeList {
 		$json_array = json_decode($data['message']);
 		$service_provider = new $json_array->service_provider();
 		
-		
 		# Ensure the integration still exists. If not, delete all the nodes and remove the job from the queue forever.
 		try {
 			$integration = Integration::findOrFail($json_array->db_integration_id);

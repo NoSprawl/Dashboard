@@ -31,7 +31,7 @@ class AmazonWebServicesIntegration extends CloudIntegration
 			$res = $client->DescribeInstances();
 			$reservations = $res['Reservations'];
 			$success = [];
-			
+						
 			foreach($reservations as $reservation) {
 				$instances = $reservation['Instances'];
 				foreach ($instances as $instance) {

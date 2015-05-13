@@ -15,7 +15,9 @@ class DeployAgentToNode {
 			if($node->service_provider_status == "terminated") {
 				return $job->delete();
 			}
-						
+			
+			$output->writeln("checking if node is up " . $node->service_provider_status);
+			
 			// Make sure node is running
 			if($node->service_provider_status != "running") {
 				return $job->release();
@@ -24,6 +26,7 @@ class DeployAgentToNode {
 			
 			// If port 22 isn't open, requeue it and halt execution
 			try {
+				$output->writeln("trying to connect to port 22 on " . $node->public_dns_name);
 				$fp = fsockopen($node->public_dns_name , 22);
 				if (!$fp) {
 					return $job->release();
@@ -34,12 +37,14 @@ class DeployAgentToNode {
 			} catch(Exception $e) {
 				return $job->release();
 			}
-									
+			
+			$output->writeln("Was able to connect to port 22");
+						
 			// Keys are always stored on S3. This is the NoS account.
 			$s3 = \Aws\S3\S3Client::factory(array('key' => 'AKIAIUCV4E2L4HDCDOUA',
 																									   'secret' => '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',
 																									   'region' => 'us-east-1'));
-			$output->writeln(print_r($data['message']));
+			
 			$all_keys = Key::where('integration_id', '=', $data['message']['integration_id'])->get();
 			
 			foreach($all_keys as $pem_key_reference) {
@@ -53,7 +58,7 @@ class DeployAgentToNode {
 			
 			foreach($usernames as $username) {
 				$cmdout = "";
-				$res = exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o BatchMode=yes -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " '(curl http://agent.nosprawl.software/`curl http://agent.nosprawl.software/latest` > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
+				$res = exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " '(curl http://agent.nosprawl.software/`curl http://agent.nosprawl.software/latest` > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
 				
 				// Detect if Ruby is installed.
 				foreach($cmdout as $outputline) {

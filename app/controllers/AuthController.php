@@ -1,14 +1,54 @@
 <?php
 
-class AuthController extends Controller {
-
+class AuthController extends BaseController {
+	protected $layout = 'layouts.front';
+	
 	public function getRegistration() {
 
 		return View::make('registration');
 
 	}
 	
-	public function createSubuser() {
+	public function onboard($token)
+	{
+		$user = LimboUser::where('user_confirmation_token', $token)->first();
+		
+		if(count($user) > 0) {
+			$this->layout->content = View::make('onboard.main')->with('user', $user)->with('parent_user', User::find($user->parent_user_id));
+		} else {
+			return Redirect::to('/');
+		}
+		
+	}
+	
+	public function createSubuserInLimbo() {
+		$input = Input::all();
+		$rules = [
+			'full_name' => 'required',
+			'email' => 	'required|email|unique:users,email'
+		];
+		
+		$validator = Validator::make($input, $rules);
+		if($validator->passes()) {
+			$limbo_user = new LimboUser;
+			$limbo_user->email = $input['email'];
+			$limbo_user->name = $input['full_name'];
+			$limbo_user->parent_user_id = Auth::user()->id;
+			$limbo_user->user_confirmation_token = uniqid("", true);
+			$limbo_user->save();
+			Mail::queue('emails.auth.invitesubuser', [], function($message) use($limbo_user){
+				$message->to($input['email'])->subject('Please join ' + Auth::user()->company_name + '\'s NoSprawl account.');
+			});
+			
+			return Redirect::to('/users')->withMessage("Instructions Sent!");
+		} else {
+			return Redirect::to('register')->withErrors($validator);
+		}
+		
+	}
+	
+	public function postRegistrationFromSubuser() {
+		Auth::logout();
 		$input = Input::all();
 		$rules = [
 			'full_name' => 'required',
@@ -18,21 +58,38 @@ class AuthController extends Controller {
 		];
 		
 		$validator = Validator::make($input, $rules);
+		$user = null;
+		
+		$tempUser = LimboUser::where('user_confirmation_token', $input['user_confirmation_token'])->first();
+
+		if(sizeof($tempUser) == 0) {
+			return Redirect::back()->withMessage("Couldn't validate token.");
+		}
+		
+		$user = null;
+		
 		if($validator->passes()) {
+			$parent_u = User::find($tempUser->parent_user_id);
 			$user = new User;
 			$user->email = $input['email'];
 			$user->name = $input['full_name'];
 			$user->full_name = $input['full_name'];
 			$user->password = Hash::make($input['password']);
-			$user->parent_user_id = Auth::user()->id;
+			$user->parent_user_id = $parent_u->id;
+			$user->last_login = new DateTime;
+			$user->company_name = $parent_u->company_name;
 			$user->save();
-			Mail::queue('emails.auth.welcomesub', [], function($message) use($user){
+			Mail::queue('emails.auth.welcomeSubuser', [], function($message) use($user){
 				$message->to($user->email)->subject('Welcome to NoSprawl!');
 			});
 			
-			return Redirect::to('/users');
+			$tempUser->delete();
+			
+			Auth::login($user, true);
+			return Redirect::to('/');
+			
 		} else {
-			return Redirect::to('register')->withErrors($validator);
+			return Redirect::back()->withErrors($validator);
 		}
 		
 	}
@@ -53,6 +110,8 @@ class AuthController extends Controller {
 			$user = new User;
 			$user->email = $input['email'];
 			$user->name = $input['full_name'];
+			$user->full_name = $input['full_name'];
+			$user->company_name = $input['company_name'];
 			$user->password = Hash::make($input['password']);
 			$user->save();
 			

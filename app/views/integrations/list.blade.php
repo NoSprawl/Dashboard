@@ -25,7 +25,7 @@
 								print "<img style='top: 0px; position: relative;' src='/svg/aws.svg' width='53px'>";
 							break;
 							case "RackspaceCloudIntegration":
-								print "<img style='top: 3px; position: relative;' src='/svg/rackspace.svg' width='60px'>";
+								print "<img style='top: 3px; position: relative;' src='/svg/rackspace.svg' width='61px'>";
 							break;
 						}
 						?>
@@ -53,8 +53,8 @@
 					</td>
 					
 					
-					<td><a rel="<?= $integration['id']; ?>" class="key_manage" href="#">Manage Keys</a></td>
-					<td><?php echo $integration->node_count(); ?></td>
+					<td><a style="postion: relative; padding-top: 2px; display: block; font-size: .95em;" rel="<?= $integration['id']; ?>" class="key_manage" href="#"><i class="fa fa-key"></i> Manage Keys</a></td>
+					<td style="text-align: center;"><div style="position: relative; padding-top: 2px;"><?php echo $integration->node_count(); ?></div></td>
 					<td><a data-method="post" href="/integration/delete/<?php echo $integration['id'] ?>">Delete</a> | <a data-method="post" href="/integration/enqueueJobs/<?php echo $integration['id'] ?>">Check Queue</a></td>
 				</tr>
 			<?php } ?>
@@ -144,6 +144,11 @@
 				{{ Form::open(['url' => 'keys', 'class' => 'uk-form-stacked uk-form', 'id' => 'upload_key', 'files' => 'true']) }}
 			    <fieldset>
 		        <legend>Add a New Key</legend>
+		        <div class="uk-form-row">
+							<label class='uk-form-label'>Username (optional)</label>
+							{{ Form::text('name'); }}
+							<br />
+		        </div>
 		        <div class="uk-form-row">
 							<label class='uk-form-label'>Upload PEM</label>
 							{{ Form::file('key'); }}

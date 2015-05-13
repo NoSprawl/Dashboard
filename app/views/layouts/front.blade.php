@@ -33,7 +33,6 @@
 	        <li class="@section('integrations_link')@show">{{link_to_route('integrations', 'Cloud Integrations')}}</li>
 	        <li class="@section('alerts_link')@show">{{link_to_route('alerts', 'Alerts')}}</li>
 					<li class="@section('users_link')@show">{{link_to_route('users', 'Users')}}</li>
-					<li class="@section('settings_link')@show">{{link_to_route('settings', 'Settings')}}</li>
 				@endif
 	    	</ul>
 				<div class="uk-navbar-flip">
@@ -61,5 +60,46 @@
 	@section('scripts')
 	@show
 	</div>
+	<div id="node_details_modal_container">
+		<div id="node_details_modal">
+			<div id="node_details_modal_inner">
+				<div class="uk-grid">
+					<div class="uk-width-1-5" style="width: 27%;">
+						<h1 class="uk-article-title">Environment Details</h1>
+					</div>
+					<div class="uk-width-1-5" style="padding-top: 7px; width: 24%;">
+						<img style='top: -1px; position: relative;' src='/svg/aws.svg' width='70px'>
+						<span class="slash">/</span>
+						<span class="package_man">Linux</span>
+						<span class="slash">/</span>
+						<span class="package_man">Virtual</span>
+					</div>
+					<div class="uk-width-1-5" style="width: 16%;">
+						<div class="info_group">
+							<div class="title">Hostname</div>
+							<div class="info">nosprawl-www</div>
+						</div>
+					</div>
+					<div class="uk-width-1-5" style="width: 16%;">
+						<div class="info_group">
+							<div class="title">Last Patch</div>
+							<div class="info">nosprawl-www</div>
+						</div>
+					</div>
+					<div class="uk-width-1-5" style="width: 17%;">
+						<div class="info_group">
+							<div class="title">Base Image</div>
+							<div class="info">nosprawl-www</div>
+						</div>
+					</div>
+				</div>
+				<table class="uk-table">
+					<th>Patch Status</th>
+					<th>Package Name</th>
+					<th>Package</th>
+				</table>
+			</div>
+		</div>
+	</div
 </body>
 </html>

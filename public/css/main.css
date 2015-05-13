@@ -873,11 +873,6 @@ input {
 	line-height: 1.4em !important;
 }
 
-td.shift {
-	position: relative;
-	top: 3px;
-}
-
 html {
 	height: 100%;
 	width: 100%;
@@ -1019,4 +1014,116 @@ span.statuslabel {
 	left: 28px;
 	opacity: .8;
 	font-size: 11px;
+}
+
+#managed_nodes tr:hover td {
+	background: #eee;
+	cursor: pointer;
+}
+
+td.shift .td_wrap {
+	padding-top: 2px;
+}
+
+#node_details_modal_container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	display: none;
+	background: rgba(255,255,255,.2);
+}
+
+#node_details_modal_container #node_details_modal {
+	background: rgba(238,238,238,.75);
+	bottom: -10px;
+	margin-bottom: -1000px;
+	position: absolute;
+	height: 90%;
+	width: 1000px;
+	left: 50%;
+	margin-left: -500px;
+	border-radius: 8px;
+	-webkit-box-shadow: 0px 0px 20px rgba(0,0,0,.2);
+  -webkit-transition: margin-bottom .15s;
+  transition: margin-bottom .15s;
+	overflow: hidden;
+}
+
+#node_details_modal_container #node_details_modal #node_details_modal_inner {
+	padding: 20px;
+}
+
+body.overlay #node_details_modal_container {
+	display: block;
+}
+
+body.overlay #node_details_modal_container #node_details_modal {
+	margin-bottom: 0px;
+}
+
+#node_details_modal_container #node_details_modal .slash {
+	position: relative;
+	top: 2px;
+	font-size: 1em;
+}
+
+#node_details_modal_container #node_details_modal .package_man {
+	position: relative;
+	top: 2px;
+	font-size: 1em;
+}
+
+#node_details_modal_container #node_details_modal .hostname_info {
+	position: relative;
+	top: 4px;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#node_details_modal_container #node_details_modal span.statuslabel {
+	position: relative;
+	top: 22px;
+	left: 0px;
+	opacity: .8;
+	font-size: 11px;
+}
+
+#node_details_modal_container #node_details_modal #status_information_patch {
+	position: relative;
+	top: -20px;
+}
+
+#node_details_modal_container #node_details_modal #status_information_patch .statuslabel {
+	position: absolute;
+	font-size: 1em;
+	top: 25px;
+	right: 30px !important;
+	left: auto !important;
+	opacity: 1;
+}
+
+#node_details_modal_container #node_details_modal #status_information_patch .statusdot {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	border-radius: 20px;
+	left: auto;
+	right: 0;
+	top: 25px;
+}
+
+#node_details_modal_container .uk-article-title {
+	font-size: 1.8em;
+}
+
+#node_details_modal_container .info_group {
+	padding-top: 2px;
+	position: relative;
+}
+
+#node_details_modal_container .info_group .title {
+	color: rgba(0,0,0,.5);
+	font-style: italic;
+	font-weight: bold;
 }

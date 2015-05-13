@@ -8,8 +8,9 @@ class UsersController extends BaseController {
 	}
 
 	public function listAccountUsers() {
-		$subusers = Auth::user()->subusers()->get();
-		$this->layout->content = View::make('users.list')->with('subusers', $subusers);
+		$subusers = User::where('parent_user_id', Auth::user()->id)->get();
+		$limbo_subusers = LimboUser::where('parent_user_id', Auth::user()->id)->get();
+		$this->layout->content = View::make('users.list')->with('active_subusers', $subusers)->with('limbo', $limbo_subusers);
 	}
 
 }

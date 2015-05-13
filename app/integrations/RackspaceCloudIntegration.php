@@ -40,14 +40,6 @@ class RackspaceCloudIntegration extends CloudIntegration {
 			$output = new Symfony\Component\Console\Output\ConsoleOutput();
 			
 			foreach($serverList as $server) {
-				
-			
-				//foreach($networks as $networkk) {
-					//$output->writeln("here i come");
-					//$output->writeln(print_r($server));
-					//$output->writeln("that was it");
-					//}
-					
 				$server_ips = [];
 					
 				foreach($server->addresses->public as $ip) {

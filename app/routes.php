@@ -17,6 +17,9 @@ Route::get('logout', ['uses' => 'AuthController@getLogout', 'as' => 'signout']);
 Route::get('login', ['uses' => 'AuthController@getLogin', 'as' => 'signin']);
 Route::post('login', 'AuthController@postLogin');
 
+Route::get('/signup/{token}', ['uses' => 'AuthController@onboard', 'as' => 'onboard_user']);
+Route::post('/onboard', ['uses' => 'AuthController@postRegistrationFromSubuser', 'as' => 'finalize_onboard']);
+
 Route::group(array('before' => 'auth'), function()
 {
 	Route::get('/', ['uses' => 'CheckController@getCheck']); // This one is only here because I can't figure out how to define a default route that refers to another named route
@@ -36,6 +39,6 @@ Route::group(array('before' => 'auth'), function()
 	Route::resource('nodes', 'NodesController');
 	Route::post('keys', ['uses' => 'KeysController@upload', 'as' => 'upload_key']);
 	Route::post('/keyNamesFor/{integration_id}', ['uses' => 'IntegrationsController@getKeyNamesFor', 'as' => 'key_names_for_integration']);
-	Route::post('subuser', ['uses' => 'AuthController@createSubuser', 'as' => 'create_subuser']);
+	Route::post('subuser', ['uses' => 'AuthController@createSubuserInLimbo', 'as' => 'create_subuser']);
 	Route::post('alert', ['uses' => 'AlertsController@addAlert', 'as' => 'create_alert']);
 });

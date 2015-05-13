@@ -79,3 +79,9 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+// NoSprawl Stuff
+Event::listen('auth.login', function($user) {
+    $user->last_login = new DateTime;
+    $user->save();
+});

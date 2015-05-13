@@ -1,9 +1,22 @@
 @section('check_link') uk-active @stop
 
 @section('content')
+
 <style type="text/css">
 td {
 	height: 26px !important;
+}
+.trim {
+	width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.trim_long {
+	width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
 <style type="text/css">
@@ -95,7 +108,7 @@ div.limbo {
 			<?php } ?>
 			Unmanaged Assets</a></li>
 	</ul>
-	<table id="unmanaged_nodes" class="uk-table" style="<?php if(sizeof($page_data['unmanaged_nodes']) != 0 && sizeof($page_data['managed_nodes']) != 0) {echo 'display: none;';} ?>">
+	<table id="unmanaged_nodes" class="uk-table" style="<?php if(sizeof($page_data['managed_nodes']) != 0) {echo 'display: none;';} ?>">
 		<thead>
 	  	<tr>
 				<!--<th></th>-->
@@ -187,12 +200,12 @@ div.limbo {
 	<table style="<?php if((sizeof($page_data['managed_nodes']) == 0)) {echo 'display: none;';} ?>" id="managed_nodes" class="uk-table">
 		<thead>
 	  	<tr>
-				<th>Patch Health</th>
-				<th width="180">Cloud &amp; Platform</th>
-				<th>Last Patch</th>
-				<th>Base Image</th>
-				<th>Host Name</th>
-				<th>Installed Software</th>
+				<th width="100"><div class="trim_long">Patch Health</div></th>
+				<th width="180"><div class="trim_long">Cloud &amp; Platform</div></th>
+				<th><div class="trim_long">Last Patch</div></th>
+				<th><div class="trim_long">Base Image</div></th>
+				<th><div class="trim_long">Host Name</div></th>
+				<th><div class="trim_long">Installed Software</div></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -216,6 +229,7 @@ div.limbo {
 			?>
 			<tr class="<?= $service_provider_cluster_id; ?>">
 				<td>
+				<div class="td_wrap">
 				<?php
 				switch($node->service_provider_status) {
 					case "stopped":
@@ -231,8 +245,9 @@ div.limbo {
 					break;
 				}
 				?>
+				</div>
 				</td>
-					<td class="shift"><a id='integration-tooltip-<?= $node->id; ?>' href="#"><?php
+				<td class="shift"><a id='integration-tooltip-<?= $node->id; ?>' href="#"><div class="td_wrap trim_long"><?php
 					switch($integration->service_provider) {
 						case "AmazonWebServicesIntegration":
 							print "<img style='top: -1px; position: relative;' src='/svg/aws.svg' width='40px'>";
@@ -245,43 +260,32 @@ div.limbo {
 					print "<span class='slash'>/</span>";
 					print "<span class='package_man'>" . $node->platform . "</span>";
 					print "<span class='slash'>/</span>";
-					print "<span class='package_man'>" . $node->package_manager . "</span>";
-				?></a></td>
-				<td class="shift"><?php if($node->last_updated != "") {print $node->last_updated;} else {print "Never";} ?></td>
-				<td class="shift"><?= $node->service_provider_base_image_id; ?></td>
-				<td class="shift"><?= $node->hostname; ?></td>
+					print "<span class='package_man'>" . ($node->virtual ? "Virtual" : "Metal") . "</span>";
+				?></a></div></td>
+				<td class="shift"><div class="td_wrap trim_long"><?php if(is_int($node->last_updated)) {$dt = new DateTime($node->last_updated); echo $dt->format("m-d-Y H:i:s");} else {print "Never";} ?></div></td>
+				<td class="shift"><div class="td_wrap"><div class="trim"><?= $node->service_provider_base_image_id; ?></div></div></td>
+				<td class="shift"><div class="td_wrap trim_long"><?= $node->hostname; ?></div></td>
 				<td width="30%" class="shift">
+				<div class="td_wrap trim_long">
 				<?php $count = 0; ?>
-				<a class="trigger-node-info" data-node-id="<?= $node->id; ?>" href="#">
 				<?php foreach($node->packages as $package) { $count++; if ($count == 3) {break;} ?>
 				<strong><?= $package->name; ?></strong>
 				<?= $package->version; ?>
 				<?php } ?>
-				</a>
+				</div>
 				</td>
 			</tr>
 		<?php } ?>
 		</tbody>
 	</table>
 	<?php } ?>
-		
+	<script type="text/javascript">
+	$("#managed_nodes tr td").click(function(ev) {
+		$("body").addClass('overlay');
+	});
+	
+	</script>
 </article>
-
-<div id="node-info-modal" class="uk-modal">
-  <div class="uk-modal-dialog">
-  	<a class="uk-modal-close uk-close"></a>
-		<div class="uk-grid">
-			<div class="uk-width-1-2">
-				<div class="uk-panel uk-panel-box">
-					Hi
-				</div>
-		</div>
-		<div class="uk-width-1-2">
-			Hi
-		</div>
-  </div>
-</div>
-
 <script type="text/javascript" src="/js/nos.toggle.js"></script>
 <script type="text/javascript" src="/js/nos.tabs.js"></script>
 @stop
