@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'hello@nosprawl.com', 'name' => 'The NoSprawl Team'),
+	'from' => array('address' => 'stayup@nosprawl.com', 'name' => 'NoSprawl Cloud Support'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'mandrill@epiclabs.com',
+	'username' => 'mike@nosprawl.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => '1_X7aA5dRJdYzNtIw_nEcg',
+	'password' => '630EXw_aZEv7n4felPhA5g',
 
 	/*
 	|--------------------------------------------------------------------------

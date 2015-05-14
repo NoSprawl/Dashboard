@@ -83,12 +83,25 @@ class ProcessAgentReport {
 			
 			// DONT ROUND THE SCORE. MAKE THE FIELD A FLOAT.
 			// The use of round() here is really a disgrace.
+			
+			$might_alert_for = array();
+			
 			foreach($mongo_query as $document) {
 				$packages_index[$document['product']]->vulnerability_severity = round($document['risk_score']);
 				if(round($document['risk_score']) > 0) {
 					if(round($document['risk_score']) > 3) {
 						$node->vulnerable = true;
 					} else {
+						// See if any alerts need to go out. Severe only for now.
+						$alerts = Alert::where("owner_user_id", "=", $node->owner_id)->where("value", "=", 1)->get();
+						foreach($alerts as $alert) {
+							if(!isset($might_alert_for[$alert->user_id])) {
+								$might_alert_for[$alert->user_id] = array();
+							}
+							
+							array_push($might_alert_for, $document);
+						}
+						
 						$node->severe_vulnerable = true;
 					}
 					
@@ -97,6 +110,35 @@ class ProcessAgentReport {
 				
 				$packages_index[$document['product']]->save();
 			}
+			
+			//$output->writeln(print_r($might_alert_for));
+			
+			// Check to see if target user has been alerted about these particular issues before.
+			/*foreach($might_alert_for as $user_id, $list) {
+				foreach($list as $k, $list_item) {
+					$query = DB::table('sent_alerts')->where('node_id', '=', $node->id);
+					$query->where('package', '=', $list_item['product']);
+					$query->where('version', '=', $list_item['version']);
+					$count_result = $query->count();
+					if($count_result > 0) {
+						// If we've alerted before, remove this item from the list.
+						unset($might_alert_for[$user_id][$k]);
+					}
+					
+				}
+				
+			}
+			
+			foreach($might_alert_for as $user_id, $list) {
+				foreach($list as $k, $list_item) {
+					Mail::send('emails.alerts.vulnerable', $data, function($message) use ($list_item) {
+						$message->from("stayup@nosprawl.com", "NoSprawl Vulnerability Alerting");
+						$message->to(User::find($list_item['user_id'])->email, User::find($list_item['user_id'])->name)->subject('NoSprawl New Vulnerability Discovered');
+					});
+					
+				}
+				
+			}*/
 			
 			$job->delete();
 			
