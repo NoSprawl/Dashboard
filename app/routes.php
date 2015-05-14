@@ -41,4 +41,6 @@ Route::group(array('before' => 'auth'), function()
 	Route::post('/keyNamesFor/{integration_id}', ['uses' => 'IntegrationsController@getKeyNamesFor', 'as' => 'key_names_for_integration']);
 	Route::post('subuser', ['uses' => 'AuthController@createSubuserInLimbo', 'as' => 'create_subuser']);
 	Route::post('alert', ['uses' => 'AlertsController@addAlert', 'as' => 'create_alert']);
+	Route::post('packages_for_node/{id}', ['uses' => 'NodesController@listPackages', 'as' => 'node_packages']);
+	Route::post('vulnerability_info_for', ['uses' => 'NodesController@getVulnerabilityInfoFor', 'as' => 'vulnerability_info']);
 });

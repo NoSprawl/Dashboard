@@ -67,37 +67,49 @@
 					<div class="uk-width-1-5" style="width: 27%;">
 						<h1 class="uk-article-title">Environment Details</h1>
 					</div>
-					<div class="uk-width-1-5" style="padding-top: 7px; width: 24%;">
-						<img style='top: -1px; position: relative;' src='/svg/aws.svg' width='70px'>
+					<div class="uk-width-1-5" style="padding-top: 9px; width: 24%;">
+						<img id="i_sp_logo" style='top: -1px; position: relative;' src='/svg/aws.svg' width='70px'>
 						<span class="slash">/</span>
-						<span class="package_man">Linux</span>
+						<span class="package_man i_platform"></span>
 						<span class="slash">/</span>
-						<span class="package_man">Virtual</span>
+						<span class="package_man i_type"></span>
 					</div>
 					<div class="uk-width-1-5" style="width: 16%;">
 						<div class="info_group">
 							<div class="title">Hostname</div>
-							<div class="info">nosprawl-www</div>
+							<div class="info i_hostname"></div>
 						</div>
 					</div>
 					<div class="uk-width-1-5" style="width: 16%;">
 						<div class="info_group">
 							<div class="title">Last Patch</div>
-							<div class="info">nosprawl-www</div>
+							<div class="info i_last_patch"></div>
 						</div>
 					</div>
-					<div class="uk-width-1-5" style="width: 17%;">
+					<div class="uk-width-1-5" style="width: 15%; margin-left: -13px;">
 						<div class="info_group">
 							<div class="title">Base Image</div>
-							<div class="info">nosprawl-www</div>
+							<div class="info i_base_image trim"></div>
 						</div>
 					</div>
 				</div>
 				<table class="uk-table">
-					<th>Patch Status</th>
-					<th>Package Name</th>
-					<th>Package</th>
+					<thead>
+						<th style='text-align: center;'>Patch Status</th>
+						<th>Package Name</th>
+						<th>Upstream Version</th>
+					</thead>
+					<tbody>
+						
+					</tbody>
 				</table>
+				<div id="package_info_loading">
+					<div class="spinner">
+					  <div class="bounce1"></div>
+					  <div class="bounce2"></div>
+					  <div class="bounce3"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div

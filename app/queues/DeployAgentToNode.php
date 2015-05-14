@@ -49,15 +49,28 @@ class DeployAgentToNode {
 				exec('ssh-add /tmp/' . $unique_key_name);
 			}
 			
-			$usernames = ['ec2-user', 'ubuntu', 'root'];
+			$usernames = ['root', 'ec2-user', 'ubuntu'];
+			$dont_try_other_usernames = false;
 			
 			foreach($usernames as $username) {
+				if($dont_try_other_usernames) {
+					break;
+				}
+				
 				$cmdout = "";
 				$res = exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o BatchMode=yes -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " '(curl http://agent.nosprawl.software/`curl http://agent.nosprawl.software/latest` > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
 				
-				// Detect if Ruby is installed.
+				// See if we've found the correct username
 				foreach($cmdout as $outputline) {
-					if(strpos(strtolower($outputline), "command not found")) {
+					if(strpos(strtolower($outputline), "denied")) {
+						$dont_try_other_usernames = true;
+					}
+					
+				}
+				
+				foreach($cmdout as $outputline) {
+					// Detect if Ruby is installed.
+					if(strpos(strtolower($outputline), "not found")) {
 						// Ruby isn't installed. Let's install it.
 						$output->writeln("no ruby was found");
 						$possible_installers = ["yum", "apt-get"];

@@ -25,7 +25,7 @@ class Node extends Eloquent {
 	}
 	
 	public function packages() {
-		return $this->hasMany('Package');
+		return $this->hasMany('Package')->orderBy('vulnerability_severity', 'desc');
 	}
 
 }

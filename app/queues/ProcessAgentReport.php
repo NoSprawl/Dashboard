@@ -33,72 +33,75 @@ class ProcessAgentReport {
 			$node->last_updated = $data['message']['pkginfo']['last_updated'];
 			$node->package_manager = $data['message']['pkginfo']['package_manager'];
 			$node->platform = $data['message']['pkginfo']['platform'];
-			$matched_node = $node;
+			$node->save();
 			
 			$query_version_vendor_query_pairs = array();
 			$packages_index = array();
 			
 			foreach($packages as $package_version) {
 				$package_record = Package::firstOrNew(array('name' => $package_version[0], 'node_id' => $node->id));
+				
+				// Get rid of debian epochs
+				//https://ask.fedoraproject.org/en/question/6987/whats-the-meaning-of-the-number-which-appears-sometimes-when-i-use-yum-to-install-a-fedora-package-before-a-colon-at-the-beginning-of-the-name-of-the/
+				
+				$explode_epoch = explode(":", $package_version[1]);
+				if(isset($explode_epoch[1])) {
+					array_shift($explode_epoch);
+					$package_version[1] = implode(":", $explode_epoch);
+				}
+				
+				// Get rid of trailing periods. Note: Explore improving the regex on the agent because this really shouldn't happen but it does.
+				$package_version[1] = rtrim($package_version[1], ".");
+				
+				// Get rid of downstream versioning that comes from dpkg. This should definitely be done on the agent side
+				// because I am 99% sure this is a dpkg thing only. And I'm sure some ying yangs legit put dashes in version
+				// numbers.
+				$last_dash = strrpos($package_version[1], "-");
+				if($last_dash) {
+					$package_version[1] = substr($package_version[1], 0, $last_dash);
+				}
+				
 				$package_record->version = $package_version[1];
 				$package_record->save();
 				$packages_index[$package_record->name] = $package_record;
 				
-				// Set up query cache. Only one query per agent report. That is crucial.
+				// Set up query cache. Only one query per agent report. That is crucial. Multiple queries would kill everything.
 				array_push($query_version_vendor_query_pairs, array('$and' => array(array('product' => $package_record->name, 'version' => $package_record->version))));
 			}
-			
-			// REMOVE THIS!!!!!
-			// REMOVE THIS. THIS IS TO FORCE AT LEAST ONE RESULT
-			array_push($query_version_vendor_query_pairs, array('$and' => array(array('product' => 'freebsd', 'version' => '2.2.4'))));
-			// REMOVE THE ABOVE. IT IS TO FORCE THE RESULT FOR AN ALERT
-			// REMOVE THIS!!!!!
 			
 			// Do one giant query. Not one per record.
 			$mongo_client = new MongoClient('mongodb://php_worker3:shadowwood@linus.mongohq.com:10026/nosprawl_vulnerabilities');
 			$mongo_database = $mongo_client->selectDB('nosprawl_vulnerabilities');
 			$mongo_collection = new MongoCollection($mongo_database, 'vulnerabilities');
-			$mongo_query = $mongo_collection->find(array('$or' => $query_version_vendor_query_pairs));
-			
-			$vulnerabilities_found = false;
-			$serious_vulnerabilities_found = false;
+			$mongo_query = $mongo_collection->find(array('$or' => $query_version_vendor_query_pairs))->timeout(9999999);
 			
 			// This is where we actually do something.
+			// for some reason if i do a sort the query is so slow it times out
+			//$mongo_query->sort(array('last_updated' => 1));
 			
-			/*$mongo_query->sort(array('last_updated' => 1));
-			$last_document = null;
+			// This won't work right if there are multiple vulnerabilties that match the prod and version.
 			
-			
+			// DONT ROUND THE SCORE. MAKE THE FIELD A FLOAT.
+			// The use of round() here is really a disgrace.
 			foreach($mongo_query as $document) {
-				$vulnerabilities_found = true;
-				if($document['risk_score'] > 2) {
-					$serious_vulnerabilities_found = true;
+				$packages_index[$document['product']]->vulnerability_severity = round($document['risk_score']);
+				if(round($document['risk_score']) > 0) {
+					if(round($document['risk_score']) > 3) {
+						$node->vulnerable = true;
+					} else {
+						$node->severe_vulnerable = true;
+					}
+					
+					$node->save();
 				}
 				
-				$last_document = $oducment;
+				$packages_index[$document['product']]->save();
 			}
 			
-			$last_updated_packages[$last_document['product']]->vulnerability_severity = $last_document['product'];
-			$last_updated_packages[$last_document['product']]->save();
-			
-			$old_vulnerable = $node->vulnerable;
-			$old_severe_vulnerable = $node->severe_vulnerable;
-			
-			$node->vulnerable = $vulnerabilities_found;
-			$node->severe_vulnerable = $serious_vulnerabilities_found;
-			
-			// Has this node's vulnerability state changed?
-			if($node->vulnerable != $old_vulnerable || $node->severe_vulnerable != $old_severe_vulnerable) {
-				if(!$node->vulnerable && !$node->severe_vulnerable) {
-					Queue::push('NodeIsHealthy', array('message' => $node->toJson()));
-				} else {
-					Queue::push('NodeIsVulnerable', array('message' => $node->toJson()));
-				}
-			}*/
-			
-			$node->save();
 			$job->delete();
 			
+		} else {
+			$output->writeln(print_r("fuck"));
 		}
 		
 	}

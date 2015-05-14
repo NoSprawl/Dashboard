@@ -30,6 +30,24 @@ class NodesController extends \BaseController {
 	}
 
 
+	public function listPackages($node_id) {
+		$packages = Node::find($node_id)->packages()->get();
+		$items_for_vulnerability_query = array();
+		return Response::json(array('packages' => $packages));
+	}
+	
+	public function getVulnerabilityInfoFor() {
+		$input = Input::only('product', 'upstream_version');
+		$mongo_client = new MongoClient('mongodb://php_worker3:shadowwood@linus.mongohq.com:10026/nosprawl_vulnerabilities');
+		$mongo_database = $mongo_client->selectDB('nosprawl_vulnerabilities');
+		$mongo_collection = new MongoCollection($mongo_database, 'vulnerabilities');
+		$vulnerability_doc = $mongo_collection->findOne(array('product' => $input['product'], 'version' => $input['upstream_version']));
+		if($vulnerability_doc) {
+			return Response::json($vulnerability_doc);
+		}
+		return Response::json();
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
