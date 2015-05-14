@@ -18,7 +18,6 @@ class NodesController extends \BaseController {
 	public function index()
 	{
 		$nodes = Auth::user()->nodes;
-
 		Return View::make('nodes.main')->with('nodes', $nodes);
 	}
 	
@@ -45,6 +44,7 @@ class NodesController extends \BaseController {
 		if($vulnerability_doc) {
 			return Response::json($vulnerability_doc);
 		}
+		
 		return Response::json();
 	}
 

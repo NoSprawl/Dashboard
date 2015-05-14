@@ -200,7 +200,7 @@ div.limbo {
 	<table style="<?php if((sizeof($page_data['managed_nodes']) == 0)) {echo 'display: none;';} ?>" id="managed_nodes" class="uk-table">
 		<thead>
 	  	<tr>
-				<th width="100"><div class="trim_long">Patch Health</div></th>
+				<th width="100"><div class="trim_long">Patch Risk</div></th>
 				<th width="180"><div class="trim_long">Cloud &amp; Platform</div></th>
 				<th><div class="trim_long">Last Patch</div></th>
 				<th><div class="trim_long">Base Image</div></th>
@@ -231,19 +231,17 @@ div.limbo {
 				<td class="node_status">
 				<div class="td_wrap">
 				<?php
-				switch($node->service_provider_status) {
-					case "stopped":
-						print "<span class='stopped'></span><span class='statuslabel'>At Risk</span>";
-					break;
+				if($node->vulnerable) {
+					if(!$node->severe_vulnerable) {
+						print "<span class='stopped'></span><span class='statuslabel'>Low Risk</span>";
+					} else {
+						print "<span class='stopped'></span><span class='statuslabel'>High Risk</span>";
+					}
 					
-					case "running":
-						print "<span class='running'></span><span class='statuslabel'>Healthy</span>";
-					break;
-					
-					case "terminated":
-						print "<span class='terminated'></span>";
-					break;
+				} else {
+					print "<span class='running'></span><span class='statuslabel'>Healthy</span>";
 				}
+				
 				?>
 				</div>
 				</td>
