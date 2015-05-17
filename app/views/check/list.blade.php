@@ -266,7 +266,7 @@ div.limbo {
 				<td width="30%" class="shift node_packages">
 					<div class="td_wrap trim_long">
 					<?php $count = 0; ?>
-					<?php foreach($node->packages as $package) { $count++; if ($count == 3) {break;} ?>
+					<?php foreach($node->packages as $package) { $count++; if ($count == 2) {break;} ?>
 					<strong><?= $package->name; ?></strong>
 					<?= $package->version; ?>
 					<?php } ?>...

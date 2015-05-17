@@ -65,10 +65,11 @@ return array(
 
 		'pgsql' => array(
 			'driver'   => 'pgsql',
-			'host'     => 'localhost',
-			'database' => 'nosprawl',
-			'username' => 'mkeen',
-			'password' => '',
+			'host'     => 'aws-us-east-1-portal.4.dblayer.com',
+			'database' => 'compose',
+			'username' => 'admin',
+			'password' => 'CIYVICKZYJBBXUAR',
+			'port'     => 10122,
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
