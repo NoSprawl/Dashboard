@@ -253,7 +253,7 @@ select {
 				$("#select_starter").click(function(ev) {
 					$(".plan.feature").removeClass('feature');
 					$(".uk-button-primary").removeClass('uk-button-primary');
-					$("select[name='plan']").val("nosprawl-<?php if(App::isLocal()) {echo 'test'} else {echo 'live'} ?>-starter");
+					$("select[name='plan']").val("nosprawl-<?php if(App::isLocal()) {echo 'test';} else {echo 'live';} ?>-starter");
 					$(".plan").first().addClass('feature');
 					$("#select_starter").addClass('uk-button-primary');
 					$("#total_due_today").html("<strong>$0.00</strong>");
@@ -263,7 +263,7 @@ select {
 				$("#select_business").click(function(ev) {
 					$(".plan.feature").removeClass('feature');
 					$(".uk-button-primary").removeClass('uk-button-primary');
-					$("select[name='plan']").val("nosprawl-<?php if(App::isLocal()) {echo 'test'} else {echo 'live'} ?>-business");
+					$("select[name='plan']").val("nosprawl-<?php if(App::isLocal()) {echo 'test';} else {echo 'live';} ?>-business");
 					plans = $(".plan");
 					$(plans[1]).addClass('feature');
 					$("#select_business").addClass('uk-button-primary');
