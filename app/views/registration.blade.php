@@ -212,7 +212,7 @@ select {
 					    var $form = $(this);
 					    $form.find('input.submit').prop('disabled', true);
 					    Stripe.card.createToken($form, function(status, response) {
-					    	$('form').append('<input type="hidden" name="stripe_token" value="' + response['id'] + '">');
+					    	$('form').append('<input type="hidden" name="stripe_token" value="' + response["id"] + '">');
 								if("error" in response) {
 									$form.find('input.submit').prop('disabled', false);
 									if(response.error.code == 'invalid_number') {
