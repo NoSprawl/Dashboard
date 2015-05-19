@@ -42,6 +42,8 @@ class DeployAgentToNode {
 			$output->writeln(print_r($data['message']));
 			$all_keys = Key::where('integration_id', '=', $data['message']['integration_id'])->get();
 			
+			$unique_key_name = null;
+			
 			foreach($all_keys as $pem_key_reference) {
 				$unique_key_name = rand(0,9999) . $pem_key_reference->remote_url;
 				$s3->getObject(array('Bucket' => 'keys.nosprawl.software', 'Key' => $pem_key_reference->remote_url, 'SaveAs' => '/tmp/' . $unique_key_name));
