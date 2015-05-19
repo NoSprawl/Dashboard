@@ -111,7 +111,7 @@ class AuthController extends BaseController {
 			$user->email = $input['email'];
 			$user->name = $input['full_name'];
 			$user->full_name = $input['full_name'];
-			$user->company_name = $input['company_name'];
+			$user->company_name = $input['company'];
 			$user->password = Hash::make($input['password']);
 			$user->save();
 			
