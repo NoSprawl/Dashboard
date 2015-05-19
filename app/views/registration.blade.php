@@ -187,7 +187,7 @@ select {
 
 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 	<script>
-	jQuery(document).ready(function () { 
+	$(function (ev) { 
 
 		var nsRegistration = {
 
@@ -204,7 +204,7 @@ select {
 			
 				// This identifies your website in the createToken call below
 				  //Stripe.setPublishableKey('{{ Config::get("stripe.stripe.public") }}');
-				  Stripe.setPublishableKey('<?= Config::get("stripe.public"); ?>');
+				  Stripe.setPublishableKey('<?= Config::get("stripe.stripe.public"); ?>');
 					$(function() {
 					  $('form').submit(function(event) {
 							$("input").removeClass('uk-form-danger')
