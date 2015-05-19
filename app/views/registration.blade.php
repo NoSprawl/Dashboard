@@ -59,7 +59,7 @@ select {
 		</fieldset>
 		<br />{{-- @TODO style this so a br isn't necessary --}}
 		<fieldset>
-			{{ Form::select('plan', ['nosprawl-<?php if(App::isLocal()) {echo 'test';} else {echo 'live';} ?>-business' => 'Business', 'nosprawl-<?php if(App::isLocal()) {echo 'test';} else {echo 'live';} ?>-starter' => 'Starter']) }}
+			<?php Form::select('plan', ['nosprawl-' . (App::isLocal() ? 'test' : 'live') . '-business' => 'Business', 'nosprawl-' . (App::isLocal() ? 'test' : 'live') . '-starter' => 'Starter']) ?>
 			<legend>Pick a Plan</legend>
 			<div class="pricing uk-grid uk-grid-preserve">
 				<div class="uk-width-1-3">
