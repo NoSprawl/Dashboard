@@ -48,7 +48,7 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'aws-us-east-1-portal.4.dblayer.com',
-			'database' => 'nosprawl_production_db_1',
+			'database' => 'nosprawl_prod',
 			'username' => 'admin',
 			'password' => 'CIYVICKZYJBBXUAR',
 			'port'     => 10122,
