@@ -33,7 +33,7 @@ return array(
 			'driver' => 'sqs',
 			'key'    => 'AKIAJS5YYIOIIT3XI2EA',
 			'secret' => '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',
-			'queue'  => 'https://sqs.us-east-1.amazonaws.com/480589117377/nosprawl-sqs-va',
+			'queue'  => 'https://sqs.us-east-1.amazonaws.com/480589117377/nosprawl_agents',
 			'region' => 'us-east-1',
 		)
 
