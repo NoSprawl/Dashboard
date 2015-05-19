@@ -203,8 +203,7 @@ select {
 			stripeStuff: function() {
 			
 				// This identifies your website in the createToken call below
-				  //Stripe.setPublishableKey('{{ Config::get("stripe.stripe.public") }}');
-				  Stripe.setPublishableKey('<?= Config::get("stripe.stripe.public"); ?>');
+				  Stripe.setPublishableKey('{{ Config::get("stripe.stripe.public") }}');
 					$(function() {
 					  $('form').submit(function(event) {
 							$("input").removeClass('uk-form-danger')
