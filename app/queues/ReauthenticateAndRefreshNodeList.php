@@ -59,7 +59,7 @@ class ReauthenticateAndRefreshNodeList {
 				$node->save();
 				
 				foreach($service_provider_node['service_provider_ip_addresses'] as $service_provider_ip) {
-					$db_ip = IPAddress::firstOrNew(array('address' => $service_provider_ip, 'node_id' => $node->id));
+					$db_ip = IpAddress::firstOrNew(array('address' => $service_provider_ip, 'node_id' => $node->id));
 					$db_ip->save();					
 				}
 				
