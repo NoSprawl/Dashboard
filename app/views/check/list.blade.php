@@ -205,7 +205,7 @@ div.limbo {
 				<th><div class="trim_long">Last Patch</div></th>
 				<th><div class="trim_long">Base Image</div></th>
 				<th><div class="trim_long">Host Name</div></th>
-				<th><div class="trim_long">Installed Software</div></th>
+				<th><div class="trim_long">Classification Tags</div></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -265,11 +265,7 @@ div.limbo {
 				<td class="node_hostname shift"><div class="td_wrap trim_long"><?= $node->hostname; ?></div></td>
 				<td width="30%" class="shift node_packages">
 					<div class="td_wrap trim_long">
-					<?php $count = 0; ?>
-					<?php foreach($node->packages as $package) { $count++; if ($count == 2) {break;} ?>
-					<strong><?= $package->name; ?></strong>
-					<?= $package->version; ?>
-					<?php } ?>...
+						<div class="uk-badge uk-badge-success nos-deletable"><div class="remove"><i class="fa fa-times"></i></div>GRC</div>
 					</div>
 				</td>
 			</tr>
@@ -335,6 +331,13 @@ div.limbo {
 	$(document).on('mouseleave', '.vuln_info', function(ev) {
 		$(this).removeClass('active');
 		$(".info_bubble", $(this)).remove();
+	});
+	
+	$(document).on('click', '.nos-deletable .remove', function(ev) {
+		alert("fuck yeah")
+		ev.preventDefault();
+		ev.stopPropagation();
+		ev.stopImmediatePropagation();
 	})
 	</script>
 </article>
