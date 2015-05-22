@@ -282,7 +282,7 @@ div.limbo {
 		$("#node_details_modal_container #node_details_modal .i_base_image").html($('td.node_base_image_id', table_row).text());
 		$("#node_details_modal_container #node_details_modal .i_platform").html($('.t_platform', table_row).text());
 		$("#node_details_modal_container #node_details_modal .i_type").html($('.t_type', table_row).text());
-		$("#node_details_modal_container #node_details_modal #i_sp_logo").replaceWith($('.i_sp_logo', table_row).clone());
+		$("#node_details_modal_container #node_details_modal #i_sp_logo").replaceWith($('.i_sp_logo', table_row).clone().attr('id', 'i_sp_logo'));
 		$("#node_details_modal_container #node_details_modal .i_sp_logo").attr('width', parseInt($("#node_details_modal_container #node_details_modal .i_sp_logo").attr('width')) + 30);
 		$("table tbody", $("#node_details_modal_inner")).html("");
 		$("body").addClass('overlay2');
