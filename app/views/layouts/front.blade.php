@@ -20,6 +20,11 @@
 	@if(Session::has('message'))
 	<p class="alert alert-info">{{ Session::get('message') }}</p>
 	@endif
+	<ul id="groups_panel">
+		<li class="add-new"><div class="divved"><span>New Group</span><i class="fa fa-plus"></i><input type="text" placeholder="Group Name"><i class="fa fa-check-circle"></i></div></li>
+		<li><div class="divved">Big Hello</div></li>
+		<li><div class="divved">Group Name</div></li>
+	</ul>
 	<div id="whole-bird">
 	@section('header')
 		<header>
@@ -112,6 +117,6 @@
 				</div>
 			</div>
 		</div>
-	</div
+	</div>
 </body>
 </html>

@@ -108,41 +108,23 @@ div.limbo {
 		<?php } ?>
 		Unmanaged Assets</a></li>
 	</ul>
-	<table id="unmanaged_nodes" class="uk-table" style="<?php if(sizeof($page_data['managed_nodes']) != 0) {echo 'display: none;';} ?>">
-		<thead>
-	  	<tr>
-				<!--<th></th>-->
-				<th>Patch Management</th>
-				<th>Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-				<th>Cloud</th>
-				<th>Cluster</th>
-				<th>Description</th>
-			</tr>
-		</thead>
-		<?php } ?>
-		<tbody>
-		<?php $custom_css_for_clusters = array(); ?>
+	
+	<div id="unmanaged_nodes" class="nos-hidable" style="<?php if(sizeof($page_data['managed_nodes']) != 0) {echo 'display: none;';} ?>">
+		<div class="uk-grid uk-grid-collapse nos-title-row">
+	    <div class="uk-width-1-6">Patch Management</div>
+	    <div class="uk-width-1-6">Node Status</div>
+			<div class="uk-width-1-6">Cloud Integration</div>
+			<div class="uk-width-1-6">Cluster</div>
+			<div class="uk-width-2-6">Network Info</div>
+		</div>
+		
 		<?php foreach($page_data['unmanaged_nodes'] as $node) { ?>
 			<?php $integration = Integration::find($node->integration_id); ?>
 			<?php $service_provider_cluster_id = (empty($node->service_provider_cluster_id)) ? 'None' : $node->service_provider_cluster_id; ?>
 			<?php $service_provider_description = ($node->description == " ") ? 'None' : $node->description; ?>
-			<?php
-			if(!in_array($service_provider_cluster_id, $custom_css_for_clusters)) {
-				$color = array_shift($page_data['cluster_colors']);
-				if($service_provider_cluster_id != 'None') {
-			?>
-			<style type='text/css'>
-			tr.<?= $service_provider_cluster_id; ?> td { border: none !important; }
-			tr.<?= $service_provider_cluster_id; ?> td { background: #<?= $color; ?>; }
-			</style>
-			<?php
-				}
-				array_push($custom_css_for_clusters, $color);
-			}
-			?>
-			<tr class="<?= $service_provider_cluster_id; ?>">
-				<!--<td><span class="handle"></span></td>-->
-				<td width="140" class="spinner_holder">
+			
+			<div class="uk-grid uk-grid-collapse nos-row">
+				<div class="uk-width-1-6 spinner_holder">
 				<?php if($node->service_provider_status != "terminated") { ?>
 					<?php if(!$node->limbo) { ?>
 					<div class="switch switch-yellow">
@@ -161,25 +143,25 @@ div.limbo {
 					<div class="limbo">Activating</div>
 					<?php } ?>
 				<?php } ?>
-				</td>
-				<td>
+				</div>
+				<div class="uk-width-1-6" style="position: relative;">
 					<?php
 					switch($node->service_provider_status) {
 						case "stopped":
 							print "<span class='stopped'></span><span class='statuslabel'>Stopped</span>";
 						break;
-						
+					
 						case "running":
 							print "<span class='running'></span><span class='statuslabel'>Running</span>";
 						break;
-						
+					
 						case "terminated":
 							print "<span class='terminated'></span><span class='statuslabel'>Terminated</span>";
 						break;
 					}
 					?>
-				</td>
-				<td>
+				</div>
+				<div class="uk-width-1-6">
 					<?php
 					switch($integration['service_provider']) {
 						case "AmazonWebServicesIntegration":
@@ -190,62 +172,46 @@ div.limbo {
 						break;
 					}
 					?>
-				</td>
-				<td class="shift"><?= $service_provider_cluster_id; ?></td>
-				<td class="shift"><?= $service_provider_description; ?></td>
-			</tr>
-		<?php } ?>
-		</tbody>
-	</table>
-	<table style="<?php if((sizeof($page_data['managed_nodes']) == 0)) {echo 'display: none;';} ?>" id="managed_nodes" class="uk-table">
-		<thead>
-	  	<tr>
-				<th width="100"><div class="trim_long">Patch Risk</div></th>
-				<th width="180"><div class="trim_long">Cloud &amp; Platform</div></th>
-				<th><div class="trim_long">Last Patch</div></th>
-				<th><div class="trim_long">Base Image</div></th>
-				<th><div class="trim_long">Host Name</div></th>
-				<th><div class="trim_long">Classification Tags</div></th>
-			</tr>
-		</thead>
-		<tbody>
-		<?php foreach($page_data['managed_nodes'] as $node) { ?>
-			<?php $integration = Integration::find($node->integration_id); ?>
-			<?php $service_provider_cluster_id = (empty($node->service_provider_cluster_id)) ? 'None' : $node->service_provider_cluster_id; ?>
-			<?php $service_provider_description = ($node->description == " ") ? 'None' : $node->description; ?>
-			<?php
-			if(!in_array($service_provider_cluster_id, $custom_css_for_clusters)) {
-				$color = array_shift($page_data['cluster_colors']);
-				if($service_provider_cluster_id != 'None') {
-			?>
-			<style type='text/css'>
-			tr.<?= $service_provider_cluster_id; ?> td { border: none !important; }
-			tr.<?= $service_provider_cluster_id; ?> td { background: #<?= $color; ?>; }
-			</style>
-			<?php
-				}
-				array_push($custom_css_for_clusters, $color);
-			}
-			?>
-			<tr rel="<?= $node->id; ?>" class="<?= $service_provider_cluster_id; ?>">
-				<td class="node_status">
-				<div class="td_wrap">
-				<?php
-				if($node->vulnerable) {
-					if(!$node->severe_vulnerable) {
-						print "<span class='stopped'></span><span class='statuslabel'>Low Risk</span>";
-					} else {
-						print "<span class='stopped'></span><span class='statuslabel'>High Risk</span>";
-					}
-					
-				} else {
-					print "<span class='running'></span><span class='statuslabel'>Healthy</span>";
-				}
-				
-				?>
 				</div>
-				</td>
-				<td class="shift node_cloud_provider"><a id='integration-tooltip-<?= $node->id; ?>' href="#"><div class="td_wrap trim_long"><?php
+				<div class="uk-width-1-6"><?= $service_provider_cluster_id; ?></div>
+				<div class="uk-width-2-6"><div class="trim_long"><?= $service_provider_description; ?></div></div>
+			</div>
+		<?php } ?>
+	</div>
+	<?php } ?>
+	
+	<div id="managed_nodes" class="nos-hidable" style="<?php if((sizeof($page_data['managed_nodes']) == 0)) {echo 'display: none;';} ?>">
+		<div class="uk-grid uk-grid-collapse nos-title-row">
+	    <div class="uk-width-1-6">Patch Risk</div>
+	    <div class="uk-width-1-6">Cloud &amp; Platform</div>
+			<div class="uk-width-1-6">Last Patch</div>
+			<div class="uk-width-1-6">Base Image</div>
+			<div class="uk-width-1-6">Host Name</div>
+			<div class="uk-width-1-6">Classification Tags</div>
+		</div>
+	
+	<?php foreach($page_data['managed_nodes'] as $node) { ?>
+		<?php $integration = Integration::find($node->integration_id); ?>
+		<?php $service_provider_cluster_id = (empty($node->service_provider_cluster_id)) ? 'None' : $node->service_provider_cluster_id; ?>
+		<?php $service_provider_description = ($node->description == " ") ? 'None' : $node->description; ?>
+		<div class="uk-grid uk-grid-collapse nos-row nos-activatable" rel="<?= $node->id; ?>" class="<?= $service_provider_cluster_id; ?>">
+			<div class="uk-width-1-6 node_status">
+			<?php
+			if($node->vulnerable) {
+				if(!$node->severe_vulnerable) {
+					print "<span class='stopped'></span><span class='statuslabel'>Low Risk</span>";
+				} else {
+					print "<span class='stopped'></span><span class='statuslabel'>High Risk</span>";
+				}
+			
+			} else {
+				print "<span class='running'></span><span class='statuslabel'>Healthy</span>";
+			}
+		
+			?>
+			</div>
+			<div class="uk-width-1-6 node_cloud_provider">
+				<a class="nos-integration-info trim_long" id='integration-tooltip-<?= $node->id; ?>' href="#"><?php
 					switch($integration->service_provider) {
 						case "AmazonWebServicesIntegration":
 							print "<img class='i_sp_logo' style='top: -1px; position: relative;' src='/svg/aws.svg' width='40'>";
@@ -254,32 +220,35 @@ div.limbo {
 							print "<img class='i_sp_logo' style='top: 1px; position: relative;' src='/svg/rackspace.svg' width='50'>";
 						break;
 					}
-				
+		
 					print "<span class='slash'>/</span>";
 					print "<span class='package_man t_platform'>" . $node->platform . "</span>";
 					print "<span class='slash'>/</span>";
 					print "<span class='package_man t_type'>" . ($node->virtual ? "Virtual" : "Metal") . "</span>";
-				?></a></div></td>
-				<td class="node_last_updated shift"><div class="td_wrap trim_long"><?php if(is_int($node->last_updated)) {$dt = new DateTime($node->last_updated); echo $dt->format("m-d-Y H:i:s");} else {print "Never";} ?></div></td>
-				<td class="node_base_image_id shift"><div class="td_wrap"><div class="trim"><?= $node->service_provider_base_image_id; ?></div></div></td>
-				<td class="node_hostname shift"><div class="td_wrap trim_long"><?= $node->hostname; ?></div></td>
-				<td width="30%" class="shift node_packages">
-					<div class="td_wrap trim_long">
-						<div class="uk-badge uk-badge-success nos-deletable"><div class="remove"><i class="fa fa-times"></i></div>GRC</div>
-					</div>
-				</td>
-			</tr>
-		<?php } ?>
-		</tbody>
-	</table>
+				?></a>
+			</div>
+			<div class="uk-width-1-6 node_last_updated">
+			<div class="trim_long shift5"><?php if(is_int($node->last_updated)) {$dt = new DateTime($node->last_updated); echo $dt->format("m-d-Y H:i:s");} else {print "Never";} ?></div>
+			</div>
+			<div class="uk-width-1-6 node_base_image_id"><div class="trim shift5"><?= $node->service_provider_base_image_id; ?></div></div>
+			<div class="uk-width-1-6 node_hostname"><div class="trim_long shift5"><?= $node->hostname; ?></div></div>
+			<div class="uk-width-1-6 node_packages">
+				<div class="shift5">
+					<div class="uk-badge uk-badge-success nos-deletable"><div class="remove"><i class="fa fa-times"></i></div>GRC</div>
+				</div>
+			</div>
+		</div>
 	<?php } ?>
+	
+	<?php } ?>
+	</div>
 	<script type="text/javascript">
-	$("#managed_nodes tr td").click(function(ev) {
+	$("#managed_nodes .uk-width-1-6").click(function(ev) {
 		table_row = $(this).parent();
 		$("table", $("#node_details_modal_inner")).hide();
-		$("#node_details_modal_container #node_details_modal .i_hostname").html($('td.node_hostname', table_row).text());
-		$("#node_details_modal_container #node_details_modal .i_last_patch").html($('td.node_last_updated', table_row).text());
-		$("#node_details_modal_container #node_details_modal .i_base_image").html($('td.node_base_image_id', table_row).text());
+		$("#node_details_modal_container #node_details_modal .i_hostname").html($('div.node_hostname', table_row).text());
+		$("#node_details_modal_container #node_details_modal .i_last_patch").html($('div.node_last_updated', table_row).text());
+		$("#node_details_modal_container #node_details_modal .i_base_image").html($('div.node_base_image_id', table_row).text());
 		$("#node_details_modal_container #node_details_modal .i_platform").html($('.t_platform', table_row).text());
 		$("#node_details_modal_container #node_details_modal .i_type").html($('.t_type', table_row).text());
 		$("#node_details_modal_container #node_details_modal #i_sp_logo").replaceWith($('.i_sp_logo', table_row).clone().attr('id', 'i_sp_logo'));
@@ -334,11 +303,29 @@ div.limbo {
 	});
 	
 	$(document).on('click', '.nos-deletable .remove', function(ev) {
-		alert("fuck yeah")
 		ev.preventDefault();
 		ev.stopPropagation();
 		ev.stopImmediatePropagation();
-	})
+	});
+	
+	$(document).mousemove(function(ev) {
+		if(ev.clientX < 30) {
+			if(!$("#groups_panel").hasClass('open')) {
+				$("#groups_panel").addClass('open');
+			}
+			
+		} else {
+			if(ev.clientX > 60) {
+				if(!$(".divved").hasClass('pop-out') && !$(".divved").hasClass('popped-out')) {
+					$("#groups_panel").removeClass('open');
+				}
+				
+			}
+			
+		}
+		
+	});
+	
 	</script>
 </article>
 <script type="text/javascript" src="/js/nos.toggle.js"></script>
