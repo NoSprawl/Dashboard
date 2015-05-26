@@ -232,7 +232,7 @@ div.limbo {
 			</div>
 			<div class="uk-width-1-6 node_base_image_id"><div class="trim shift5"><?= $node->service_provider_base_image_id; ?></div></div>
 			<div class="uk-width-1-6 node_hostname"><div class="trim_long shift5"><?= $node->hostname; ?></div></div>
-			<div class="uk-width-1-6 node_packages"></div>
+			<div class="uk-width-1-6 node_packages"><div class="shift5">None</div></div>
 		</div>
 	<?php } ?>
 	
