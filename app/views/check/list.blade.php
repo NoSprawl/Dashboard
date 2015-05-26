@@ -187,7 +187,7 @@ div.limbo {
 			<div class="uk-width-1-6">Last Patch</div>
 			<div class="uk-width-1-6">Base Image</div>
 			<div class="uk-width-1-6">Host Name</div>
-			<div class="uk-width-1-6">Classification Tags</div>
+			<div class="uk-width-1-6">Groups</div>
 		</div>
 	
 	<?php foreach($page_data['managed_nodes'] as $node) { ?>
@@ -232,11 +232,7 @@ div.limbo {
 			</div>
 			<div class="uk-width-1-6 node_base_image_id"><div class="trim shift5"><?= $node->service_provider_base_image_id; ?></div></div>
 			<div class="uk-width-1-6 node_hostname"><div class="trim_long shift5"><?= $node->hostname; ?></div></div>
-			<div class="uk-width-1-6 node_packages">
-				<div class="shift5">
-					<div class="uk-badge uk-badge-success nos-deletable"><div class="remove"><i class="fa fa-times"></i></div>GRC</div>
-				</div>
-			</div>
+			<div class="uk-width-1-6 node_packages"></div>
 		</div>
 	<?php } ?>
 	
