@@ -239,13 +239,31 @@ div.limbo {
 	<?php } ?>
 	</div>
 	<script type="text/javascript">
-	$("#managed_nodes .uk-width-1-6").mousedown(function(ev) {
-		$row = $(this).parent();
-		console.log(ev);
-		$(document).mousemove(function(ev) {
+	$("#groups_panel li").mousedown(function(ev) {
+		var originalX = ev.clientX;
+		var originalY = ev.clientY;
+		
+		console.log("houston, the mouse is down");
+		$(document).off("mousemove", window.generalMouseMoveHandler);
+		
+		window.draggingTagMouseMovementManagement = function(ev) {
+			ev.stopPropagation();
+			ev.stopImmediatePropagation();
+			ev.preventDefault();
+		}
+		
+		$(this).mouseup(function(ev) {
+			// Let's see if a drag happened
+			if(ev.clientX != originalX || ev.clientY != originalY) {
+				// We need to decide how to handle the drop.
+			}
+			
+			$(document).off("mousemove", window.draggingTagMouseMovementManagement);
+			$(document).on("mousemove", window.generalMouseMoveHandler);
 			
 		});
 		
+		$(document).on("mousemove", window.draggingTagMouseMovementManagement);
 	});
 	
 	$("#managed_nodes .uk-width-1-6").click(function(ev) {
@@ -312,7 +330,8 @@ div.limbo {
 		ev.stopImmediatePropagation();
 	});
 	
-	$(document).mousemove(function(ev) {
+	window.generalMouseMoveHandler = function(ev) {
+		console.log("triggering")
 		if($("#managed_nodes").is(":visible")) {
 			if(ev.clientX < 30) {
 				if(!$("#groups_panel").hasClass('open')) {
@@ -331,7 +350,9 @@ div.limbo {
 			
 		}
 		
-	});
+	}
+	
+	$(document).on("mousemove", window.generalMouseMoveHandler);
 	
 	</script>
 </article>
