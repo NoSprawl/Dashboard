@@ -239,6 +239,15 @@ div.limbo {
 	<?php } ?>
 	</div>
 	<script type="text/javascript">
+	$("#managed_nodes .uk-width-1-6").mousedown(function(ev) {
+		$row = $(this).parent();
+		console.log(ev);
+		$(document).mousemove(function(ev) {
+			
+		});
+		
+	});
+	
 	$("#managed_nodes .uk-width-1-6").click(function(ev) {
 		table_row = $(this).parent();
 		$("table", $("#node_details_modal_inner")).hide();
@@ -268,7 +277,6 @@ div.limbo {
 					} 
 					
 					$("table tbody", $("#node_details_modal_inner")).append("<tr><td style='text-align: center;'>" + statusIcon + "</td><td>" + value['name'] + "</td><td>" + value['version'] + "</td></tr>");
-					
 				});
 				
 				$("#node_details_modal_container").click(function(ev) {
@@ -305,17 +313,20 @@ div.limbo {
 	});
 	
 	$(document).mousemove(function(ev) {
-		if(ev.clientX < 30) {
-			if(!$("#groups_panel").hasClass('open')) {
-				$("#groups_panel").addClass('open');
-			}
-			
-		} else {
-			if(ev.clientX > 60) {
-				if(!$(".divved").hasClass('pop-out') && !$(".divved").hasClass('popped-out')) {
-					$("#groups_panel").removeClass('open');
+		if($("#managed_nodes").is(":visible")) {
+			if(ev.clientX < 30) {
+				if(!$("#groups_panel").hasClass('open')) {
+					$("#groups_panel").addClass('open');
 				}
+			
+			} else {
+				if(ev.clientX > 60) {
+					if(!$(".divved").hasClass('pop-out') && !$(".divved").hasClass('popped-out')) {
+						$("#groups_panel").removeClass('open');
+					}
 				
+				}
+			
 			}
 			
 		}
