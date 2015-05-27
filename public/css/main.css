@@ -1407,6 +1407,21 @@ div {
 	color: #fff;
 }
 
+#dragging_tag {
+	position: absolute;
+	top: 90px;
+	left: 0;
+	z-index: 10;
+	-webkit-transform: rotate(-90deg);
+	-webkit-transform-origin: top left;
+	background: #eee;
+	width: 80px;
+	height: 31px;
+	padding: 5px;
+	text-align: center;
+	opacity: .9;
+}
+
 header {
 	background: white;
 	position: relative;
@@ -1416,4 +1431,13 @@ header {
 
 body {
 	min-width: 1038px;
+}
+
+body.dragging {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

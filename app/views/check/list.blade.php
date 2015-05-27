@@ -187,7 +187,7 @@ div.limbo {
 			<div class="uk-width-1-6">Last Patch</div>
 			<div class="uk-width-1-6">Base Image</div>
 			<div class="uk-width-1-6">Host Name</div>
-			<div class="uk-width-1-6">Groups</div>
+			<div class="uk-width-1-6">Classifications</div>
 		</div>
 	
 	<?php foreach($page_data['managed_nodes'] as $node) { ?>
@@ -243,25 +243,40 @@ div.limbo {
 		var originalX = ev.clientX;
 		var originalY = ev.clientY;
 		
-		console.log("houston, the mouse is down");
+		var thiss = this;
+		
 		$(document).off("mousemove", window.generalMouseMoveHandler);
 		
 		window.draggingTagMouseMovementManagement = function(ev) {
-			ev.stopPropagation();
-			ev.stopImmediatePropagation();
-			ev.preventDefault();
+			if(!$("body").hasClass("dragging")) {
+				$("body").addClass("dragging");
+			}
+			
+			if(!$("#dragging_tag").length) {
+				$('#whole-bird').append("<div id='dragging_tag'>" + $(thiss).text() + "</div>");
+			}
+			
+			$("#dragging_tag").css('top', parseInt(ev.clientY) + 59 + "px");
+			$("#dragging_tag").css('left', parseInt(ev.clientX) + "px");
 		}
 		
-		$(this).mouseup(function(ev) {
+		window.draggingMouseUpHandler = function(ev) {
+			if($("body").hasClass("dragging")) {
+				$("body").removeClass("dragging");
+			}
+			
 			// Let's see if a drag happened
 			if(ev.clientX != originalX || ev.clientY != originalY) {
 				// We need to decide how to handle the drop.
 			}
 			
 			$(document).off("mousemove", window.draggingTagMouseMovementManagement);
+			$(document).off("mouseup", window.draggingMouseUpHandler);
 			$(document).on("mousemove", window.generalMouseMoveHandler);
-			
-		});
+			$("#dragging_tag").remove();
+		}
+		
+		$(document).on("mouseup", window.draggingMouseUpHandler);
 		
 		$(document).on("mousemove", window.draggingTagMouseMovementManagement);
 	});
@@ -331,7 +346,6 @@ div.limbo {
 	});
 	
 	window.generalMouseMoveHandler = function(ev) {
-		console.log("triggering")
 		if($("#managed_nodes").is(":visible")) {
 			if(ev.clientX < 30) {
 				if(!$("#groups_panel").hasClass('open')) {
