@@ -232,7 +232,11 @@ div.limbo {
 			</div>
 			<div class="uk-width-1-6 node_base_image_id"><div class="trim shift5"><?= $node->service_provider_base_image_id; ?></div></div>
 			<div class="uk-width-1-6 node_hostname"><div class="trim_long shift5"><?= $node->hostname; ?></div></div>
-			<div class="uk-width-1-6 node_packages"><div class="shift5">None</div></div>
+			<div class="uk-width-1-6 node_packages"><div class="shift5">
+				<?php foreach(NodeGroupAssociation::where('node_id', '=', $node->id)->get() as $grp) { ?>
+				<?= NodeGroup::find($grp->group_id)->name; ?> 
+				<?php } ?>
+			</div></div>
 		</div>
 	<?php } ?>
 	
@@ -253,7 +257,7 @@ div.limbo {
 			}
 			
 			if(!$("#dragging_tag").length) {
-				$('#whole-bird').append("<div id='dragging_tag'>" + $(thiss).text() + "</div>");
+				$('#whole-bird').append("<div rel='" + $(thiss).attr('rel') + "' id='dragging_tag'>" + $(thiss).text() + "</div>");
 			}
 			
 			$("#dragging_tag").css('top', parseInt(ev.clientY) + 59 + "px");
@@ -267,7 +271,16 @@ div.limbo {
 			
 			// Let's see if a drag happened
 			if(ev.clientX != originalX || ev.clientY != originalY) {
-				// We need to decide how to handle the drop.
+				$("#managed_nodes .nos-row").each(function(key, row) {
+					if(ev.pageY > $(row).offset().top && ev.pageY < $(row).offset().top + 41) {
+						$.post("/group/assoc/" + $(row).attr("rel") + "/" + $("#dragging_tag").attr("rel"), function(result) {
+							
+						});
+						
+					}
+					
+				});
+				
 			}
 			
 			$(document).off("mousemove", window.draggingTagMouseMovementManagement);

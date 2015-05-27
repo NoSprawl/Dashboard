@@ -27,7 +27,7 @@
 			$groups = Auth::user()->node_groups()->get();
 			foreach($groups as $group) {
 			?>
-			<li><div class="divved"><?php echo $group->name; ?></div></li>
+			<li rel="<?= $group->id; ?>"><div class="divved"><?php echo $group->name; ?></div></li>
 			<?php
 			}
 			

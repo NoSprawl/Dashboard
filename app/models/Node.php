@@ -31,5 +31,9 @@ class Node extends Eloquent {
 	public function node_group() {
 		return $this->belongsTo('NodeGroup', 'node_group_id');
 	}
+	
+	public function groups() {
+		return $this->hasManyThrough('Node', 'NodeGroupAssociation');
+	}
 
 }

@@ -45,4 +45,5 @@ Route::group(array('before' => 'auth'), function()
 	Route::post('vulnerability_info_for', ['uses' => 'NodesController@getVulnerabilityInfoFor', 'as' => 'vulnerability_info']);
 	Route::post('/group/create', ['uses' => 'GroupsController@createGroup', 'as' => 'group_create']);
 	Route::post('/getAllUserGroups', ['uses' => 'GroupsController@getAllUserGroups', 'as' => 'group_get']);
+	Route::post('/group/assoc/{node_id}/{group_id}', ['uses' => 'GroupsController@associateGroupAndNode', 'as' => 'group_assoc']);
 });
