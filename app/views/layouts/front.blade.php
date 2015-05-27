@@ -22,8 +22,14 @@
 	@endif
 	<ul id="groups_panel">
 		<li class="add-new"><div class="divved"><span>New Group</span><i class="fa fa-plus"></i><input type="text" placeholder="Group Name"><i class="fa fa-check-circle"></i></div></li>
-		<li><div class="divved">Big Hello</div></li>
-		<li><div class="divved">Group Name</div></li>
+		<?php
+		$groups = Auth::user()->node_groups()->get();
+		foreach($groups as $group) {
+		?>
+		<li><div class="divved"><?php echo $group->name; ?></div></li>
+		<?php
+		}
+		?>
 	</ul>
 	<div id="whole-bird">
 	@section('header')

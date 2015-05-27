@@ -20,5 +20,10 @@ class GroupsController extends BaseController {
 		}
 		
 	}
+	
+	public function getAllUserGroups() {
+		$groups = Auth::user()->groups;
+		return Response::json($groups->toArray());
+	}
 
 }

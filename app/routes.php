@@ -44,4 +44,5 @@ Route::group(array('before' => 'auth'), function()
 	Route::post('packages_for_node/{id}', ['uses' => 'NodesController@listPackages', 'as' => 'node_packages']);
 	Route::post('vulnerability_info_for', ['uses' => 'NodesController@getVulnerabilityInfoFor', 'as' => 'vulnerability_info']);
 	Route::post('/group/create', ['uses' => 'GroupsController@createGroup', 'as' => 'group_create']);
+	Route::post('/getAllUserGroups', ['uses' => 'GroupsController@getAllUserGroups', 'as' => 'group_get']);
 });
