@@ -234,7 +234,7 @@ div.limbo {
 			<div class="uk-width-1-6 node_hostname"><div class="trim_long shift5"><?= $node->hostname; ?></div></div>
 			<div class="uk-width-1-6 node_packages"><div class="shift5">
 				<?php foreach(NodeGroupAssociation::where('node_id', '=', $node->id)->get() as $grp) { ?>
-				<?= NodeGroup::find($grp->group_id)->name; ?> 
+				<?= NodeGroup::find($grp->group_id)->name; ?>
 				<?php } ?>
 			</div></div>
 		</div>
@@ -243,6 +243,20 @@ div.limbo {
 	<?php } ?>
 	</div>
 	<script type="text/javascript">
+	$(function(ev) {
+		// organize lines
+		$("#groups_panel li .divved").each(function(index, item) {
+			var divHeight = item.offsetHeight;
+			var lineHeight = parseInt(item.style.lineHeight);
+			var lines = divHeight / lineHeight;
+			if(!(lines > 0)) {
+				$(item).addClass('single-line')
+			}
+			
+		});
+		
+	});
+	
 	$("#groups_panel li").mousedown(function(ev) {
 		var originalX = ev.clientX;
 		var originalY = ev.clientY;
@@ -260,8 +274,8 @@ div.limbo {
 				$('#whole-bird').append("<div rel='" + $(thiss).attr('rel') + "' id='dragging_tag'>" + $(thiss).text() + "</div>");
 			}
 			
-			$("#dragging_tag").css('top', parseInt(ev.clientY) + 59 + "px");
-			$("#dragging_tag").css('left', parseInt(ev.clientX) + "px");
+			$("#dragging_tag").css('top', parseInt(ev.pageY) + 59 + "px");
+			$("#dragging_tag").css('left', parseInt(ev.pageX) + "px");
 		}
 		
 		window.draggingMouseUpHandler = function(ev) {

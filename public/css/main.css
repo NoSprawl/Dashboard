@@ -1307,7 +1307,8 @@ div {
 	cursor: pointer;
 	text-align: center;
 	width: 80px;
-	display: block;
+	vertical-align: middle;
+	display: inline-block;
 	line-height: 1em;
 	padding: 5px 5px 1px 5px;
 	-webkit-transition: -webkit-transform .15s, height .25s, width .25s;
