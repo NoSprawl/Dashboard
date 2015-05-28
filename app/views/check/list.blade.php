@@ -234,7 +234,10 @@ div.limbo {
 			<div class="uk-width-1-6 node_hostname"><div class="trim_long shift5"><?= $node->hostname; ?></div></div>
 			<div class="uk-width-1-6 node_packages"><div class="shift5">
 				<?php foreach(NodeGroupAssociation::where('node_id', '=', $node->id)->get() as $grp) { ?>
-				<?= NodeGroup::find($grp->group_id)->name; ?>
+				<?php
+				$groupInfo = NodeGroup::find($grp->group_id);
+				?>
+				<div class="nos-deletable" rel="<?= $grp->id; ?>"><?= $groupInfo->name; ?><a href="#" class="remove">x</a></div>
 				<?php } ?>
 			</div></div>
 		</div>
@@ -252,6 +255,17 @@ div.limbo {
 			if(!(lines > 0)) {
 				$(item).addClass('single-line')
 			}
+			
+		});
+		
+		// let people delete stuff
+		$("body").on("mousedown", ".nos-deletable .remove", function(obj) {
+			var o = $(this).parent();
+			$.post("/groupAssoc/delete/" + o.attr("rel"), function(response) {
+				o.remove();
+			});
+			
+			$("body").addClass("ignoreClick");
 			
 		});
 		
@@ -288,7 +302,7 @@ div.limbo {
 				$("#managed_nodes .nos-row").each(function(key, row) {
 					if(ev.pageY > $(row).offset().top && ev.pageY < $(row).offset().top + 41) {
 						$.post("/group/assoc/" + $(row).attr("rel") + "/" + $("#dragging_tag").attr("rel"), function(result) {
-							
+							$(".node_packages .shift5", $(row)).append('<div class="nos-deletable" rel="' + result['new_id'] + '">' + result['new_name'] + '<a href="#" class="remove">x</a></div>');
 						});
 						
 					}
@@ -309,6 +323,11 @@ div.limbo {
 	});
 	
 	$("#managed_nodes .uk-width-1-6").click(function(ev) {
+		if($("body").hasClass("ignoreClick")) {
+			$("body").removeClass("ignoreClick");
+			return false;
+		}
+		
 		table_row = $(this).parent();
 		$("table", $("#node_details_modal_inner")).hide();
 		$("#node_details_modal_container #node_details_modal .i_hostname").html($('div.node_hostname', table_row).text());

@@ -21,12 +21,17 @@ class GroupsController extends BaseController {
 		
 	}
 	
+	public function deleteAssoc($groupAssocId) {
+		NodeGroupAssociation::destroy($groupAssocId);
+		return Response::json(array('success' => 'true'));
+	}
+	
 	public function associateGroupAndNode($node_id, $group_id) {
 		$assoc = new NodeGroupAssociation();
 		$assoc->group_id = $group_id;
 		$assoc->node_id = $node_id;
 		if($assoc->save()) {
-			return Response::json(array('success' => 'true'));
+			return Response::json(array('success' => 'true', 'new_id' => $assoc->id, 'new_name' => NodeGroup::find($group_id)->name));
 		} else {
 			return Response::json(array('success' => 'false'));
 		}
