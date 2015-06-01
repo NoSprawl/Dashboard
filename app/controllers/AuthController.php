@@ -21,6 +21,28 @@ class AuthController extends BaseController {
 		
 	}
 	
+	public function deleteUser($user_id) {
+		$userToBeDeleted = User::find($user_id);
+		// Make sure we can't delete a top level user.
+		if(!$userToBeDeleted->has_parent()) {
+			return Redirect::to('/users')->withMessage("Can't delete a top-level user.");
+		} else {
+			// Make sure this subuser is owned by the currently logged in user
+			if(!Auth::user()->owns_subuser($user_id)) {
+				return Redirect::to('/users')->withMessage("Can't delete a subuser that doesn't belong to you.");
+			} else {
+				if($userToBeDeleted->delete()) {
+					return Redirect::to('/users')->withMessage("User has been deleted.");
+				} else {
+					return Redirect::to('/users')->withMessage("User could not be deleted.");
+				}
+				
+			}
+			
+		}
+		
+	}
+	
 	public function createSubuserInLimbo() {
 		$input = Input::all();
 		$rules = [
@@ -36,8 +58,8 @@ class AuthController extends BaseController {
 			$limbo_user->parent_user_id = Auth::user()->id;
 			$limbo_user->user_confirmation_token = uniqid("", true);
 			$limbo_user->save();
-			Mail::queue('emails.auth.invitesubuser', [], function($message) use($limbo_user){
-				$message->to($input['email'])->subject('Please join ' + Auth::user()->company_name + '\'s NoSprawl account.');
+			Mail::queue('emails.auth.invitesubuser', array('data' => $limbo_user->toArray()), function($message) use($limbo_user){
+				$message->to($limbo_user->email)->subject('Please join ' . User::find($limbo_user->parent_user_id)->company_name . '\'s NoSprawl account.');
 			});
 			
 			return Redirect::to('/users')->withMessage("Instructions Sent!");

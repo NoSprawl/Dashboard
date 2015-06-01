@@ -39,7 +39,7 @@
 				<td><?= $subuser->name; ?></td>
 				<td><?= $subuser->email; ?></td>
 				<td><?= $subuser->last_login; ?></td>
-				<td><a href="#">Delete</a> | <a href="#">Edit</a></td>
+				<td><a data-method="post" href="/users/delete/<?= $subuser->id; ?>">Delete</a> | <a href="#">Edit</a></td>
 				<td></td>
 			</tr>
 			<?php } ?>
@@ -80,4 +80,18 @@
 		{{ Form::close() }}
   </div>
 </div>
+<script type="text/javascript">
+// Rails style delete links
+$(function(){
+	$('[data-method]').append(function(){
+		return "\n"+
+		"<form action='"+$(this).attr('href')+"' method='post' style='display:none;'>\n"+
+		"	<input type='hidden' name='_method' value='"+$(this).attr('data-method')+"'>\n"+
+		"</form>\n"
+  })
+  .removeAttr('href')
+  .attr('style','cursor:pointer;')
+  .attr('onclick','$(this).find("form").submit();');
+});
+</script>
 @stop

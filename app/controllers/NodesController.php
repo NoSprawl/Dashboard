@@ -17,8 +17,7 @@ class NodesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$nodes = Auth::user()->nodes;
-		Return View::make('nodes.main')->with('nodes', $nodes);
+		return Redirect::to('/check');
 	}
 	
 	public function placeNodeInLimbo($node_id, $integration_id) {

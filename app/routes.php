@@ -47,4 +47,5 @@ Route::group(array('before' => 'auth'), function()
 	Route::post('/getAllUserGroups', ['uses' => 'GroupsController@getAllUserGroups', 'as' => 'group_get']);
 	Route::post('/group/assoc/{node_id}/{group_id}', ['uses' => 'GroupsController@associateGroupAndNode', 'as' => 'group_assoc']);
 	Route::post('groupAssoc/delete/{groupAssocId}', ['uses' => 'GroupsController@deleteAssoc']);
+	Route::post('/users/delete/{user_id}', ['uses' => 'AuthController@deleteUser']);
 });

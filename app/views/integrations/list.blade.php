@@ -31,6 +31,7 @@
 						?>
 					</td>
 					<td>
+					<div style="position: relative; top: -1px;">
 					<?php
 					switch($integration['status']) {
 						case "Confirmed":
@@ -41,6 +42,7 @@
 							print "<span class='stopped'></span><span class='statuslabel'>Unauthorized</span>";
 					}
 					?>
+					</div>
 					</td>
 					<td>
 						<div class="switch switch-yellow">
