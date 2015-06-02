@@ -8,8 +8,6 @@ class CheckController extends BaseController {
 	}
 
 	public function getCheck() {
-		$clusters_color_array = array('bdfcf5', 'dab2fb', 'bdd2fc', 'f5bdfc');
-		
 		$unmanaged_nodes = Auth::user()->nodes()->where('managed', '=', 'false')->where('service_provider_status', '!=', 'terminated')->get();
 		$managed_nodes = Auth::user()->nodes()->where('managed', '=', 'true')->where('service_provider_status', '!=', 'terminated')->get();
 		
@@ -17,7 +15,6 @@ class CheckController extends BaseController {
 		
 		$this->layout->content = View::make('check.list')->with('page_data', Array('unmanaged_nodes' => $unmanaged_nodes,
 																																							 'managed_nodes' => $managed_nodes,
-																																						 	 'cluster_colors' => $clusters_color_array,
 																																						 	 'cloud_provider_integration_count' => $integration_count));
 	}
 
