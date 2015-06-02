@@ -313,7 +313,7 @@ div.limbo {
 			
 			$(document).off("mousemove", window.draggingTagMouseMovementManagement);
 			$(document).off("mouseup", window.draggingMouseUpHandler);
-			$(document).on("mousemove", window.generalMouseMoveHandler);
+			//$(document).on("mousemove", window.generalMouseMoveHandler);
 			$("#dragging_tag").remove();
 		}
 		
@@ -412,8 +412,14 @@ div.limbo {
 		
 	}
 	
-	$(document).on("mousemove", window.generalMouseMoveHandler);
+	//$(document).on("mousemove", window.generalMouseMoveHandler);
 	
+	$(function(ev) {
+		if($("#managed_nodes").is(":visible")) {
+			$("#groups_panel").addClass("open");
+		}
+		
+	})
 	</script>
 </article>
 <script type="text/javascript" src="/js/nos.toggle.js"></script>

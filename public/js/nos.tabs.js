@@ -8,6 +8,13 @@ $(function(load_event) {
 		$(this).parent().addClass('uk-active');
 		$(".nos-hidable").hide();
 		$("#" + $(this).attr('rel')).show();
+		
+		if($("#managed_nodes").is(":visible")) {
+			$("#groups_panel").addClass("open");
+		} else {
+			$("#groups_panel").removeClass("open");
+		}
+		
 	});
 
 	$(document).on("click", "#groups_panel li.add-new .divved", function(ev) {
