@@ -361,7 +361,7 @@ div.limbo {
 					$("body").removeClass('overlay2');
 				});
 				
-			}, 1000);
+			}, 250);
 			
 		});
 		
