@@ -31,7 +31,6 @@ td {
   width: 9px;
   height: 9px;
   background-color: #39f;
-
   border-radius: 100%;
   display: inline-block;
   -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
@@ -69,7 +68,7 @@ div.limbo {
 	font-size: .8em;
 	position: absolute;
 	left: 70px;
-	top: 11px;
+	top: 3px;
 	color: #39f;
 }
 .spinner_holder .spinner {
@@ -362,7 +361,7 @@ div.limbo {
 					$("body").removeClass('overlay2');
 				});
 				
-			}, 250);
+			}, 1000);
 			
 		});
 		
@@ -413,7 +412,6 @@ div.limbo {
 	}
 	
 	//$(document).on("mousemove", window.generalMouseMoveHandler);
-	
 	$(function(ev) {
 		if($("#managed_nodes").is(":visible")) {
 			$("#groups_panel").addClass("open");
