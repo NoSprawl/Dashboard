@@ -70,7 +70,7 @@ class ProcessAgentReport {
 			}
 			
 			// Do one giant query. Not one per record.
-			$mongo_client = new MongoClient('mongodb://php_worker3:shadowwood@linus.mongohq.com:10026/nosprawl_vulnerabilities');
+			$mongo_client = new MongoClient('mongodb://mike:shadowwood@c201.capital.2.mongolayer.com:10201/vulnerabilities');
 			$mongo_database = $mongo_client->selectDB('nosprawl_vulnerabilities');
 			$mongo_collection = new MongoCollection($mongo_database, 'vulnerabilities');
 			$mongo_query = $mongo_collection->find(array('$or' => $query_version_vendor_query_pairs))->timeout(9999999);
