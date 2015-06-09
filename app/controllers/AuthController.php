@@ -128,7 +128,12 @@ class AuthController extends BaseController {
 
 		$validator = Validator::make($input, $rules);
 		if($validator->passes()) {
-			Stripe::setApiKey(Config::get('stripe.stripe.secret'));
+			if(App::environment('local')) {
+				Stripe::setApiKey(Config::get('stripe.development.secret'));
+			} else {
+				Stripe::setApiKey(Config::get('stripe.production.secret'));
+			}
+			
 			$user = new User;
 			$user->email = $input['email'];
 			$user->name = $input['full_name'];

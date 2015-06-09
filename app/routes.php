@@ -27,6 +27,7 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('users', ['uses' => 'UsersController@listAccountUsers', 'as' => 'users']);
 	Route::get('zones', ['uses' => 'ZonesController@getZones', 'as' => 'zones']);
 	Route::get('integrations', ['uses' => 'IntegrationsController@getIntegrations', 'as' => 'integrations']);
+	Route::get('reporting', ['uses' => 'ReportingController@reportingIndex', 'as' => 'reporting']);
 	
 	Route::post('integration/delete/{id}', ['uses' => 'IntegrationsController@deleteIntegration', 'as' => 'delete_integration']);
 	

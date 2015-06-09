@@ -10,7 +10,7 @@ class Package extends Eloquent {
 	 */
 	protected $table = 'packages';
 
-	protected $fillable = ['name', 'version', 'node_id'];
+	protected $fillable = ['name', 'version', 'node_id', 'created_at'];
 
 	public function node() {
 		return $this->belongsTo('Node', 'node_id');
