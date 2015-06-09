@@ -25,7 +25,7 @@ class Node extends Eloquent {
 	}
 	
 	public function packages() {
-		return $this->hasMany('Package')->orderBy('vulnerability_severity', 'desc')->orderBy('created_at', 'desc')->distinct('name');
+		return $this->hasMany('Package')->orderBy('vulnerability_severity', 'desc')->orderBy('created_at', 'desc');
 	}
 	
 	public function node_group() {
