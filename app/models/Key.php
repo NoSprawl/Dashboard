@@ -9,6 +9,6 @@ class Key extends Eloquent {
 	 */
 	protected $table = 'key_references';
 
-	protected $fillable = ['name', 'remote_url'];
+	protected $fillable = ['name', 'remote_url', 'username', 'password'];
 
 }

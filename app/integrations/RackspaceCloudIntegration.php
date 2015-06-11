@@ -6,6 +6,18 @@ class RackspaceCloudIntegration extends CloudIntegration {
 	
 	public $description = '<p>This Rackspace user must have at least read access to Cloud Servers. NoSprawl will perform the following operations:</p><ul><li>Getting list of Cloud Server instances</li><li>Get list of Base Images</li><li>Get list of Clusters</li></ul>';
 	
+	public $availability_zones = array(
+		array(
+			"compute,cloudServersOpenStack,HKG" => "Dallas-Fort Worth (DFW)",
+			"compute,cloudServersOpenStack,ORD" => "Chicago (ORD)",
+			"compute,cloudServersOpenStack,IAD" => "Northern Virginia (IAD)",
+			"compute,cloudServersOpenStack,LON" => "London (LON)",
+			"compute,cloudServersOpenStack,SYD" => "Sydney (SYD)",
+			"compute,cloudServersOpenStack,HKG" => "Hong Kong (HKG)"
+		);
+		
+	);
+	
 	public function verifyAuthentication($username, $api_key) {
 		$success = false;
 		try {

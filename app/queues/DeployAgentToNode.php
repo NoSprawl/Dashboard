@@ -39,34 +39,22 @@ class DeployAgentToNode {
 			$s3 = \Aws\S3\S3Client::factory(array('key' => 'AKIAIUCV4E2L4HDCDOUA',
 																									   'secret' => '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',
 																									   'region' => 'us-east-1'));
-			$output->writeln(print_r($data['message']));
+			
 			$all_keys = Key::where('integration_id', '=', $data['message']['integration_id'])->get();
 			
 			$unique_key_name = null;
 			
+			$cmdout = null;
+			
 			foreach($all_keys as $pem_key_reference) {
-				$unique_key_name = rand(0,9999) . $pem_key_reference->remote_url;
-				$s3->getObject(array('Bucket' => 'keys.nosprawl.software', 'Key' => $pem_key_reference->remote_url, 'SaveAs' => '/tmp/' . $unique_key_name));
-				exec('chmod 400 /tmp/' . $unique_key_name);
-				exec('ssh-add /tmp/' . $unique_key_name);
-			}
-			
-			$usernames = ['root', 'ec2-user', 'ubuntu'];
-			$dont_try_other_usernames = false;
-			
-			foreach($usernames as $username) {
-				if($dont_try_other_usernames) {
-					break;
-				}
-				
-				$cmdout = "";
-				$res = exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o BatchMode=yes -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " '(curl http://agent.nosprawl.software/`curl http://agent.nosprawl.software/latest` > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
-				
-				// See if we've found the correct username
-				foreach($cmdout as $outputline) {
-					if(strpos(strtolower($outputline), "denied")) {
-						$dont_try_other_usernames = true;
-					}
+				if($pem_key_reference->remote_url) {
+					$unique_key_name = rand(0,9999) . $pem_key_reference->remote_url;
+					$s3->getObject(array('Bucket' => 'keys.nosprawl.software', 'Key' => $pem_key_reference->remote_url, 'SaveAs' => '/tmp/' . $unique_key_name));
+					exec('chmod 400 /tmp/' . $unique_key_name);
+					exec('ssh-add /tmp/' . $unique_key_name);
+					
+					$res = exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o BatchMode=yes -i /tmp/' . $unique_key_name . " " . $pem_key_reference->username . "@" . $node->public_dns_name . " '(curl http://agent.nosprawl.software/`curl http://agent.nosprawl.software/latest` > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
+				} else {
 					
 				}
 				
@@ -90,6 +78,8 @@ class DeployAgentToNode {
 					}
 					
 				} 
+				
+				
 				
 			}
 			

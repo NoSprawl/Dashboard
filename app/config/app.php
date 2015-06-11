@@ -150,7 +150,6 @@ return array(
 	*/
 
 	'aliases' => array(
-
 		'App'               => 'Illuminate\Support\Facades\App',
 		'Artisan'           => 'Illuminate\Support\Facades\Artisan',
 		'Auth'              => 'Illuminate\Support\Facades\Auth',
@@ -189,7 +188,7 @@ return array(
 		'URL'               => 'Illuminate\Support\Facades\URL',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
-		'Newrelic'        => 'Intouch\LaravelNewrelic\Facades\Newrelic',
+		'Newrelic'        	=> 'Intouch\LaravelNewrelic\Facades\Newrelic',
 	),
 
 );

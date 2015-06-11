@@ -145,10 +145,15 @@
 			<div class="uk-width-1-2"><div class="uk-panel uk-panel-box">
 				{{ Form::open(['url' => 'keys', 'class' => 'uk-form-stacked uk-form', 'id' => 'upload_key', 'files' => 'true']) }}
 			    <fieldset>
-		        <legend>Add a New Key</legend>
+		        <legend>Add Credentials</legend>
 		        <div class="uk-form-row">
 							<label class='uk-form-label'>Username (optional)</label>
-							{{ Form::text('name'); }}
+							{{ Form::text('username'); }}
+							<br />
+		        </div>
+		        <div class="uk-form-row">
+							<label class='uk-form-label'>Password (optional)</label>
+							{{ Form::text('password'); }}
 							<br />
 		        </div>
 		        <div class="uk-form-row">
