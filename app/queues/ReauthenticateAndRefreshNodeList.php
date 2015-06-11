@@ -16,7 +16,17 @@ class ReauthenticateAndRefreshNodeList {
 		
 		$service_provider->db_integration_id = $integration->id;
 		$nodes = null;
-		$service_provider_nodes = $service_provider->list_nodes();		
+		
+		$service_provider_nodes = array();
+		
+		foreach($service_provider->availability_zones as $availability_zone_name => $availability_zone_friendly_name) {
+			// I think this could be done with a recursive array merge
+			foreach($service_provider->list_nodes($availability_zone_name, $availability_zone_friendly_name) as $availability_zone_node_list) {
+				array_push($service_provider_nodes, $availability_zone_node_list);
+			}
+			
+		}
+		
 		$current_nodes = $integration->nodes;
 		
 		$all_service_provider_ids = [];
@@ -36,6 +46,8 @@ class ReauthenticateAndRefreshNodeList {
 				$node->owner_id = $integration->user_id;
 				$node->public_dns_name = $service_provider_node['public_dns_name'];
 				$node->name = "";
+				$node->service_provider_availability_zone = $service_provider_node['availability_zone_name'];
+				$node->friendly_availability_zone = $service_provider_node['availability_zone_friendly'];
 				
 				// This should be handled in the DB schema. Default val of false.
 				if($node->managed == null) {
@@ -72,7 +84,9 @@ class ReauthenticateAndRefreshNodeList {
 		
 		//This is where we delete Nodes that no longer exist on the service provider side.
 		Node::where('integration_id', '=', $integration->id)->whereNotIn('service_provider_uuid', $all_service_provider_ids)->delete();
-		$job->release(600);
+		
+		// Do this job again in 30 seconds.
+		$job->release(30);
 	}
 	
 }

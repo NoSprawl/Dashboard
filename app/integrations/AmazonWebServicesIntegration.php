@@ -10,18 +10,15 @@ class AmazonWebServicesIntegration extends CloudIntegration
 	public $db_integration_id;
 	
 	public $availability_zones = array(
-		array(
-			"ap-northeast-1" => "Asia Pacific (Tokyo)",
-			"ap-southeast-1" => "Asia Pacific (Singapore)",
-			"ap-southeast-2" => "Asia Pacific (Sydney)",
-			"eu-central-1" => "EU (Frankfurt)",
-			"eu-west-1" => "EU (Ireland)",
-			"sa-east-1" => "South America (Sao Paulo)",
-			"us-east-1" => "US East (N. Virginia)",
-			"us-west-1" => "US West (N. California)",
-			"us-west-2" => "US West (Oregon)"
-		);
-		
+		"ap-northeast-1" => "Tokyo",
+		"ap-southeast-1" => "Singapore",
+		"ap-southeast-2" => "Sydney",
+		"eu-central-1" => "Frankfurt",
+		"eu-west-1" => "Ireland",
+		"sa-east-1" => "Sao Paulo",
+		"us-east-1" => "N. Virginia",
+		"us-west-1" => "N. California",
+		"us-west-2" => "Oregon"
 	);
 	
 	public function verifyAuthentication($access_key_id, $secret_access_key) {
@@ -37,66 +34,64 @@ class AmazonWebServicesIntegration extends CloudIntegration
 		return $success;
 	}
 	
-	public function list_nodes() {
+	public function list_nodes($availability_zone_name, $availability_zone_friendly_name) {
+		#$output = new Symfony\Component\Console\Output\ConsoleOutput();
+		#$output->writeln($availability_zone_name);
 		$success = false;
 		$integration = Integration::find($this->db_integration_id);
 		$nodes = [];
-		try {
-			$client = \Aws\Ec2\Ec2Client::factory(array('key' => $integration->authorization_field_1, 'secret' => $integration->authorization_field_2, 'region' => 'us-east-1'));
-			$res = $client->DescribeInstances();
-			$reservations = $res['Reservations'];
-			$success = [];
-						
-			foreach($reservations as $reservation) {
-				$instances = $reservation['Instances'];
-				foreach ($instances as $instance) {
-					$interfaces = [];
-					foreach($instance['NetworkInterfaces'] as $network_interface) {
-						array_push($interfaces, $network_interface['MacAddress']);
-					}
-					
-					// Find out if we're part of a cluster
-					$sp_cluster_id = null;
-					try {
-						foreach($instance['Tags'] as $tag) {
-							if($tag['Key'] == 'elasticbeanstalk:environment-id') {
-								$sp_cluster_id = $tag['Value'];
-							}
-					
-						}
-						
-					} catch(Exception $e) {
-					
-					}
-					
-					$all_ips = array();
-					
-					foreach($instance['NetworkInterfaces'] as $ni) {
-						array_push($all_ips, $ni['PrivateIpAddress']);
-						
-						if(isset($ni['Association'])) {
-							if(isset($ni['PublicIp'])) {
-								array_push($all_ips, $ni['PublicIp']);
-							}
-							
-						}
-						
-					}
-					
-	        array_push($nodes, array('service_provider_status' => $instance['State']['Name'],
-																	 'service_provider_base_image_id' => $instance['ImageId'],
-																	 'service_provider_id' => $instance['InstanceId'],
-																   'private_dns_name' => $instance['PrivateDnsName'],
-																   'public_dns_name' => $instance['PublicDnsName'],
-																   'network_interfaces' => $interfaces,
-																 	 'service_provider_cluster_id' => $sp_cluster_id,
-																	 'service_provider_ip_addresses' => $all_ips));
+		
+		$client = \Aws\Ec2\Ec2Client::factory(array('key' => $integration->authorization_field_1, 'secret' => $integration->authorization_field_2, 'region' => $availability_zone_name));
+		
+		$res = $client->DescribeInstances();
+		$reservations = $res['Reservations'];
+		$success = [];
+		
+		#$output->writeln(print_r($reservations));
+		
+		foreach($reservations as $reservation) {
+			$instances = $reservation['Instances'];
+			foreach($instances as $instance) {
+				$interfaces = [];
+				foreach($instance['NetworkInterfaces'] as $network_interface) {
+					array_push($interfaces, $network_interface['MacAddress']);
 				}
 				
+				// Find out if we're part of a cluster. This feature is being deprecated.
+				$sp_cluster_id = null;
+				try {
+					foreach($instance['Tags'] as $tag) {
+						if($tag['Key'] == 'elasticbeanstalk:environment-id') {
+							$sp_cluster_id = $tag['Value'];
+						}
+				
+					}
+					
+				} catch(Exception $e) {
+				
+				}
+				
+				$all_ips = array();
+				
+				foreach($instance['NetworkInterfaces'] as $ni) {
+					foreach($ni['PrivateIpAddresses'] as $interface) {
+						array_push($all_ips, $interface['PrivateIpAddress'], $interface['Association']['PublicIp']);
+					}
+					
+				}
+				
+        array_push($nodes, array('service_provider_status' => $instance['State']['Name'],
+																 'service_provider_base_image_id' => $instance['ImageId'],
+																 'service_provider_id' => $instance['InstanceId'],
+															   'private_dns_name' => $instance['PrivateDnsName'],
+															   'public_dns_name' => $instance['PublicDnsName'],
+															   'network_interfaces' => $interfaces,
+															 	 'service_provider_cluster_id' => $sp_cluster_id,
+																 'service_provider_ip_addresses' => $all_ips,
+															 	 'availability_zone_friendly' => $availability_zone_friendly_name,
+															   'availability_zone_name' => $availability_zone_name));
 			}
 			
-		} catch(Exception $exception) {
-			$nodes = false;
 		}
 		
 		return $nodes;

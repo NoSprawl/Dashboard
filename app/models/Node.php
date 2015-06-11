@@ -10,7 +10,7 @@ class Node extends Eloquent {
 	 */
 	protected $table = 'nodes';
 
-	protected $fillable = ['name', 'description', 'owner_id', 'integration_id', 'status', 'service_provider_uuid', 'service_provider_base_image_id', 'managed', 'base_image_id', 'service_provider_cluster_id', 'vulnerable', 'severe_vulnerable', 'node_group_id'];
+	protected $fillable = ['name', 'description', 'owner_id', 'integration_id', 'status', 'service_provider_uuid', 'service_provider_base_image_id', 'managed', 'base_image_id', 'service_provider_cluster_id', 'vulnerable', 'severe_vulnerable', 'node_group_id', 'service_provider_availability_zone', 'friendly_availability_zone'];
 
 	public function integration() {
 		return $this->belongsTo('Integration', 'integration_id');

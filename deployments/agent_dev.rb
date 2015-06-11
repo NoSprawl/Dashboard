@@ -12,8 +12,8 @@ if $stdout.isatty
   end
   
   File.open("/usr/local/sbin/nosprawl.rb", 'w') do |cronjob_script|
-    curl_status_req = "curl -I http://agent.nosprawl.software/\`curl http://agent.nosprawl.software/latest\`"
-    curl_res = `curl http://agent.nosprawl.software/\`curl http://agent.nosprawl.software/latest\``
+    version = `curl http://agent.nosprawl.software/dev/latest`
+    curl_res = `curl http://agent.nosprawl.software/dev/#{version}`
 		cronjob_script.write curl_res
   end
   
@@ -59,7 +59,7 @@ class Selfie
 end
 
 module NoSprawlReportingAgent
-  Selfie.from 'http://agent.nosprawl.software'
+  Selfie.from 'http://agent.nosprawl.software/dev'
   
   class NoSprawlPackageManagerAbstraction
     def initialize
@@ -164,6 +164,6 @@ module NoSprawlReportingAgent
                          :pkginfo => pkgman.versions,
                          :virtual => virtual}}}
                          
-  uri = URI.parse "http://sqs.us-east-1.amazonaws.com/480589117377/nosprawl-sqs-va"
+  uri = URI.parse "http://sqs.us-east-1.amazonaws.com/480589117377/nosprawl-sqs-va-dev"
   response = Net::HTTP.post_form uri, {:Action => 'SendMessage', :Version => '2011-10-01', :MessageBody => "#{structure.to_json}"}
 end

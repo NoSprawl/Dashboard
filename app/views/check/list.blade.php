@@ -86,10 +86,16 @@ div.limbo {
 	<h1 class="uk-article-title">Environment Status</h1>
 	<?php if(!empty($page_data['unmanaged_nodes']) || !empty($page_data['managed_nodes'])) { ?>
 	<?php if(!sizeof($page_data['unmanaged_nodes']) && !sizeof($page_data['managed_nodes'])) { ?>
+	<?php if(!sizeof(Auth::user()->nodes)) { ?>
 		<div class="advice">
-		<p>We can&rsquo;t see any of your nodes yet.</p>
-		<p>To start monitoring your nodes, either create a <a data-uk-modal="{target:'#new-integration-form'}" href="#">cloud provider connection</a> or <a href="#">deploy our agent</a> to one of your nodes.</p>
+			<p>We can&rsquo;t see any of your nodes yet.</p>
+			<p>To start monitoring your nodes, either create a <a href="/integrations">cloud provider connection</a> or <a href="#">deploy our agent</a> to one of your nodes.</p>
 		</div>
+	<?php } else { ?>
+		<div class="advice">
+			<p>We can see {{ sizeof(Auth::user()->nodes) }} nodes, but none of them are running, so we&rsquo;re not showing them here.</p>
+		</div>
+	<?php } ?>
 	<?php } else { ?>
 	<ul class="uk-tab" data-uk-tab>
     <li class="<?php if(sizeof($page_data['managed_nodes']) != 0) {echo 'uk-active';} else {echo 'uk-disabled';} ?>"<?php if(sizeof($page_data['unmanaged_nodes']) == 0 || sizeof($page_data['managed_nodes']) != 0) {echo ' aria-expanded=\'true\'';} ?>><a <?php if(sizeof($page_data['unmanaged_nodes']) == 0 || sizeof($page_data['managed_nodes']) != 0) {echo "class='uk-active' aria-expanded='true'";} else {echo "class='uk-disabled' aria-expanded='false'";} ?> rel='managed_nodes' href="#">
@@ -112,8 +118,8 @@ div.limbo {
 		<div class="uk-grid uk-grid-collapse nos-title-row">
 	    <div class="uk-width-1-6">Patch Management</div>
 	    <div class="uk-width-1-6">Node Status</div>
-			<div class="uk-width-1-6">Cloud Integration</div>
-			<div class="uk-width-1-6">Cluster</div>
+			<div class="uk-width-1-6">Cloud Provider</div>
+			<div class="uk-width-1-6">Physical Location</div>
 			<div class="uk-width-2-6">Network Info</div>
 		</div>
 		
@@ -172,8 +178,8 @@ div.limbo {
 					}
 					?>
 				</div>
-				<div class="uk-width-1-6"><?= $service_provider_cluster_id; ?></div>
-				<div class="uk-width-2-6"><div class="trim_long"><?= $service_provider_description; ?></div></div>
+				<div class="uk-width-1-6"><?= $node->friendly_availability_zone; ?></div>
+				<div class="uk-width-2-6"><div class="trim_long"><?= $node->public_dns_name; ?></div></div>
 			</div>
 		<?php } ?>
 	</div>
@@ -183,7 +189,7 @@ div.limbo {
 		<div class="uk-grid uk-grid-collapse nos-title-row">
 	    <div class="uk-width-1-6">Patch Risk</div>
 	    <div class="uk-width-1-6">Cloud &amp; Platform</div>
-			<div class="uk-width-1-6">Last Patch</div>
+			<div class="uk-width-1-6">Physical Location</div>
 			<div class="uk-width-1-6">Base Image</div>
 			<div class="uk-width-1-6">Host Name</div>
 			<div class="uk-width-1-6">Classifications</div>
@@ -227,7 +233,7 @@ div.limbo {
 				?></a>
 			</div>
 			<div class="uk-width-1-6 node_last_updated">
-			<div class="trim_long shift5"><?php if(is_int($node->last_updated)) {$dt = new DateTime($node->last_updated); echo $dt->format("m-d-Y H:i:s");} else {print "Never";} ?></div>
+			<div class="trim_long shift5"><?= $node->friendly_availability_zone ?></div>
 			</div>
 			<div class="uk-width-1-6 node_base_image_id"><div class="trim shift5"><?= $node->service_provider_base_image_id; ?></div></div>
 			<div class="uk-width-1-6 node_hostname"><div class="trim_long shift5"><?= $node->hostname; ?></div></div>

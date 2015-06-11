@@ -98,7 +98,7 @@
 					</div>
 					<div class="uk-width-1-5" style="width: 16%;">
 						<div class="info_group">
-							<div class="title">Last Patch</div>
+							<div class="title">Physical Location</div>
 							<div class="info i_last_patch"></div>
 						</div>
 					</div>

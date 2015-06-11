@@ -14,8 +14,9 @@ class KeysController extends \BaseController {
 			
 			// lmao why is this logic reversed? and it works?
 			if(!$cli_exec_result_success) {
+				
 				$s3->putObject(array(
-			    'Bucket'     => 'keys.nosprawl.software',
+			    'Bucket'     => (App::isLocal() ? 'devkeys.nosprawl.software' : 'keys.nosprawl.software'),
 			    'Key'        => Input::file('key')->getClientOriginalName(),
 			    'SourceFile' => Input::file('key')->getRealPath(),
 				));

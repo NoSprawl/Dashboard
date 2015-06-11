@@ -49,13 +49,16 @@ class DeployAgentToNode {
 			foreach($all_keys as $pem_key_reference) {
 				if($pem_key_reference->remote_url) {
 					$unique_key_name = rand(0,9999) . $pem_key_reference->remote_url;
-					$s3->getObject(array('Bucket' => 'keys.nosprawl.software', 'Key' => $pem_key_reference->remote_url, 'SaveAs' => '/tmp/' . $unique_key_name));
+					
+					$s3->getObject(array('Bucket' => (App::isLocal() ? 'devkeys.nosprawl.software' : 'keys.nosprawl.software'), 'Key' => $pem_key_reference->remote_url, 'SaveAs' => '/tmp/' . $unique_key_name));
+					
 					exec('chmod 400 /tmp/' . $unique_key_name);
 					exec('ssh-add /tmp/' . $unique_key_name);
 					
-					$res = exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o BatchMode=yes -i /tmp/' . $unique_key_name . " " . $pem_key_reference->username . "@" . $node->public_dns_name . " '(curl http://agent.nosprawl.software/`curl http://agent.nosprawl.software/latest` > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
-				} else {
+					$res = exec("ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o BatchMode=yes -i /tmp/" . $unique_key_name . " " . $pem_key_reference->username . "@" . $node->public_dns_name . " '(curl " . (App::isLocal() ? 'http://agent.nosprawl.software/dev/' : 'http://agent.nosprawl.software/') . "`curl " . (App::isLocal() ? 'http://agent.nosprawl.software/dev/latest' : 'http://agent.nosprawl.software/latest') . "` > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
 					
+				} else {
+					$output->writeln("This is what we do if all we have is a password.");
 				}
 				
 				foreach($cmdout as $outputline) {
