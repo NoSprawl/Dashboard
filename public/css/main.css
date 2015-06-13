@@ -1284,7 +1284,7 @@ div {
 	list-style: none;
 	margin: 0;
 	padding: 75px 0 0 0;
-	-webkit-transition: border-right .15s, left .15s;
+	-webkit-transition: border-right .35s, left .35s;
 }
 
 #groups_panel.open {
@@ -1475,7 +1475,7 @@ body.dragging {
 }
 
 a.problem {
-	display: block;
+	display: inline-block;
 	position: relative;
 	top: 3px;
 	font-size: .8em;
@@ -1506,4 +1506,103 @@ a.problem i {
 
 a.problem.highlight span {
 	left: 0;
+}
+
+.problem_area {
+	position: absolute;
+	top: -95px;
+	height: 88px;
+	width: 150px;
+	opacity: .97;
+	-webkit-transition: all .25s;
+	z-index: 30;
+}
+
+.problem_area.hidden {
+	opacity: 0;
+	top: 30px;
+	z-index: 1;
+}
+
+.problem_details {
+	position: relative;
+	background: #eee;
+	height: 100%;
+	width: 100%;
+	z-index: 5;
+	border-radius: 12px;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, .3);
+}
+
+.nub {
+	background: #eee;
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	left: 67px;
+	bottom: -5px;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, .3);
+	-webkit-transform: rotate(45deg);
+	z-index: 6;
+}
+
+.nubcover {
+	position: absolute;
+	height: 10px;
+	width: 18px;
+	background: #eee;
+	z-index: 10;
+	bottom: 0px;
+	left: 63px;
+}
+
+.problem_details .inner {
+	position: relative;
+	padding: 8px 8px 5px 8px;
+	font-size: .9em;
+	line-height: 1.2em;
+	text-align: center;
+	font-weight: bold;
+}
+
+.problem_area ul {
+	list-style: none;
+	margin: 0 auto;
+	overflow: auto;
+	padding: 0;
+	position: relative;
+	z-index: 20;
+	bottom: 27px;
+	text-align: center;
+}
+
+.problem_area ul li {
+	display: inline-block;
+	margin-right: 11px;
+	position: relative;
+	z-index: 20;
+}
+
+.problem_area ul li:last-child {
+	margin: 0;
+}
+
+.problem_area ul li:after {
+	content: " ";
+	background: rgba(0, 0, 0, .3);
+	width: 1px;
+	height: 14px;
+	position: absolute;
+	z-index: 10;
+	right: -8px;
+	bottom: 3px;
+}
+
+.problem_area ul li:last-child:after {
+	display: none;
+}
+
+.problem_area ul li a {
+	display: block;
+	font-size: .8em;
 }

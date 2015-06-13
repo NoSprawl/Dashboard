@@ -93,9 +93,7 @@ div.limbo.out {
 	position: relative;
 	top: 3px;
 }
-.spinner_holder:hover {
-	cursor: pointer;
-}
+
 .spinner_holder:hover div.limbo {
 	text-decoration: underline;
 }
@@ -158,7 +156,7 @@ div.limbo.out {
 					  <span class="switch-selection"></span>
 					</div>
 					<?php } else { ?>
-						<?php $problems = $node->problems()->get() ?>
+						<?php $problems = $node->problems; ?>
 						<?php if(sizeof($problems) == 0) { ?>
 							<div class="spinner">
 							  <div class="bounce1"></div>
@@ -167,6 +165,20 @@ div.limbo.out {
 							</div>
 							<div class="limbo">Activating</div>
 						<?php } else { ?>
+							<div class="problem_area hidden">
+								<div class="nubcover"></div>
+								<div class="nub"></div>
+								<div class="problem_details">
+									<div class="inner">
+										<?= $problems[0]->reason; ?>
+									</div>
+								</div>
+								<ul>
+									<?php foreach($problems[0]->remediations as $remediation) { ?>
+										<li><a class="remediate" data-id="<?= $remediation->id; ?>" href="#"><?= $remediation->name ?></a></li>
+									<?php } ?>
+								</ul>
+							</div>
 							<a class="problem" data-id="<?= $problems[0]->id; ?>" href="#"><i class="fa fa-bullhorn">&nbsp;&nbsp;</i><span><?= $problems[0]->description; ?></span></a>
 						<?php } ?>
 					<?php } ?>
@@ -201,8 +213,8 @@ div.limbo.out {
 					}
 					?>
 				</div>
-				<div class="uk-width-1-6"><?= $node->friendly_availability_zone; ?></div>
-				<div class="uk-width-2-6"><div class="trim_long"><?= $node->public_dns_name; ?></div></div>
+				<div class="uk-width-1-6"><div class="shift5"><?= $node->friendly_availability_zone; ?></div></div>
+				<div class="uk-width-2-6"><div class="trim_long shift5"><?= $node->public_dns_name; ?></div></div>
 			</div>
 		<?php } ?>
 	</div>
@@ -445,6 +457,59 @@ div.limbo.out {
 		if($("#managed_nodes").is(":visible")) {
 			$("#groups_panel").addClass("open");
 		}
+		
+		$(".problem_area").mouseenter(function(ev) {
+			if($(this).is(":visible")) {
+				window.holdProblem = true;
+			}
+			
+		});
+		
+		$(".problem_area").mouseleave(function(ev) {
+			if($(this).is(":visible")) {
+				delete(window.holdProblem);
+				var $that = $(this);
+				setTimeout(function(ev) {
+					if((typeof(window.holdProblem) == "undefined")) {
+						$that.addClass("hidden");
+					}
+				
+				}, 1000);
+				
+			}
+			
+		});
+		
+		$(".problem").click(function(ev) {
+			window.holdProblem = true;
+			$(this).prev().removeClass("hidden");
+			ev.preventDefault();
+		});
+		
+		$(".problem").mouseleave(function(ev) {
+			delete(window.holdProblem);
+			var $that = $(this);
+			setTimeout(function(ev) {
+				if((typeof(window.holdProblem) == "undefined")) {
+					$that.prev().addClass("hidden");
+				}
+				
+			}, 1000);
+			
+		});
+		
+		$("a.remediate").click(function(ev) {
+			if(!$(this).parent().parent().parent().hasClass("hidden")) {
+				$(this).parent().parent().parent().addClass("hidden")
+				$.post("/remediation/" + $(this).data("id"), function(result) {
+					console.log(result);
+				});
+				
+			}
+			
+			ev.preventDefault();
+			
+		});
 		
 	})
 	</script>

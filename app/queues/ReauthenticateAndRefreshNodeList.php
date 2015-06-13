@@ -14,6 +14,8 @@ class ReauthenticateAndRefreshNodeList {
 			return $job->delete();
 		}
 		
+		$user_id = $integration->user_id;
+		
 		$service_provider->db_integration_id = $integration->id;
 		$nodes = null;
 		
@@ -88,10 +90,10 @@ class ReauthenticateAndRefreshNodeList {
 		}
 		
 		//This is where we delete Nodes that no longer exist on the service provider side.
-		Node::where('integration_id', '=', $integration->id)->whereNotIn('service_provider_uuid', $all_service_provider_ids)->delete();
+		Node::where('integration_id', '=', $integration->id)->where('owner_id', '=', $user_id)->whereNotIn('service_provider_uuid', $all_service_provider_ids)->delete();
 		
 		// Do this job again in 30 seconds.
-		$job->release(30);
+		$job->release(900);
 	}
 	
 }

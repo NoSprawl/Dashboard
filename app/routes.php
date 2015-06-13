@@ -49,4 +49,5 @@ Route::group(array('before' => 'auth'), function()
 	Route::post('/group/assoc/{node_id}/{group_id}', ['uses' => 'GroupsController@associateGroupAndNode', 'as' => 'group_assoc']);
 	Route::post('groupAssoc/delete/{groupAssocId}', ['uses' => 'GroupsController@deleteAssoc']);
 	Route::post('/users/delete/{user_id}', ['uses' => 'AuthController@deleteUser']);
+	Route::post('/remediation/{remediation_id}', ['uses' => 'RemediationsController@remediate']);
 });

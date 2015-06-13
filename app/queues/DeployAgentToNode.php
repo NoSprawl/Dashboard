@@ -101,6 +101,30 @@ class DeployAgentToNode {
 								$wget_exit_status = $ssh->getExitStatus();
 								if($exit_status == 0) {
 									$able_to_download = true;
+								} else {
+									// If there's no Ruby we're stuck.
+									if(strpos($wget_result, 'ruby') != false) {
+										$problem = new Problem();
+										$problem->description = "Couldn't deploy agent";
+										$problem->reason = "Ruby isn't installed.";
+										$problem->node_id = $node->id;
+										$problem->save();
+								
+										$remediation = new Remediation();
+										$remediation->name = "Install";
+										$remediation->queue_name = "InstallRubyAndRetryDeployment";
+										$remediation->problem_id = $problem->id;
+										$remediation->save();
+								
+										$remediation = new Remediation();
+										$remediation->name = "Cancel";
+										$remediation->queue_name = "CancelDeployAgentToNode";
+										$remediation->problem_id = $problem->id;
+										$remediation->save();
+									
+										return $job->delete();
+									}
+									
 								}
 								
 							} else {
@@ -118,12 +142,6 @@ class DeployAgentToNode {
 								$remediation = new Remediation();
 								$remediation->name = "Install cURL";
 								$remediation->queue_name = "InstallCurlAndRetryDeployment";
-								$remediation->problem_id = $problem->id;
-								$remediation->save();
-								
-								$remediation = new Remediation();
-								$remediation->name = "Install Wget";
-								$remediation->queue_name = "InstallWgetAndRetryDeployment";
 								$remediation->problem_id = $problem->id;
 								$remediation->save();
 								
@@ -170,29 +188,6 @@ class DeployAgentToNode {
 					$output->writeln("This is what we do if all we have is a password.");
 					continue;
 				}
-				
-				/*foreach($cmdout as $outputline) {
-					// Detect if Ruby is installed.
-					if(strpos(strtolower($outputline), "not found")) {
-						// Ruby isn't installed. Let's install it.
-						$output->writeln("no ruby was found");
-						$possible_installers = ["yum", "apt-get"];
-						foreach($possible_installers as $possible_installer) {
-							$installer_check_result = false;
-							$found = false;
-							exec('ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /tmp/' . $unique_key_name . " " . $username . "@" . $node->public_dns_name . " 'sudo " . $possible_installer . " -y install ruby'", $installer_check_output, $installer_result);
-							
-							if(!$installer_result) {
-								return $job->release();	
-							}
-							
-						}
-						
-					}
-					
-				}*/
-				
-				
 				
 			}
 			
