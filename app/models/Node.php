@@ -25,6 +25,7 @@ class Node extends Eloquent {
 	}
 	
 	public function packages() {
+		// This doesn't work for shit.
 		return $this->hasMany('Package')->orderBy('vulnerability_severity', 'desc')->orderBy('created_at', 'desc')->distinct();
 	}
 	
@@ -34,6 +35,10 @@ class Node extends Eloquent {
 	
 	public function groups() {
 		return $this->hasManyThrough('Node', 'NodeGroupAssociation');
+	}
+	
+	public function problems() {
+		return $this->hasMany('Problem');
 	}
 
 }

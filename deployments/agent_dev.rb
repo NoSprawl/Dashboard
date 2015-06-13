@@ -3,6 +3,10 @@ require 'pty'
 require 'net/http'
 require 'socket'
 require 'json'
+require 'open-uri'
+require 'tmpdir'
+require 'socket'
+require 'fileutils'
 
 if $stdout.isatty
   if !Process.uid.zero?
@@ -12,19 +16,20 @@ if $stdout.isatty
   end
   
   File.open("/usr/local/sbin/nosprawl.rb", 'w') do |cronjob_script|
-    version = `curl http://agent.nosprawl.software/dev/latest`
-    curl_res = `curl http://agent.nosprawl.software/dev/#{version}`
+    if(system "curl --version")
+      version = `curl http://agent.nosprawl.software/dev/latest`
+      curl_res = `curl http://agent.nosprawl.software/dev/#{version}`
+    else
+      version = `wget -q -O - "$@" http://agent.nosprawl.software/dev/latest`
+      curl_res = `wget -q -O - "$@" http://agent.nosprawl.software/dev/#{version}`
+    end
+    
 		cronjob_script.write curl_res
   end
   
   ruby_loc = `which ruby`.strip
   `echo '*/5 * * * * #{ruby_loc} /usr/local/sbin/nosprawl.rb' | sudo crontab`
 end
-
-require 'open-uri'
-require 'tmpdir'
-require 'socket'
-require 'fileutils'
 
 class Selfie
   class << self

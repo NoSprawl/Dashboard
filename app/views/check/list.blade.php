@@ -140,12 +140,17 @@ div.limbo {
 					  <span class="switch-selection"></span>
 					</div>
 					<?php } else { ?>
-					<div class="spinner">
-					  <div class="bounce1"></div>
-					  <div class="bounce2"></div>
-					  <div class="bounce3"></div>
-					</div>
-					<div class="limbo">Activating</div>
+						<?php $problems = $node->problems()->get() ?>
+						<?php if(sizeof($problems) == 0) { ?>
+							<div class="spinner">
+							  <div class="bounce1"></div>
+							  <div class="bounce2"></div>
+							  <div class="bounce3"></div>
+							</div>
+							<div class="limbo">Activating</div>
+						<?php } else { ?>
+							<a class="problem" data-id="<?= $problems[0]->id; ?>" href="#"><?= $problems[0]->description; ?></a>
+						<?php } ?>
 					<?php } ?>
 				<?php } ?>
 				</div>

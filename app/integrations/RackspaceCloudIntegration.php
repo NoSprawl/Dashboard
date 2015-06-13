@@ -8,7 +8,7 @@ class RackspaceCloudIntegration extends CloudIntegration {
 	
 	public $availability_zones = array(
 		"HKG" => "Hong Kong",
-		"IAD" => "Northern Virginia",
+		"IAD" => "N. Virginia",
 		"ORD" => "Chicago",
 		"DFW" => "Dallas",
 		"SYD" => "Sydney"
