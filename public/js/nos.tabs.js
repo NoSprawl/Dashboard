@@ -11,7 +11,15 @@ $(function(load_event) {
 		
 		if($("#managed_nodes").is(":visible")) {
 			$("#groups_panel").addClass("open");
+			$("a.problem").each(function(index, item) {
+				$(item).removeClass("highlight");
+			});
+			
 		} else {
+			$("a.problem").each(function(index, item) {
+				$(item).addClass("highlight");
+			});
+			
 			$("#groups_panel").removeClass("open");
 		}
 		

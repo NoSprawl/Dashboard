@@ -1135,6 +1135,11 @@ body.overlay2 #node_details_modal_container #node_details_modal {
 	width: 100% !important;
 }
 
+#node_details_modal_container .spinner.out {
+	padding-top: 100px !important;
+	width: 100% !important;
+}
+
 .vuln_info {
 	display: block;
 	margin: 0 auto;
@@ -1467,4 +1472,38 @@ body.dragging {
 
 .uk-disabled {
 	cursor: default !important;
+}
+
+a.problem {
+	display: block;
+	position: relative;
+	top: 3px;
+	font-size: .8em;
+	overflow: hidden;
+}
+
+a.problem:after {
+	position: absolute;
+	left: 0;
+	content: " ";
+	height: 20px;
+	width: 12px;
+	background: white;
+}
+
+a.problem span {
+	position: relative;
+	left: -150px;
+	-webkit-transition: left .5s;
+}
+
+a.problem i {
+	position: relative;
+	top: 1px;
+	color: rgb(53,53,53);
+	z-index: 1;
+}
+
+a.problem.highlight span {
+	left: 0;
 }

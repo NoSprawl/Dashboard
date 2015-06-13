@@ -25,6 +25,12 @@ td {
 	left: 0;
   width: 70px;
   text-align: center;
+	opacity: 1;
+	-webkit-transition: opacity .5s;
+}
+
+.spinner.out {
+	opacity: 0;
 }
 
 .spinner > div {
@@ -70,7 +76,19 @@ div.limbo {
 	left: 70px;
 	top: 3px;
 	color: #39f;
+	-webkit-transition: opacity .5s;
+	opacity: 1;
 }
+
+div.limbo.out {
+	font-size: .8em;
+	position: absolute;
+	left: 70px;
+	top: 3px;
+	color: #39f;
+	opacity: 0;
+}
+
 .spinner_holder .spinner {
 	position: relative;
 	top: 3px;
@@ -149,7 +167,7 @@ div.limbo {
 							</div>
 							<div class="limbo">Activating</div>
 						<?php } else { ?>
-							<a class="problem" data-id="<?= $problems[0]->id; ?>" href="#"><?= $problems[0]->description; ?></a>
+							<a class="problem" data-id="<?= $problems[0]->id; ?>" href="#"><i class="fa fa-bullhorn">&nbsp;&nbsp;</i><span><?= $problems[0]->description; ?></span></a>
 						<?php } ?>
 					<?php } ?>
 				<?php } ?>

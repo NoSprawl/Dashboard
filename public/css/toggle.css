@@ -10,6 +10,12 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+	opacity: 1;
+	-webkit-transition: opacity .5s;
+}
+
+.switch.fade {
+	opacity: 0;
 }
 
 .switch-label {
