@@ -46,14 +46,19 @@ class ReauthenticateAndRefreshNodeList {
 				$node->owner_id = $integration->user_id;
 				$node->public_dns_name = $service_provider_node['public_dns_name'];
 				$node->name = "";
-				$node->service_provider_availability_zone = $service_provider_node['availability_zone_name'];
-				$node->friendly_availability_zone = $service_provider_node['availability_zone_friendly'];
+				try {
+					$node->service_provider_availability_zone = $service_provider_node['availability_zone_name'];
+					$node->friendly_availability_zone = $service_provider_node['availability_zone_friendly'];
+				} catch(Exception $e) {
+					$node->service_provider_availability_zone = "San Francisco";
+					$node->friendly_availability_zone = "San Francisco";
+				}
 				
 				// This should be handled in the DB schema. Default val of false.
 				if($node->managed == null) {
 					$node->managed = false;
 				}
-								
+				
 				$base_image = BaseImage::firstOrNew(array('integration_id' => $integration->id,
 																								  'service_provider_id' => $service_provider_node['service_provider_base_image_id'],
 																								  'integration_id' => $integration->id,

@@ -22,8 +22,9 @@ class DeployAgentToNode {
 				$output->writeln("node is not running");
 			}
 			
+			// TODO: Explore the below. It shouldn't be necessary and it will look weird in auth.log
 			// If port 22 isn't open, requeue it and halt execution
-			try {
+			/*try {
 				$fp = fsockopen($node->public_dns_name , 22);
 				if (!$fp) {
 					return $job->release();
@@ -33,7 +34,7 @@ class DeployAgentToNode {
 				
 			} catch(Exception $e) {
 				return $job->release();
-			}
+			}*/
 									
 			// Keys are always stored on S3. This is the NoS account.
 			$s3 = \Aws\S3\S3Client::factory(array('key' => 'AKIAIUCV4E2L4HDCDOUA',
@@ -55,10 +56,23 @@ class DeployAgentToNode {
 					exec('chmod 400 /tmp/' . $unique_key_name);
 					exec('ssh-add /tmp/' . $unique_key_name);
 					
-					$res = exec("ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o BatchMode=yes -i /tmp/" . $unique_key_name . " " . $pem_key_reference->username . "@" . $node->public_dns_name . " '(curl " . (App::isLocal() ? 'http://agent.nosprawl.software/dev/' : 'http://agent.nosprawl.software/') . "`curl " . (App::isLocal() ? 'http://agent.nosprawl.software/dev/latest' : 'http://agent.nosprawl.software/latest') . "` > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
+					$s3_resource_root = (App::isLocal() ? 'http://agent.nosprawl.software/dev/' : 'http://agent.nosprawl.software/');
+					$latest_version = exec("curl " . $s3_resource_root . "latest");
+					$latest_version_url = $s3_resource_root . $latest_version;
+					
+					$res = exec("ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o BatchMode=yes -i /tmp/" . $unique_key_name . " " . $pem_key_reference->username . "@" . $node->public_dns_name . " '(curl " . $latest_version_url . " > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'", $cmdout, $cmdres);
+					
+					$output->writeln("ssh -tto UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o BatchMode=yes -i /tmp/" . $unique_key_name . " " . $pem_key_reference->username . "@" . $node->public_dns_name . " '(curl " . $latest_version_url . " > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb'");
+					
+					$output->writeln("DEPLOY RESULT");
+					$output->writeln($cmdres);
+					$output->writeln("DEPLOY RESULT");
+					
+					return $job->delete();
 					
 				} else {
 					$output->writeln("This is what we do if all we have is a password.");
+					continue;
 				}
 				
 				foreach($cmdout as $outputline) {
@@ -86,7 +100,7 @@ class DeployAgentToNode {
 				
 			}
 			
-			return $job->delete();	
+			return $job->delete();
     }
 
 }
