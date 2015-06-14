@@ -47,6 +47,7 @@ class RackspaceCloudIntegration extends CloudIntegration {
 	}
 	
 	public function list_nodes($availability_zone_name, $availability_zone_friendly_name) {
+		$output = new Symfony\Component\Console\Output\ConsoleOutput();
 		$success = false;
 		$integration = Integration::find($this->db_integration_id);
 		$nodes = [];
@@ -69,44 +70,68 @@ class RackspaceCloudIntegration extends CloudIntegration {
 		
 		$computeService = $client->computeService(null, $availability_zone_name, 'publicURL');
 		$serverList = $computeService->serverList();
+		
 		foreach($serverList as $server) {
 			$server_ips = [];
-				
-			foreach($server->addresses->public as $ip) {
-				array_push($server_ips, $ip->addr);
-			}
+			$private_dns = "";
+			$public_dns = "";
+			$server_status = "";
 			
-			foreach($server->addresses->private as $ip) {
-				array_push($server_ips, $ip->addr);
-			}
+			if(strtolower($server->status) != "active") {
+				foreach($server->addresses->public as $ip) {
+					array_push($server_ips, $ip->addr);
+				}
 			
-			$public_dns = null;
+				foreach($server->addresses->private as $ip) {
+					array_push($server_ips, $ip->addr);
+				}
 			
-			foreach($server->addresses->public as $pubdns) {
-				$public_dns = $pubdns;
-			}
+				$public_dns = null;
+			
+				foreach($server->addresses->public as $pubdns) {
+					$public_dns = $pubdns->addr;
+				}
 		
-			$private_dns = null;
+				$private_dns = null;
 			
-			foreach($server->addresses->private as $pdns) {
-				$private_dns = $pdns;
-			}
+				foreach($server->addresses->private as $pdns) {
+					$private_dns = $pdns->addr;
+				}
 			
-			$server_status = 'terminated';
-			if($server->status == 'ACTIVE') {
 				$server_status = 'running';
+			} else {
+				switch(strtolower($server->status)) {
+					case "active":
+						$server_status = 'running';
+					break;
+					
+					case "build":
+						$server_status = 'starting';
+					break;
+					
+					default:
+						continue;
+				}
+				
 			}
+			
+			// Get image info so we can get platform info
+			$imageService = $client->imageService("cloudImages", $availability_zone_name);
+			$imageInfo = $imageService->getImage($server->image->id);
+			$platform = $imageInfo['os_distro'];
+			$output->writeln($imageInfo);
 			
 			array_push($nodes, array('service_provider_status' => $server_status,
 															 'service_provider_base_image_id' => $server->image->id,
 														 	 'service_provider_id' => $server->id,
-														 	 'private_dns_name' => $pdns->addr,
-														   'public_dns_name' => $pubdns->addr,
+														 	 'private_dns_name' => $private_dns,
+														   'public_dns_name' => $public_dns,
 														   'network_interfaces' => [],
 														   'service_provider_cluster_id' => null,
 														 	 'service_provider_ip_addresses' => $server_ips,
 														 	 'availability_zone_friendly' => $availability_zone_friendly_name,
-														   'availability_zone_name' => $availability_zone_name));
+														   'availability_zone_name' => $availability_zone_name,
+														   'platform' => $platform));
 		}
 		
 		return $nodes;

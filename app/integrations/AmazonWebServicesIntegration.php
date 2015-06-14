@@ -52,6 +52,11 @@ class AmazonWebServicesIntegration extends CloudIntegration
 		foreach($reservations as $reservation) {
 			$instances = $reservation['Instances'];
 			foreach($instances as $instance) {
+				$platform = "Linux";
+				if(isset($instance['Platform'])) {
+					$platform = ucfirst($instance['Platform']);
+				}
+				
 				$interfaces = [];
 				foreach($instance['NetworkInterfaces'] as $network_interface) {
 					array_push($interfaces, $network_interface['MacAddress']);
@@ -89,7 +94,8 @@ class AmazonWebServicesIntegration extends CloudIntegration
 															 	 'service_provider_cluster_id' => $sp_cluster_id,
 																 'service_provider_ip_addresses' => $all_ips,
 															 	 'availability_zone_friendly' => $availability_zone_friendly_name,
-															   'availability_zone_name' => $availability_zone_name));
+															   'availability_zone_name' => $availability_zone_name,
+															 	 'platform' => $platform));
 			}
 			
 		}

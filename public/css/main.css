@@ -1518,6 +1518,11 @@ a.problem.highlight span {
 	z-index: 30;
 }
 
+.problem_area.long {
+	height: 170px;
+	top: -177px;
+}
+
 .problem_area.hidden {
 	opacity: 0;
 	top: 30px;
@@ -1605,4 +1610,14 @@ a.problem.highlight span {
 .problem_area ul li a {
 	display: block;
 	font-size: .8em;
+}
+
+.problem_cta_btn {
+	display: inline-block;
+	background: #6BF9A6;
+	font-size: .9em;
+	padding: 5px 5px 7px 5px;
+	border-radius: 6px;
+	margin: 10px 3px 0 3px;
+	color: #444;
 }

@@ -134,7 +134,7 @@ div.limbo.out {
 		<div class="uk-grid uk-grid-collapse nos-title-row">
 	    <div class="uk-width-1-6">Patch Management</div>
 	    <div class="uk-width-1-6">Node Status</div>
-			<div class="uk-width-1-6">Cloud Provider</div>
+			<div class="uk-width-1-6">Platform &amp; Provider</div>
 			<div class="uk-width-1-6">Physical Location</div>
 			<div class="uk-width-2-6">Network Info</div>
 		</div>
@@ -165,7 +165,7 @@ div.limbo.out {
 							</div>
 							<div class="limbo">Activating</div>
 						<?php } else { ?>
-							<div class="problem_area hidden">
+							<?= (!$problems[0]->long_message) ? '<div class="problem_area hidden">': '<div class="problem_area hidden long">' ?>
 								<div class="nubcover"></div>
 								<div class="nub"></div>
 								<div class="problem_details">
@@ -195,14 +195,17 @@ div.limbo.out {
 							print "<span class='running'></span><span class='statuslabel'>Running</span>";
 						break;
 					
-						case "terminated":
-							print "<span class='terminated'></span><span class='statuslabel'>Terminated</span>";
+						case "starting":
+							print "<span class='terminated'></span><span class='statuslabel'>Starting</span>";
 						break;
 					}
 					?>
 				</div>
 				<div class="uk-width-1-6">
 					<?php
+					print "<span class='package_man t_platform'><img style='top: 0px; position: relative;' src='/svg/linux.svg' width='18px'></span>";
+					print "<span class='slash' style='top: 1px; position: relative;'>/</span>";
+					
 					switch($integration['service_provider']) {
 						case "AmazonWebServicesIntegration":
 							print "<img style='top: 0px; position: relative;' src='/svg/aws.svg' width='55px'>";
@@ -223,7 +226,7 @@ div.limbo.out {
 	<div id="managed_nodes" class="nos-hidable" style="<?php if((sizeof($page_data['managed_nodes']) == 0)) {echo 'display: none;';} ?>">
 		<div class="uk-grid uk-grid-collapse nos-title-row">
 	    <div class="uk-width-1-6">Patch Risk</div>
-	    <div class="uk-width-1-6">Cloud &amp; Platform</div>
+	    <div class="uk-width-1-6">Provider &amp; Platform</div>
 			<div class="uk-width-1-6">Physical Location</div>
 			<div class="uk-width-1-6">Base Image</div>
 			<div class="uk-width-1-6">Host Name</div>
@@ -363,6 +366,8 @@ div.limbo.out {
 	});
 	
 	$("#managed_nodes .uk-width-1-6").click(function(ev) {
+		$("#groups_panel").removeClass("open");
+		
 		if($("body").hasClass("ignoreClick")) {
 			$("body").removeClass("ignoreClick");
 			return false;
@@ -399,6 +404,7 @@ div.limbo.out {
 				});
 				
 				$("#node_details_modal_container").click(function(ev) {
+					$("#groups_panel").addClass("open");
 					$("body").removeClass('overlay2');
 				});
 				

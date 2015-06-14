@@ -58,7 +58,6 @@ class DeployAgentToNode {
 					$s3->getObject(array('Bucket' => $key_bucket, 'Key' => $pem_key_reference->remote_url, 'SaveAs' => '/tmp/' . $unique_key_name));
 					
 					exec('chmod 400 /tmp/' . $unique_key_name);
-					exec('ssh-add /tmp/' . $unique_key_name);
 					
 					$empty = null;
 					
@@ -77,6 +76,36 @@ class DeployAgentToNode {
 					if(!$ssh->login($pem_key_reference->username, $key)) {
 						continue;
 					} else {
+						// Let's look for any problems running sudo first.
+						$ssh->exec("sudo -v");
+						$result = $ssh->read();
+						$exit_status = $ssh->getExitStatus();
+						if($exit_status != 0) {
+							// User can't sudo without a password. We can't auto-install.
+							$problem = new Problem();
+							$problem->description = "Couldn't deploy agent";
+							$problem->reason = "User '" . $pem_key_reference->username . "' doesn't have passwordless sudo priviliges. Please either enable  it or <a class='problem_cta_btn' href='#'>Manually deploy the NoSprawl Agent</a>";
+							$problem->node_id = $node->id;
+							$problem->long_message = true;
+							$problem->save();
+							
+							$remediation = new Remediation();
+							$remediation->name = "Cancel";
+							$remediation->queue_name = "CancelDeployAgentToNode";
+							$remediation->problem_id = $problem->id;
+							$remediation->save();
+							
+							$remediation = new Remediation();
+							$remediation->name = "Retry";
+							$remediation->queue_name = "DeployAgentToNode";
+							$remediation->problem_id = $problem->id;
+							$remediation->save();
+							
+							return $job->delete();
+						}
+						
+						return false;
+						
 						$ssh->exec("(curl " . $latest_version_url . " > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb");
 						$result = $ssh->read();
 						$exit_status = $ssh->getExitStatus();
@@ -88,7 +117,6 @@ class DeployAgentToNode {
 							// 4 Things can go wrong
 							//   - No curl
 							//   - No ruby
-							//   - No sudo priv
 							//   - Cronjob file locked
 							
 							$able_to_download = false;

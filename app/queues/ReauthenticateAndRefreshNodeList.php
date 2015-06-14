@@ -34,6 +34,7 @@ class ReauthenticateAndRefreshNodeList {
 		$all_service_provider_ids = [];
 		
 		if($service_provider_nodes) {
+			//$output->writeln(print_r($service_provider_nodes));
 			$integration->status = "Confirmed";
 			$integration->save();
 			
@@ -52,8 +53,8 @@ class ReauthenticateAndRefreshNodeList {
 					$node->service_provider_availability_zone = $service_provider_node['availability_zone_name'];
 					$node->friendly_availability_zone = $service_provider_node['availability_zone_friendly'];
 				} catch(Exception $e) {
-					$node->service_provider_availability_zone = "San Francisco";
-					$node->friendly_availability_zone = "San Francisco";
+					$node->service_provider_availability_zone = "San Francisco!";
+					$node->friendly_availability_zone = "San Francisco!";
 				}
 				
 				// This should be handled in the DB schema. Default val of false.

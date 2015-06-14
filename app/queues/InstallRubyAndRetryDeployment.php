@@ -2,7 +2,6 @@
 class InstallRubyAndRetryDeployment {
   public function fire($job, $data) {
 		$output = new Symfony\Component\Console\Output\ConsoleOutput();
-		$output->writeln(print_r($data));
 		$node = Node::find($data['message']['node_id']);
 		
 		$s3 = \Aws\S3\S3Client::factory(array('key' => 'AKIAIUCV4E2L4HDCDOUA',
@@ -44,6 +43,7 @@ class InstallRubyAndRetryDeployment {
 						$installer_check_result = false;
 						$found = false;
 						$ssh->exec("sudo " . $possible_installer . " -y install ruby");
+						$install_result = $ssh->read();
 						$install_exit_status = $ssh->getExitStatus();
 						if($install_exit_status == 0) {
 							Queue::push('DeployAgentToNode', array('message' => array('node_id' => $node->id, 'integration_id' => $node->integration->id)));

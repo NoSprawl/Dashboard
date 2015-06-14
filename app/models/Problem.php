@@ -7,7 +7,7 @@ class Problem extends Eloquent {
 	 */
 	protected $table = 'problems';
 
-	protected $fillable = ['description', 'reason', 'node_id'];
+	protected $fillable = ['description', 'reason', 'node_id', 'long_message'];
 
 	public function node() {
 		return $this->belongsTo('Node', 'node_id');

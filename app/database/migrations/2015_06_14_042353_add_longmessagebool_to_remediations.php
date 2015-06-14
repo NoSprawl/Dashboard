@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNameToRemediations extends Migration {
+class AddLongmessageboolToRemediations extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,9 @@ class AddNameToRemediations extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('remediations', function(Blueprint $table)
+		Schema::table('problems', function(Blueprint $table)
 		{
-			$table->string('name');
+			$table->boolean('long_message')->nullable();
 		});
 	}
 
@@ -25,7 +25,7 @@ class AddNameToRemediations extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('remediations', function(Blueprint $table)
+		Schema::table('problems', function(Blueprint $table)
 		{
 		});
 	}
