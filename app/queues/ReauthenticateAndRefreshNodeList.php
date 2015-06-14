@@ -34,7 +34,6 @@ class ReauthenticateAndRefreshNodeList {
 		$all_service_provider_ids = [];
 		
 		if($service_provider_nodes) {
-			//$output->writeln(print_r($service_provider_nodes));
 			$integration->status = "Confirmed";
 			$integration->save();
 			
@@ -48,6 +47,7 @@ class ReauthenticateAndRefreshNodeList {
 				$node->description = $service_provider_node['private_dns_name'] . " " . $service_provider_node['public_dns_name'];
 				$node->owner_id = $integration->user_id;
 				$node->public_dns_name = $service_provider_node['public_dns_name'];
+				$node->platform = $service_provider_node['platform'];
 				$node->name = "";
 				try {
 					$node->service_provider_availability_zone = $service_provider_node['availability_zone_name'];

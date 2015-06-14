@@ -14,6 +14,15 @@ class RackspaceCloudIntegration extends CloudIntegration {
 		"SYD" => "Sydney"
 	);
 	
+	public $lat_long_index = array(
+		"HKG" => array("lat" => 22.396428, "lon" => 114.109497),
+		"IAD" => array("lat" => 37.431573, "lon" => -78.656894),
+		"ORD" => array("lat" => 41.878114, "lon" => -87.629798),
+		"DFW" => array("lat" => 32.776664, "lon" => -96.796988), 
+		"SYD" => array("lat" => -33.867487, "lon" => 151.206990),
+		
+	);
+	
 	public $authentication_endpoints = array(
 		Rackspace::US_IDENTITY_ENDPOINT => "United States",
 		Rackspace::UK_IDENTITY_ENDPOINT => "United Kingdom"
@@ -77,7 +86,7 @@ class RackspaceCloudIntegration extends CloudIntegration {
 			$public_dns = "";
 			$server_status = "";
 			
-			if(strtolower($server->status) != "active") {
+			if(strtolower($server->status) == "active") {
 				foreach($server->addresses->public as $ip) {
 					array_push($server_ips, $ip->addr);
 				}
@@ -89,13 +98,19 @@ class RackspaceCloudIntegration extends CloudIntegration {
 				$public_dns = null;
 			
 				foreach($server->addresses->public as $pubdns) {
-					$public_dns = $pubdns->addr;
+					if(strlen($pubdns->addr) < 16) {
+						$public_dns = $pubdns->addr;
+					}
+					
 				}
 		
 				$private_dns = null;
 			
 				foreach($server->addresses->private as $pdns) {
-					$private_dns = $pdns->addr;
+					if(strlen($pubdns->addr) < 16) {
+						$private_dns = $pdns->addr;
+					}
+					
 				}
 			
 				$server_status = 'running';
@@ -118,8 +133,7 @@ class RackspaceCloudIntegration extends CloudIntegration {
 			// Get image info so we can get platform info
 			$imageService = $client->imageService("cloudImages", $availability_zone_name);
 			$imageInfo = $imageService->getImage($server->image->id);
-			$platform = $imageInfo['os_distro'];
-			$output->writeln($imageInfo);
+			$platform = $imageInfo['os_type'];
 			
 			array_push($nodes, array('service_provider_status' => $server_status,
 															 'service_provider_base_image_id' => $server->image->id,
@@ -131,7 +145,7 @@ class RackspaceCloudIntegration extends CloudIntegration {
 														 	 'service_provider_ip_addresses' => $server_ips,
 														 	 'availability_zone_friendly' => $availability_zone_friendly_name,
 														   'availability_zone_name' => $availability_zone_name,
-														   'platform' => $platform));
+														   'platform' => ucfirst($platform)));
 		}
 		
 		return $nodes;

@@ -32,7 +32,10 @@ class ProcessAgentReport {
 			$node->virtual = $data['message']['virtual'];
 			$node->last_updated = $data['message']['pkginfo']['last_updated'];
 			$node->package_manager = $data['message']['pkginfo']['package_manager'];
-			$node->platform = $data['message']['pkginfo']['platform'];
+			if(!$node->platform) {
+				$node->platform = $data['message']['pkginfo']['platform'];
+			}
+			
 			$node->save();
 			
 			$query_version_vendor_query_pairs = array();

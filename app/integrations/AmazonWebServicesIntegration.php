@@ -21,6 +21,17 @@ class AmazonWebServicesIntegration extends CloudIntegration
 		"us-west-2" => "Oregon"
 	);
 	
+	public $lat_long_index = array(
+		"ap-northeast-1" => array("lat" => 35.689487, "lon" => 139.691706),
+		"ap-southeast-1" => array("lat" => 1.352083, "lon" => 103.819836),
+		"ap-southeast-2" => array("lat" => -33.867487, "lon" => 151.206990),
+		"eu-central-1" => array("lat" => 50.110922, "lon" => 8.682127),
+		"eu-west-1" => array("lat" => 53.412910, "lon" => -8.243890),
+		"sa-east-1" => array("lat" => -23.550520, "lon" => -46.633309),
+		"us-east-1" => array("lat" => 37.431573, "lon" => -78.656894),
+		"us-west-1" => array("lat" => 43.804133, "lon" => -120.554201),
+	);
+	
 	public function verifyAuthentication($access_key_id, $secret_access_key) {
 		$success = false;
 		try {

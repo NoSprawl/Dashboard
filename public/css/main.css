@@ -988,7 +988,7 @@ td {
 	text-align: center;
 }
 
-span.stopped, span.running {
+span.stopped, span.running, span.starting {
 	position: absolute;
 	left: 0;
 	top: 5px;
@@ -1008,6 +1008,14 @@ span.running {
 	border-radius: 16px;
 	display: block;
 	background: #6BF9A6;
+}
+
+span.starting {
+	width: 16px;
+	height: 16px;
+	border-radius: 16px;
+	display: block;
+	background: #faa732;
 }
 
 span.statuslabel {
@@ -1620,4 +1628,8 @@ a.problem.highlight span {
 	border-radius: 6px;
 	margin: 10px 3px 0 3px;
 	color: #444;
+}
+
+#topography {
+	height: 470px;
 }

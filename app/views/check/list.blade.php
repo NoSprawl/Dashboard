@@ -196,14 +196,20 @@ div.limbo.out {
 						break;
 					
 						case "starting":
-							print "<span class='terminated'></span><span class='statuslabel'>Starting</span>";
+							print "<span class='starting'></span><span class='statuslabel'>Starting</span>";
 						break;
 					}
 					?>
 				</div>
 				<div class="uk-width-1-6">
 					<?php
-					print "<span class='package_man t_platform'><img style='top: 0px; position: relative;' src='/svg/linux.svg' width='18px'></span>";
+					if($node->platform == "Windows") {
+						print "<span class='package_man t_platform'><img style='top: 0px; position: relative;' src='/svg/windows.svg' width='18px'></span>";
+						
+					} else {
+						print "<span class='package_man t_platform'><img style='top: 0px; position: relative;' src='/svg/linux.svg' width='18px'></span>";
+					}
+					
 					print "<span class='slash' style='top: 1px; position: relative;'>/</span>";
 					
 					switch($integration['service_provider']) {
@@ -217,7 +223,7 @@ div.limbo.out {
 					?>
 				</div>
 				<div class="uk-width-1-6"><div class="shift5"><?= $node->friendly_availability_zone; ?></div></div>
-				<div class="uk-width-2-6"><div class="trim_long shift5"><?= $node->public_dns_name; ?></div></div>
+				<div class="uk-width-2-6"><div class="trim_long shift5"><?= ($node->public_dns_name) ? $node->public_dns_name : "Network not initialized." ?></div></div>
 			</div>
 		<?php } ?>
 	</div>
