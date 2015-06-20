@@ -8,7 +8,14 @@ class ReportingController extends BaseController {
 	}
 
 	public function reportingIndex() {
-		$nodes = Auth::user()->nodes->groupBy('friendly_availability_zone');
+		$user = null;
+		if(is_null(Auth::user()->parent_user_id)) {
+			$user = Auth::user();
+		} else {
+			$user = User::find(Auth::user()->parent_user_id);
+		}
+		
+		$nodes = $user->nodes->groupBy('friendly_availability_zone');
 		$magnitude_info = array();
 		foreach($nodes as $availability_zone => $nodes) {
 			foreach($nodes as $node) {

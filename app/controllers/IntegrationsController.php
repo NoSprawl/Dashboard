@@ -7,7 +7,14 @@ class IntegrationsController extends BaseController {
 	}
 
 	public function getIntegrations() {
-		$integrations = Auth::user()->integrations;
+		$user = null;
+		if(is_null(Auth::user()->parent_user_id)) {
+			$user = Auth::user();
+		} else {
+			$user = User::find(Auth::user()->parent_user_id);
+		}
+		
+		$integrations = $user->integrations;
 		$this->layout->content = View::make('integrations.list')->with("integrations", $integrations);
 	}
 	

@@ -13,11 +13,6 @@ class AlertsController extends BaseController {
 		$alert->value = $input['value'];
 		$alert->condition = $input['condition'];
 		$alert->user_id = $input['user'];
-		if(Auth::user()->parent_user_id == null) {
-			$alert->owner_user_id = Auth::user()->id;
-		} else {
-			$alert->owner_user_id = User::find(Auth::user()->parent_user_id)->id;
-		}
 		
 		$alert->save();
 		return Redirect::to('/alerts');

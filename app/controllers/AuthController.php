@@ -100,6 +100,7 @@ class AuthController extends BaseController {
 			$user->parent_user_id = $parent_u->id;
 			$user->last_login = new DateTime;
 			$user->company_name = $parent_u->company_name;
+			$user->stripe_customer_id = $parent_u->stripe_customer_id;
 			$user->save();
 			Mail::queue('emails.auth.welcomeSubuser', [], function($message) use($user){
 				$message->to($user->email)->subject('Welcome to NoSprawl!');
