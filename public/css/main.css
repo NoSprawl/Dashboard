@@ -1738,3 +1738,24 @@ footer {
 	color: #777;
 	padding: 20px 0 0 0;
 }
+
+#signup_from_signin {
+	height: 27px;
+	background: #0078EF;
+	display: block;
+	color: #fff;
+	font-size: 1.1em;
+	text-align: center;
+	position: absolute;
+	bottom: 0;
+	padding-top: 3px;
+	width: 100%;
+}
+
+#signup_from_signin:hover {
+	text-decoration: none;
+}
+
+.nos-blue {
+	background: #0078EF;
+}
