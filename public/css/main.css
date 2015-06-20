@@ -1007,8 +1007,8 @@ td {
 
 .advice {
 	margin: 17px 17px 17px 0;
-	line-height: 7px;
-	font-size: 12px;
+	line-height: 1.3em;
+	font-size: 1em;
 }
 
 .alert {
@@ -1530,11 +1530,12 @@ a.problem span {
 	position: relative;
 	left: -150px;
 	-webkit-transition: left .5s;
+	font-size: 1.1em;
 }
 
 a.problem i {
 	position: relative;
-	top: 1px;
+	top: 0px;
 	color: rgb(53,53,53);
 	z-index: 1;
 }
@@ -1548,7 +1549,7 @@ a.problem.highlight span {
 	top: -95px;
 	height: 88px;
 	width: 150px;
-	opacity: .97;
+	opacity: .99;
 	-webkit-transition: all .25s;
 	z-index: 30;
 }
@@ -1571,7 +1572,6 @@ a.problem.highlight span {
 	width: 100%;
 	z-index: 5;
 	border-radius: 12px;
-	box-shadow: 0px 0px 5px rgba(0, 0, 0, .3);
 }
 
 .nub {
@@ -1737,6 +1737,8 @@ footer {
 	height: 41px;
 	color: #777;
 	padding: 20px 0 0 0;
+	z-index: 1;
+	position: relative;
 }
 
 #signup_from_signin {

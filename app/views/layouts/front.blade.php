@@ -79,10 +79,16 @@
 		<footer>
 			<div class="uk-container uk-container-center">
 				<div class="uk-grid">
-					<div class="uk-width-3-5">
+					<div class="uk-width-4-10">
 					Copyright &copy; 2015 NoSprawl, Inc.
 					</div>
+					<div class="uk-width-1-10">
+					</div>
+					<div style="text-align: right;" class="uk-width-5-10">
+					<strong>Contact us 24/7</strong><br />+1 (678) 705 9235<br /><a href="#">stayup@nosprawl.com</a><br /><a href="#">@teamnosprawl</a>
+					</div>
 				</div>
+				
 			</div>
 		</footer>
 	</div>

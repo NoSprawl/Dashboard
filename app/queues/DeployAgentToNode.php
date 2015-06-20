@@ -13,29 +13,15 @@ class DeployAgentToNode {
 			}
 			
 			// Make sure node isn't terminated
-			if($node->service_provider_status == "terminated") {
+			/*if($node->service_provider_status == "terminated") {
 				return $job->delete();
-			}
+			}*/
 						
 			// Make sure node is running
 			if($node->service_provider_status != "running") {
 				return $job->release();
 				$output->writeln("node is not running");
 			}
-			
-			// TODO: Explore the below. It shouldn't be necessary and it will look weird in auth.log anyway.
-			// If port 22 isn't open, requeue it and halt execution
-			/*try {
-				$fp = fsockopen($node->public_dns_name , 22);
-				if (!$fp) {
-					return $job->release();
-				} else {
-				  fclose($fp);
-				}
-				
-			} catch(Exception $e) {
-				return $job->release();
-			}*/
 									
 			// Keys are always stored on S3. This is the NoS account.
 			$s3 = \Aws\S3\S3Client::factory(array('key' => 'AKIAIUCV4E2L4HDCDOUA',
@@ -47,6 +33,32 @@ class DeployAgentToNode {
 			$unique_key_name = null;
 			
 			$cmdout = null;
+			
+			// Make sure the user has added credentials for this integration
+			if($all_keys->isEmpty()) {
+				$problem = new Problem();
+				$problem->description = "Couldn't deploy agent";
+				$problem->reason = "No credentials added for this integration.<br /><br />You can manage your integration credentials on the <a href='#'>integrations</a> page.<br />Or <a href='#'>deploy manually</a>.";
+				$problem->node_id = $node->id;
+				$problem->long_message = true;
+				$problem->save();
+				
+				$remediation = new Remediation();
+				$remediation->name = "Cancel";
+				$remediation->queue_name = "CancelDeployAgentToNode";
+				$remediation->problem_id = $problem->id;
+				$remediation->save();
+			
+				$remediation = new Remediation();
+				$remediation->name = "Retry";
+				$remediation->queue_name = "DeployAgentToNode";
+				$remediation->problem_id = $problem->id;
+				$remediation->save();
+				
+				return $job->delete();
+			}
+			
+			$eventually_logged_in = false;
 			
 			foreach($all_keys as $pem_key_reference) {
 				if($pem_key_reference->remote_url) {
@@ -102,111 +114,68 @@ class DeployAgentToNode {
 							return $job->delete();
 						}
 						
-						$ssh->exec("(curl " . $latest_version_url . " > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb");
-						$result = $ssh->read();
-						$exit_status = $ssh->getExitStatus();
+						// Check for problems with curl
+						$ssh->exec("curl --help");
+						$curl_result = $ssh->read();
+						$curl_exit_status = $ssh->getExitStatus();
 						
-						// If the exit status is 0 then the agent is deployed. All is probably well. Probably.
-						if($exit_status == 0) {
+						if($curl_exit_status != 0) {
+							$problem = new Problem();
+							$problem->description = "Couldn't deploy agent";
+							$problem->reason = "cURL isn&rsquo;t installed.";
+							$problem->node_id = $node->id;
+							$problem->save();
+							
+							$remediation = new Remediation();
+							$remediation->name = "Install cURL";
+							$remediation->queue_name = "InstallCurlAndRetryDeployment";
+							$remediation->problem_id = $problem->id;
+							$remediation->save();
+							
+							$remediation = new Remediation();
+							$remediation->name = "Cancel";
+							$remediation->queue_name = "CancelDeployAgentToNode";
+							$remediation->problem_id = $problem->id;
+							$remediation->save();
+							
+							return $job->delete();
+						}
+						
+						$ssh->exec("(curl " . $latest_version_url . " > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb");
+						$installer_result = $ssh->read();
+						$installer_exit_status = $ssh->getExitStatus();
+						
+						if($installer_exit_status) {
+							// Everything is good.
+							$node->limbo = false;
+							$node->save();
 							return $job->delete();
 						} else {
-							// 4 Things can go wrong
-							//   - No curl
-							//   - No ruby
-							//   - Cronjob file locked
-							
-							$able_to_download = false;
-							$able_to_install = false;
-							
-							// If there's no curl, we can try wget
-							if(strpos($result, 'curl') != false) {
-								$ssh->exec("(wget -q -O - \"$@\" " . $latest_version_url . " > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb");
-								$wget_result = $ssh->read();
-								$wget_exit_status = $ssh->getExitStatus();
-								if($exit_status == 0) {
-									$able_to_download = true;
-								} else {
-									// If there's no Ruby we're stuck.
-									if(strpos($wget_result, 'ruby') != false) {
-										$problem = new Problem();
-										$problem->description = "Couldn't deploy agent";
-										$problem->reason = "Ruby isn't installed.";
-										$problem->node_id = $node->id;
-										$problem->save();
-								
-										$remediation = new Remediation();
-										$remediation->name = "Install";
-										$remediation->queue_name = "InstallRubyAndRetryDeployment";
-										$remediation->problem_id = $problem->id;
-										$remediation->save();
-								
-										$remediation = new Remediation();
-										$remediation->name = "Cancel";
-										$remediation->queue_name = "CancelDeployAgentToNode";
-										$remediation->problem_id = $problem->id;
-										$remediation->save();
-									
-										return $job->delete();
-									}
-									
-								}
-								
-							} else {
-								$able_to_download = true;
-							}
-							
-							// If there's no curl AND no wget we're stuck.
-							if(!$able_to_download) {
-								$problem = new Problem();
-								$problem->description = "Couldn't deploy agent";
-								$problem->reason = "Neither cURL or Wget are installed.";
-								$problem->node_id = $node->id;
-								$problem->save();
-								
-								$remediation = new Remediation();
-								$remediation->name = "Install cURL";
-								$remediation->queue_name = "InstallCurlAndRetryDeployment";
-								$remediation->problem_id = $problem->id;
-								$remediation->save();
-								
-								$remediation = new Remediation();
-								$remediation->name = "Cancel";
-								$remediation->queue_name = "CancelDeployAgentToNode";
-								$remediation->problem_id = $problem->id;
-								$remediation->save();
-								
-								return $job->delete();
-							} else {
-								// If there's no Ruby we're stuck.
-								if(strpos($result, 'ruby') != false) {
-									$problem = new Problem();
-									$problem->description = "Couldn't deploy agent";
-									$problem->reason = "Ruby isn't installed.";
-									$problem->node_id = $node->id;
-									$problem->save();
-								
-									$remediation = new Remediation();
-									$remediation->name = "Install";
-									$remediation->queue_name = "InstallRubyAndRetryDeployment";
-									$remediation->problem_id = $problem->id;
-									$remediation->save();
-								
-									$remediation = new Remediation();
-									$remediation->name = "Cancel";
-									$remediation->queue_name = "CancelDeployAgentToNode";
-									$remediation->problem_id = $problem->id;
-									$remediation->save();
-									
-									return $job->delete();
-								}
-								
-							}
+							$problem = new Problem();
+							$problem->description = "Couldn't deploy agent";
+							$problem->reason = "Ruby isn't installed.";
+							$problem->node_id = $node->id;
+							$problem->save();
+					
+							$remediation = new Remediation();
+							$remediation->name = "Install";
+							$remediation->queue_name = "InstallRubyAndRetryDeployment";
+							$remediation->problem_id = $problem->id;
+							$remediation->save();
+					
+							$remediation = new Remediation();
+							$remediation->name = "Cancel";
+							$remediation->queue_name = "CancelDeployAgentToNode";
+							$remediation->problem_id = $problem->id;
+							$remediation->save();
+						
+							return $job->delete();
 							
 						}
 						
+						return $job->delete();
+						
 					}
-					
-					return $job->delete();
 					
 				} else {
 					$output->writeln("This is what we do if all we have is a password.");
@@ -215,7 +184,29 @@ class DeployAgentToNode {
 				
 			}
 			
-			return $job->delete();
+			if(!$eventually_logged_in) {
+				$problem = new Problem();
+				$problem->description = "Couldn't deploy agent";
+				$problem->reason = "None of the credentials provided were sufficient to connect to this node. Manage your credentials on the <a href='#'>integrations</a> page.<br />Or <a href='#'>deploy manually</a>.";
+				$problem->node_id = $node->id;
+				$problem->long_message = true;
+				$problem->save();
+			
+				$remediation = new Remediation();
+				$remediation->name = "Cancel";
+				$remediation->queue_name = "CancelDeployAgentToNode";
+				$remediation->problem_id = $problem->id;
+				$remediation->save();
+		
+				$remediation = new Remediation();
+				$remediation->name = "Retry";
+				$remediation->queue_name = "DeployAgentToNode";
+				$remediation->problem_id = $problem->id;
+				$remediation->save();
+			
+				return $job->delete();
+			}
+			
     }
 
 }

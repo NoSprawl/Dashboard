@@ -18,8 +18,7 @@ td {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-</style>
-<style type="text/css">
+
 .spinner {
   margin: 0px 0 0 0;
 	left: 0;
@@ -104,8 +103,9 @@ div.limbo.out {
 	<?php if(!sizeof($page_data['unmanaged_nodes']) && !sizeof($page_data['managed_nodes'])) { ?>
 	<?php if(!sizeof(Auth::user()->nodes)) { ?>
 		<div class="advice">
-			<p>We can&rsquo;t see any of your nodes yet.</p>
-			<p>To start monitoring your nodes, either create a <a href="/integrations">cloud provider connection</a> or <a href="#">deploy our agent</a> to one of your nodes.</p>
+			<p>NoSprawl can&rsquo;t see any of your nodes yet.</p>
+			<p>To allow node discovery please create a <a href="/integrations">cloud integration</a>. Node discovery means that NoSprawl will call out to your cloud provider(s) and download basic details about your cloud environments such as what operating system they are running, what base images they depend on, etc. NoSprawl will periodically keep this data up to date through continuous monitoring.</p>
+			<p>Creating a cloud integration will not have any effect on your bill.</p>
 		</div>
 	<?php } else { ?>
 		<div class="advice">
@@ -523,7 +523,17 @@ div.limbo.out {
 			
 		});
 		
-	})
+	});
+	
+	$(function(ev) {
+		$("a.problem").each(function(index, item) {
+			if(!$("#managed_nodes").is(":visible")) {
+				$(this).addClass("highlight");
+			}
+		
+		});
+		
+	});
 	</script>
 </article>
 <script type="text/javascript" src="/js/nos.toggle.js"></script>

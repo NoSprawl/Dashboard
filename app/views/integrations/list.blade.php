@@ -10,7 +10,7 @@
 				<th width="70">Cloud</th>
 				<th width="110">Access Status</th>
 				<th width="190">Automatically Manage All</th>
-				<th>PEM Keys</th>
+				<th>Node Credentials</th>
 				<th>Associated Nodes</th>
 				<th>Actions</th>
 			</tr>
