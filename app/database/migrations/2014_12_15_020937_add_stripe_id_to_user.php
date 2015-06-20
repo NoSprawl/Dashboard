@@ -14,7 +14,7 @@ class AddStripeIdToUser extends Migration {
 	{
 		Schema::table('users', function($table)
 		{
-			$table->string('stripe_customer_id')->nullable();
+			$table->string('stripe_customer_id');
 		});
 	}
 

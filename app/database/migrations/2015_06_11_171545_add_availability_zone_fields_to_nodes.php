@@ -28,6 +28,8 @@ class AddAvailabilityZoneFieldsToNodes extends Migration {
 	{
 		Schema::table('nodes', function(Blueprint $table)
 		{
+			$table->dropColumn('service_provider_availability_zone');
+			$table->dropColumn('friendly_availability_zone');
 		});
 	}
 

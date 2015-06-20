@@ -29,7 +29,7 @@ class CreateNodePackageRecord extends Migration {
 	 */
 	public function down()
 	{
-		
+		Schema::drop('node_package_records');
 	}
 	
 

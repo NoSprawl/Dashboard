@@ -27,6 +27,7 @@ class AddOwnerIdToAlert extends Migration {
 	{
 		Schema::table('alerts', function($table)
 		{
+			$table->dropColumn('owner_user_id');
 		});
 	}
 

@@ -27,6 +27,7 @@ class AddGroupAssocToNode extends Migration {
 	{
 		Schema::table('nodes', function(Blueprint $table)
 		{
+			$table->dropColumn('node_group_id');
 		});
 	}
 

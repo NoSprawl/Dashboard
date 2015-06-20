@@ -27,6 +27,7 @@ class AddNameToRemediations extends Migration {
 	{
 		Schema::table('remediations', function(Blueprint $table)
 		{
+			$table->dropColumn('name');
 		});
 	}
 

@@ -722,7 +722,6 @@ input.sp-input {
 
 /* NoS Start */
 body {
-	min-width: 680px;
 	height: 100%;
 }
 
@@ -775,6 +774,10 @@ article.uk-article {
 	top: 30px;
 }
 
+.billing, .planning {
+	margin-top: 25px !important;
+}
+
 .billing legend {
 	padding-bottom: 30px;
 }
@@ -806,15 +809,17 @@ article.uk-article {
 	color: #999;
 }
 
-.plan ul li .muted {
+.muted {
 	color: #888;
 	font-size: 88%;
+	display: block;
+	margin: -20px 0 0 0;
 }
 
 .plan ul li:last-child {
 	text-align: center;
 	font-size: 140%;
-	padding-top: 14%;
+	padding-top: 30px;
 }
 
 input.lone {
@@ -822,10 +827,36 @@ input.lone {
 	margin-bottom: 5px;
 }
 
-.card-container {
+#card_area_preview {
 	margin: 0;
 	position: relative;
 	top: 25px;
+	display: none;
+	
+}
+
+#confirmation_area {
+	position: relative;
+	top: -5px !important;
+	text-align: left;
+}
+
+@media (min-width: 768px) {
+
+	
+
+}
+
+.lght {
+	color: #777;
+}
+
+@media (min-width: 1220px) {
+
+	#card_area_preview {
+		display: block;
+	}
+
 }
 
 input {
@@ -1465,10 +1496,6 @@ header {
 	overflow: hidden;
 }
 
-body {
-	min-width: 1038px;
-}
-
 body.dragging {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -1640,15 +1667,14 @@ a.problem.highlight span {
 }
 
 span.error {
-	font-size: .9em;
-	position: absolute;
 	color: red;
 	display: block;
+	position: relative;
+	left: -9px;
+	margin-top: -10px;
+	font-size: .9em;
 	padding: 4px 8px 4px 8px;
-	border-radius: 4px;
-	right: 0;
-	top: 27px;
-	-webkit-transition: all .3s;
+	-webkit-transition: all .2s;
 }
 
 #card_area_preview .number.display {
@@ -1656,8 +1682,9 @@ span.error {
 }
 
 span.error.out {
+	height: 1px;
 	opacity: 0;
-	top: -5px;
+	margin-top: -11px;
 }
 
 .nos-dash-after:after {
@@ -1673,4 +1700,41 @@ span.error.out {
 .nos-reporting-shift {
 	position: relative;
 	padding-top: 8px;
+}
+
+.nos-reg-submit-row {
+	position: relative;
+	width: 90%;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+@media (min-width: 768px) {
+
+	.nos-reg-submit-row {
+		position: absolute;
+		bottom: -5px;
+		width: 90%;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+
+}
+
+.nos-reg-submit {
+	border-radius: 5px !important;
+	color: #fff !important;
+	font-weight: bold !important;
+}
+
+label {
+	cursor: pointer;
+}
+
+footer {
+	border-top: 1px solid #eee;
+	margin: 0px 0 0 0;
+	height: 41px;
+	color: #777;
+	padding: 20px 0 0 0;
 }

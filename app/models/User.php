@@ -24,6 +24,23 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = ['password', 'remember_token', 'user_id'];
 	protected $fillable = ['password', 'name', 'avatar', 'email', 'username', 'name', 'phone_number', 'limbo', 'company_name', 'full_name'];
 
+	public static function boot() {
+		parent::boot();
+		
+		User::deleting(function($user) {
+			if(App::environment('local')) {
+				Stripe::setApiKey(Config::get('stripe.development.secret'));
+			} else {
+				Stripe::setApiKey(Config::get('stripe.production.secret'));
+			}
+			
+			$cu = \Stripe\Customer::retrieve($user->stripe_customer_id);
+			$cu->delete();		
+			return true;
+		});
+		
+	}
+
 	public function integrations() {
 		return $this->hasMany('Integration');
 	}

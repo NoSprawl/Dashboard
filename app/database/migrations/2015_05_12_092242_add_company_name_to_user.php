@@ -27,6 +27,7 @@ class AddCompanyNameToUser extends Migration {
 	{
 		Schema::table('users', function($table)
 		{
+			$table->dropColumn('company_name');
 		});
 	}
 

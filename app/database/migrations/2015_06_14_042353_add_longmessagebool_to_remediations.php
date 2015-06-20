@@ -27,6 +27,7 @@ class AddLongmessageboolToRemediations extends Migration {
 	{
 		Schema::table('problems', function(Blueprint $table)
 		{
+			$table->dropColumn('long_message');
 		});
 	}
 

@@ -27,7 +27,7 @@ class AddParentUserFieldToUsers extends Migration {
 	{
 		Schema::table('users', function($table)
 		{
-			
+			$table->dropColumn('parent_user');
 		});
 	}
 

@@ -27,6 +27,7 @@ class AddLastLoginToUser extends Migration {
 	{
 		Schema::table('users', function($table)
 		{
+			$table->dropColumn('last_login');
 		});
 	}
 

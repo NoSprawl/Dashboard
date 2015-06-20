@@ -28,6 +28,8 @@ class AddUserPassToKeyRefs extends Migration {
 	{
 		Schema::table('key_references', function(Blueprint $table)
 		{
+			$table->dropColumn('username');
+			$table->dropColumn('password');
 		});
 	}
 

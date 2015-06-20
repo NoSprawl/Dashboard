@@ -27,6 +27,7 @@ class AddUpdatedTimeFieldsToPackageRecord extends Migration {
 	{
 		Schema::table('node_package_records', function($table)
 		{
+			$table->dropTimestamps();
 		});
 		
 	}

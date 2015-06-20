@@ -13,19 +13,28 @@ select {
 	{{ Form::open(['url' => 'register', 'class' => 'uk-form-stacked uk-form']) }}
 		{{ Form::hidden('temp_expmonthyear', null, ['id' => 'temp_expmonthyear']) }}
 		<fieldset>
-			<div class="uk-grid uk-grid-preserve">
-			<div class="uk-width-1-3">
-				<p>All of our plans start with a 30 day free trial and your personal account manager is always one phone call away. We have crafted NoSprawl to meet the needs of any organization with assets deployed in the cloud.</p>
-				<blockquote>
-				    <p>After the shellshock vulnerability, we said &ldquo;Never again.&rdquo; and thanks to NoSprawl, we are as ahead of the curve as any organization can be.</p>
-				    <small>Ben Walker - CTO at Mobiquity</small>
-				</blockquote>
-				<blockquote>
-				    <p>NoSprawl is an indispensible tool for any IT auditor who takes their job seriously.</p>
-				    <small>Tim Smith - Internal Resource Auditor at PNC Bank</small>
-				</blockquote>
-			</div>
-				<div class="uk-width-2-3">
+			<div class="uk-grid">
+				<div class="uk-width-large-1-3">
+					<div class="uk-row">
+						<p>All of our plans start with a 30 day free trial and your personal account manager is always one phone call away.</p>
+						<p>This is an instant-access registration process. Once you complete this form, you&rsquo;ll be logged into your NoSprawl dashboard immediately.</p>
+					</div>
+					<div class="uk-panel">
+						<div class="uk-row">
+							<blockquote>
+							    <p>After the shellshock vulnerability, we said &ldquo;Never again.&rdquo; and meant it. Word.</p>
+							    <small>Ben Walker - CTO at Mobiquity</small>
+							</blockquote>
+						</div>
+						<div class="uk-row">
+							<blockquote>
+							    <p>NoSprawl is an indispensible tool for any IT auditor who takes their job seriously.</p>
+							    <small>Tim Smith - IRA at PNC Bank</small>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+				<div class="uk-width-large-2-3">
 					<legend>Account Information</legend>
 					<div class="uk-form-row">	
 						{{ Form::label('full_name', 'Full Name', ['class' => 'uk-form-label'] ) }}
@@ -65,12 +74,12 @@ select {
 			</div><!-- /uk-grid uk-grid-preserve -->
 		</fieldset>
 		<br />{{-- @TODO style this so a br isn't necessary --}}
-		<fieldset>
+		<fieldset class="uk-row">
 			<?= Form::select('plan', ['nosprawl-' . (App::isLocal() ? 'test' : 'live') . '-business' => 'Business', 'nosprawl-' . (App::isLocal() ? 'test' : 'live') . '-starter' => 'Starter']) ?>
-			<legend>Choose a Plan</legend>
+			<legend style="padding-bottom: 1px !important;">Choose a Plan</legend>
 			<div class="pricing uk-grid uk-grid-preserve">
-				<div class="uk-width-1-3">
-					<div class="plan">
+				<div class="uk-width-medium-1-3">
+					<div class="plan uk-row">
 						<h3>Starter</h3>
 						<ul class="uk-list uk-list-line">
 							<li><strong>1</strong> User</li>
@@ -81,32 +90,30 @@ select {
 							<li>Real-time Notifications</li>
 							<li>Real-time Risk Alerts</li>
 							<li>Base Image Accord</li>
-							<li>Target Asset Patching</li>
 							<li>Detailed Reporting</li>
 							<li><button id="select_starter" class="uk-button uk-button-large">Free</button></li>
 						</ul>
 					</div>
 				</div>
-				<div class="uk-width-1-3">
-					<div class="plan feature">
+				<div class="uk-width-medium-1-3">
+					<div class="plan feature uk-row">
 						<h3>Business</h3>
 						<ul class="uk-list uk-list-line">
 							<li><strong>5</strong> Users</li>
-							<li><strong>10</strong> Managed Nodes <span class="muted">($35 per additional node)</span></li>
+							<li><strong>10</strong> Managed Nodes</li>
 							<li>Cloud Integration</li>
 							<li>Base Image Patching</li>
 							<li>Asset Risk Ranking</li>
 							<li>Real-time Notifications</li>
 							<li>Real-time Risk Alerts</li>
 							<li>Base Image Accord</li>
-							<li>Target Asset Patching</li>
 							<li>Detailed Reporting</li>
 							<li><button id="select_business" class="uk-button-primary uk-button uk-button-large">$375/month</button></li>
 						</ul>
 					</div>
 				</div>
-				<div class="uk-width-1-3">
-					<div class="plan">
+				<div class="uk-width-medium-1-3" style="margin-bottom: 0 !important;">
+					<div class="plan uk-row">
 						<h3>Enterprise</h3>
 						<ul class="uk-list uk-list-line">
 							<li><strong>Unlimited</strong> Users</li>
@@ -117,7 +124,6 @@ select {
 							<li>Real-time Notifications</li>
 							<li>Real-time Risk Alerts</li>
 							<li>Base Image Accord</li>
-							<li>Target Asset Patching</li>
 							<li>Detailed Reporting</li>
 							<li><button id="select_enterprise" class="uk-button uk-button-large">Contact Us</button></li>
 						</ul>
@@ -125,64 +131,64 @@ select {
 				</div>
 			</div>
 		</fieldset>
-		<br />{{-- @TODO style this so a br isn't necessary --}}
-		<fieldset class="billing">
-			<legend>Billing Information</legend>
+		<span class="muted">($35 per additional node)</span>
+		<fieldset class="uk-row billing">
+			<legend style="padding-bottom: 20px !important;">Billing Information</legend>
 			<div class="uk-grid uk-grid-preserve">
-			<div class="uk-width-1-3 card-wrapper">
-				<div class="uk-form-row">
-					{{ Form::label('billing_cc_number', 'Card Number', ['class' => 'uk-form-label'] ) }}
-					{{ Form::text('billing_cc_number', null, ['placeholder' => 'XXXX XXXX XXXX XXXX', 'data-stripe' => 'number'])}}
-				</div>
-				<div class="uk-form-row">
-					{{ Form::label('billing_cc_name', 'Name on Card', ['class' => 'uk-form-label'] ) }}
-					{{ Form::text('billing_cc_name', null, ['placeholder' => 'Thurman Thomas']) }}
-				</div>
-				<div class="uk-form-row">
-				<div class="uk-grid uk-grid-preserve">
-					<div class="uk-width-1-3">
-						{{ Form::label('billing_cc_expiry_month', 'Exp. Month', ['class' => 'uk-form-label'] ) }}
-						{{ Form::text('billing_cc_expiry_month', null, ['placeholder' => 'MM', 'style' => 'width: 100px;', 'data-stripe' => 'exp-month']) }}{{-- @TODO remove inline styles --}}
+				<div class="uk-width-medium-1-3" id="billing_cc_info">
+					<div class="uk-form-row">
+						{{ Form::label('billing_cc_number', 'Card Number', ['class' => 'uk-form-label'] ) }}
+						{{ Form::text('billing_cc_number', null, ['placeholder' => 'XXXX XXXX XXXX XXXX', 'data-stripe' => 'number'])}}
 					</div>
-					<div class="uk-width-1-3">
-						{{ Form::label('billing_cc_expiry_year', 'Exp. Year', ['class' => 'uk-form-label'] ) }}
-						{{ Form::text('billing_cc_expiry_year', null, ['id' => 'billing_cc_expiry_year', 'placeholder' => 'YYYY', 'style' => 'width: 100px;', 'data-stripe' => 'exp-year']) }}
-						{{-- @TODO remove inline styles --}}
+					<div class="uk-form-row">
+						{{ Form::label('billing_cc_name', 'Name on Card', ['class' => 'uk-form-label'] ) }}
+						{{ Form::text('billing_cc_name', null, ['placeholder' => 'Thurman Thomas']) }}
 					</div>
-					<div class="uk-width-1-3">
-						<label class="uk-form-label">CVC</label>
-				    <input type="text" name="billing_cc_cvc" style="width: 100px;" data-stripe="cvc">
+					<div class="uk-form-row">
+						<div class="uk-grid uk-grid-preserve">
+							<div class="uk-width-1-2">
+								{{ Form::label('billing_cc_expiry_month', 'Exp. Month', ['class' => 'uk-form-label'] ) }}
+								{{ Form::text('billing_cc_expiry_month', null, ['placeholder' => 'MM', 'data-stripe' => 'exp-month']) }}
+							</div>
+							<div class="uk-width-1-2">
+								{{ Form::label('billing_cc_expiry_year', 'Exp. Year', ['class' => 'uk-form-label'] ) }}
+								{{ Form::text('billing_cc_expiry_year', null, ['id' => 'billing_cc_expiry_year', 'placeholder' => 'YYYY', 'data-stripe' => 'exp-year']) }}
+							</div>
+						</div>
+					</div>
+					<div class="uk-form-row">
+						<div class="uk-width-large-3-3">
+							<label class="uk-form-label">CVC</label>
+					    <input type="text" name="billing_cc_cvc" data-stripe="cvc">
+						</div>
 					</div>
 				</div>
-				</div>
-				
-			</div>
 			
-			<div id="card_area_preview" class="uk-width-1-3">
-			<!-- This is where the card will go. Don't delete this div. -->
-			</div>
+				<div id="card_area_preview" class="uk-width-medium-1-3">
+				<!-- This is where the card will go. Don't delete this div. -->
+				</div>
 			
-			<div class="uk-width-1-3">
-				<div class="uk-form-row">
-				<label class="uk-form-label">&nbsp;</label>
-				Due Today: <strong id="total_due_today">$375.00</strong>
+				<div class="uk-width-medium-1-3" id="confirmation_area">
+					<div class="uk-form-row">
+						<label class="uk-form-label">&nbsp;</label>
+						Due Today: <strong id="total_due_today"><strike class="lght">$375.00</strike> $0.00</strong>
+					</div>
+					<div class="uk-form-row">
+						Next Billing Date: <strong>1/1/2016</strong>
+					</div>
+					<div class="uk-form-row">
+						<label for="terms_check" style="display: inline; width: auto;" class="uk-form-label">I agree to the <a href="#">licensing agreement</a>.</label>&nbsp;
+						<input id="terms_check" style="display: inline; width: auto; position: relative; top: -1px;" type="checkbox" name="agree_to_terms">
+					</div>
+					<div class="uk-form-row">
+						<label for="newsletter_check" style="display: inline; width: auto;" class="uk-form-label">I would like product &amp; company updates.</label>&nbsp;
+						<input id="newsletter_check" style="display: inline; width: auto; position: relative; top: -1px;" type="checkbox" name="subscribe_to_newsletter">
+					</div>
+					<div class="uk-form-row nos-reg-submit-row">
+						<br />
+						{{ Form::submit('Create My Account', ['class' => 'nos-reg-submit submit uk-button uk-button-success uk-button-large']) }}
+					</div>
 				</div>
-				<div class="uk-form-row">
-				Next Billing Date: <strong>1/1/2016</strong>
-				</div>
-				<div class="uk-form-row">
-					<input id="terms_check" style="display: inline; width: auto; position: relative; top: -1px;" type="checkbox" name="agree_to_terms">&nbsp;
-					<label for="terms_check" style="display: inline; width: auto;" class="uk-form-label">I agree to the <a href="#">licensing agreement</a>.</label>
-				</div>
-				<div class="uk-form-row">
-					<input id="newsletter_check" style="display: inline; width: auto; position: relative; top: -1px;" type="checkbox" name="subscribe_to_newsletter">&nbsp;
-					<label for="newsletter_check" style="display: inline; width: auto;" class="uk-form-label">I would like product &amp; company updates.</label>
-				</div>
-				<div class="uk-form-row">
-					<br />
-					{{ Form::submit('Register', ['class' => 'submit uk-button uk-button-success uk-button-large']) }}
-				</div>
-			</div>
 			</div>
 			<script type="text/javascript" src="/js/card.js"></script>
 		</fieldset>
@@ -192,7 +198,7 @@ select {
 	{{ Form::close() }}
 </article>
 <script type="text/javascript">
-$("input").click(function(event) {
+$("input").focus(function(event) {
 	if($(this).prev().hasClass("error")) {
 		$(this).prev().addClass("out");
 	}
@@ -240,7 +246,7 @@ $("input").click(function(event) {
 								
 									if(response.error.code == 'invalid_expiry_year') {
 										$("input[name='billing_cc_expiry_year']").addClass('uk-form-danger')
-										$("input[name='billing_cc_expiry_year']").before('<span class="error">' + response.error.message + '</span>')
+										$("input[name='billing_cc_expiry_year']").before('<span class="error">Invalid Exp. Year</span>')
 									}
 								
 									if(response.error.code == 'invalid_expiry_month') {
@@ -278,7 +284,7 @@ $("input").click(function(event) {
 					$("select[name='plan']").val("nosprawl-<?php if(App::isLocal()) {echo 'test';} else {echo 'live';} ?>-starter");
 					$(".plan").first().addClass('feature');
 					$("#select_starter").addClass('uk-button-primary');
-					$("#total_due_today").html("<strong>$0.00</strong>");
+					$("#total_due_today").html("<strong id=\"total_due_today\">$0.00</strong>");
 					return false;
 				});
 			
@@ -289,7 +295,7 @@ $("input").click(function(event) {
 					plans = $(".plan");
 					$(plans[1]).addClass('feature');
 					$("#select_business").addClass('uk-button-primary');
-					$("#total_due_today").html("<strong>$375.00</strong>");
+					$("#total_due_today").html('<strong id="total_due_today"><strike class="lght">$375.00</strike> $0.00</strong>');
 					return false;
 				});
 			
@@ -303,6 +309,27 @@ $("input").click(function(event) {
 
 		nsRegistration.init();
 	});
+	
+	$(function(ev) {
+		window.recalcNoSReg = function(ev) {
+			if(window.innerWidth <= 1220) {
+				$("#billing_cc_info").removeClass("uk-width-medium-1-3").addClass("uk-width-medium-2-3");
+				if(window.innerWidth <= 768) {
+					$(".pricing .uk-width-medium-1-3").css("margin-bottom", "25px");
+				}
+				
+			} else {
+				$("#billing_cc_info").removeClass("uk-width-medium-2-3").addClass("uk-width-medium-1-3");
+			}
+			
+		}
+		
+		window.recalcNoSReg(1);
+		
+		$(window).resize(window.recalcNoSReg);
+		
+	});
+	
 	</script>
 
 @stop

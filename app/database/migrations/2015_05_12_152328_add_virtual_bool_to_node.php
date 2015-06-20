@@ -28,6 +28,7 @@ class AddVirtualBoolToNode extends Migration {
 	{
 		Schema::table('nodes', function($table)
 		{
+			$table->dropColumn('virtual');
 		});
 		
 	}

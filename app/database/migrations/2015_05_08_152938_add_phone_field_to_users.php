@@ -27,7 +27,7 @@ class AddPhoneFieldToUsers extends Migration {
 	{
 		Schema::table('users', function($table)
 		{
-			
+			$table->dropColumn('phone_number');
 		});
 	}
 

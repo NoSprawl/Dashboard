@@ -27,6 +27,7 @@ class AddPackageNameToAlerts extends Migration {
 	{
 		Schema::table('alerts', function($table)
 		{
+			$table->dropColumn('package');
 		});
 	}
 

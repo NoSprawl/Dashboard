@@ -14,8 +14,8 @@ class AddIntegrationFields extends Migration {
 	{
 		Schema::table('integrations', function($table)
 		{
-			$table->string('service_provider_id')->nullable();
-			$table->integer('user_id')->nullable();
+			$table->string('service_provider_id');
+			$table->integer('user_id');
 		});
 	}
 
@@ -29,6 +29,7 @@ class AddIntegrationFields extends Migration {
 		Schema::table('integrations', function($table)
 		{
 			$table->dropColumn('user_id');
+			$table->dropColumn('service_provider_id');
 		});
 	}
 

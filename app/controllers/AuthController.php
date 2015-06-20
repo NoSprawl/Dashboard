@@ -140,7 +140,6 @@ class AuthController extends BaseController {
 			$user->full_name = $input['full_name'];
 			$user->company_name = $input['company'];
 			$user->password = Hash::make($input['password']);
-			$user->save();
 			
 			// Once we know the user has been created on our end, create the stripe customer
 			try {
@@ -151,7 +150,7 @@ class AuthController extends BaseController {
 				));
 				
 			} catch (Exception $exception) {
-				 return Redirect::to('register')->withErrors(array('message' => array("card_error" => $exception->message())));
+				 return Redirect::to('register')->withErrors(array('message' => array("card_error" => print_r($exception))));
 			}
 			
 			$subscription = $customer->subscriptions->create(array(
@@ -159,7 +158,12 @@ class AuthController extends BaseController {
 			));
 			
 			$user->stripe_customer_id = $customer->id;
-			$user->save();
+			
+			try {
+				$user->save();
+			} catch(Exception $e) {
+				return Redirect::to('register')->withErrors(array('message' => array("card_error" => "Couldn't validate billing info.")));
+			}
 			
 			// In theory the customer has been charged at this point
 			Mail::queue('emails.auth.welcome', [], function($message) use($user){

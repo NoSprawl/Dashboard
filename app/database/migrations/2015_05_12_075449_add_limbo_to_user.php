@@ -27,6 +27,7 @@ class AddLimboToUser extends Migration {
 	{
 		Schema::table('limbo', function($table)
 		{
+			$table->dropColumn('limbo');
 		});
 	}
 

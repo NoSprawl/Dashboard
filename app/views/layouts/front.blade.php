@@ -16,6 +16,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/c3.min.css" />
  	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/uikit.min.js"></script>
+	<script type="text/javascript" src="/js/components/grid.min.js"></script>
   <script type="text/javascript" src="/js/jquery.tooltipster.min.js"></script>
 	<script type="text/javascript" src="/js/nos.keyupload.js"></script>
 	<script type="text/javascript" src="/js/c3.min.js"></script>
@@ -40,7 +41,6 @@
 		?>
 	</ul>
 	<div id="whole-bird">
-	@section('header')
 		<header>
 			<nav class="tm-navbar uk-navbar uk-navbar-attached">
 				<div class="uk-container uk-container-center">
@@ -68,16 +68,23 @@
 				</div>
 			</nav>
 		</header>
-	@show
 
-	<div id="main" class="uk-container uk-container-center">
-		@yield('content', 'You should add your content here')
-	</div><!-- .container-fluid -->
-	@section('footer')
-	@show
+		<div id="main" class="uk-container uk-container-center">
+			@yield('content', 'You should add your content here')
+		</div><!-- .container-fluid -->
 	
-	@section('scripts')
-	@show
+		@section('scripts')
+		@show
+		
+		<footer>
+			<div class="uk-container uk-container-center">
+				<div class="uk-grid">
+					<div class="uk-width-3-5">
+					Copyright &copy; 2015 NoSprawl, Inc.
+					</div>
+				</div>
+			</div>
+		</footer>
 	</div>
 	<div id="node_details_modal_container">
 		<div id="node_details_modal">
