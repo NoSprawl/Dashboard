@@ -19,7 +19,7 @@ class InstallRubyAndRetryDeployment {
 				
 				// Shouldn't need these two lines at all.
 				exec('chmod 400 /tmp/' . $unique_key_name);
-				exec('ssh-add /tmp/' . $unique_key_name);
+				#exec('ssh-add /tmp/' . $unique_key_name);
 				
 				$empty = null;
 				
@@ -44,6 +44,7 @@ class InstallRubyAndRetryDeployment {
 						$found = false;
 						$ssh->exec("sudo " . $possible_installer . " -y install ruby");
 						$install_result = $ssh->read();
+						$output->writeln($install_result);
 						$install_exit_status = $ssh->getExitStatus();
 						if($install_exit_status == 0) {
 							Queue::push('DeployAgentToNode', array('message' => array('node_id' => $node->id, 'integration_id' => $node->integration->id)));

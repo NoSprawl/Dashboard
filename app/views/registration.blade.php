@@ -13,13 +13,20 @@ select {
 	{{ Form::open(['url' => 'register', 'class' => 'uk-form-stacked uk-form']) }}
 		{{ Form::hidden('temp_expmonthyear', null, ['id' => 'temp_expmonthyear']) }}
 		<fieldset>
-			<legend>Account Information</legend>
 			<div class="uk-grid uk-grid-preserve">
 			<div class="uk-width-1-3">
-				<p>Our patch management solutions are designed to give you and your team increased visibility into where your infrastructure stands from a patching perspective.</p>
-				<p>If you have any questions about NoSprawl then just <a target="_blank" href="http://nosprawl.com/contact-us.html">contact us</a>. We can create custom plans if you have 100 or more nodes that you want to manage.</p>
+				<p>All of our plans start with a 30 day free trial and your personal account manager is always one phone call away. We have crafted NoSprawl to meet the needs of any organization with assets deployed in the cloud.</p>
+				<blockquote>
+				    <p>After the shellshock vulnerability, we said &ldquo;Never again.&rdquo; and thanks to NoSprawl, we are as ahead of the curve as any organization can be.</p>
+				    <small>Ben Walker - CTO at Mobiquity</small>
+				</blockquote>
+				<blockquote>
+				    <p>NoSprawl is an indispensible tool for any IT auditor who takes their job seriously.</p>
+				    <small>Tim Smith - Internal Resource Auditor at PNC Bank</small>
+				</blockquote>
 			</div>
 				<div class="uk-width-2-3">
+					<legend>Account Information</legend>
 					<div class="uk-form-row">	
 						{{ Form::label('full_name', 'Full Name', ['class' => 'uk-form-label'] ) }}
 						{{ $errors->first('full_name', '<span class="error">:message</span>') }}
@@ -60,22 +67,22 @@ select {
 		<br />{{-- @TODO style this so a br isn't necessary --}}
 		<fieldset>
 			<?= Form::select('plan', ['nosprawl-' . (App::isLocal() ? 'test' : 'live') . '-business' => 'Business', 'nosprawl-' . (App::isLocal() ? 'test' : 'live') . '-starter' => 'Starter']) ?>
-			<legend>Pick a Plan</legend>
+			<legend>Choose a Plan</legend>
 			<div class="pricing uk-grid uk-grid-preserve">
 				<div class="uk-width-1-3">
 					<div class="plan">
 						<h3>Starter</h3>
 						<ul class="uk-list uk-list-line">
 							<li><strong>1</strong> User</li>
-							<li><strong>1</strong> Node</li>
+							<li><strong>1</strong> Managed Node</li>
 							<li>Cloud Integration</li>
 							<li>Base Image Patching</li>
-							<li><strike>Patch Risk Ranking</strike></li>
-							<li><strike>Real-time Notifications</strike></li>
-							<li><strike>Real-time Risk Alerts</strike></li>
-							<li><strike>Managed Patch Zones</strike></li>
-							<li><strike>Target Asset Patching</strike></li>
-							<li><strike>Patch Rollback</strike></li>
+							<li>Asset Risk Ranking</li>
+							<li>Real-time Notifications</li>
+							<li>Real-time Risk Alerts</li>
+							<li>Base Image Accord</li>
+							<li>Target Asset Patching</li>
+							<li>Detailed Reporting</li>
 							<li><button id="select_starter" class="uk-button uk-button-large">Free</button></li>
 						</ul>
 					</div>
@@ -85,16 +92,16 @@ select {
 						<h3>Business</h3>
 						<ul class="uk-list uk-list-line">
 							<li><strong>5</strong> Users</li>
-							<li><strong>30</strong> Nodes <span class="muted">($1 per additional node)</span></li>
+							<li><strong>10</strong> Managed Nodes <span class="muted">($35 per additional node)</span></li>
 							<li>Cloud Integration</li>
 							<li>Base Image Patching</li>
-							<li>Patch Risk Ranking</li>
-							<li>Real-time Notifications</strike></li>
+							<li>Asset Risk Ranking</li>
+							<li>Real-time Notifications</li>
 							<li>Real-time Risk Alerts</li>
-							<li>Managed Patched Zones</li>
+							<li>Base Image Accord</li>
 							<li>Target Asset Patching</li>
-							<li>Patch Rollback</li>
-							<li><button id="select_business" class="uk-button-primary uk-button uk-button-large">$100/month</button></li>
+							<li>Detailed Reporting</li>
+							<li><button id="select_business" class="uk-button-primary uk-button uk-button-large">$375/month</button></li>
 						</ul>
 					</div>
 				</div>
@@ -103,15 +110,15 @@ select {
 						<h3>Enterprise</h3>
 						<ul class="uk-list uk-list-line">
 							<li><strong>Unlimited</strong> Users</li>
-							<li><strong>Unlimited</strong> Nodes</li>
+							<li><strong>Unlimited</strong> Managed Nodes</li>
 							<li>Cloud Integration</li>
 							<li>Base Image Patching</li>
-							<li>Patch Risk Ranking</li>
-							<li>Real-time Notifications</strike></li>
+							<li>Asset Risk Ranking</li>
+							<li>Real-time Notifications</li>
 							<li>Real-time Risk Alerts</li>
-							<li>Managed Patched Zones</li>
+							<li>Base Image Accord</li>
 							<li>Target Asset Patching</li>
-							<li>Patch Rollback</li>
+							<li>Detailed Reporting</li>
 							<li><button id="select_enterprise" class="uk-button uk-button-large">Contact Us</button></li>
 						</ul>
 					</div>
@@ -131,7 +138,8 @@ select {
 					{{ Form::label('billing_cc_name', 'Name on Card', ['class' => 'uk-form-label'] ) }}
 					{{ Form::text('billing_cc_name', null, ['placeholder' => 'Thurman Thomas']) }}
 				</div>
-				<div class="uk-form-row uk-grid uk-grid-preserve">
+				<div class="uk-form-row">
+				<div class="uk-grid uk-grid-preserve">
 					<div class="uk-width-1-3">
 						{{ Form::label('billing_cc_expiry_month', 'Exp. Month', ['class' => 'uk-form-label'] ) }}
 						{{ Form::text('billing_cc_expiry_month', null, ['placeholder' => 'MM', 'style' => 'width: 100px;', 'data-stripe' => 'exp-month']) }}{{-- @TODO remove inline styles --}}
@@ -141,11 +149,13 @@ select {
 						{{ Form::text('billing_cc_expiry_year', null, ['id' => 'billing_cc_expiry_year', 'placeholder' => 'YYYY', 'style' => 'width: 100px;', 'data-stripe' => 'exp-year']) }}
 						{{-- @TODO remove inline styles --}}
 					</div>
+					<div class="uk-width-1-3">
+						<label class="uk-form-label">CVC</label>
+				    <input type="text" name="billing_cc_cvc" style="width: 100px;" data-stripe="cvc">
+					</div>
 				</div>
-				<div class="uk-form-row">
-					<label class="uk-form-label">CVC</label>
-			    <input type="text" name="billing_cc_cvc" style="width: 100px;" data-stripe="cvc">
 				</div>
+				
 			</div>
 			
 			<div id="card_area_preview" class="uk-width-1-3">
@@ -155,18 +165,18 @@ select {
 			<div class="uk-width-1-3">
 				<div class="uk-form-row">
 				<label class="uk-form-label">&nbsp;</label>
-				Due Today: <strong id="total_due_today">$100</strong>
+				Due Today: <strong id="total_due_today">$375.00</strong>
 				</div>
 				<div class="uk-form-row">
 				Next Billing Date: <strong>1/1/2016</strong>
 				</div>
 				<div class="uk-form-row">
-					<input style="display: inline; width: auto; position: relative; top: -1px;" type="checkbox" name="agree_to_terms">&nbsp;
-					<label style="display: inline; width: auto;" class="uk-form-label">I agree to the <a href="#">licensing agreement</a>.</label>
+					<input id="terms_check" style="display: inline; width: auto; position: relative; top: -1px;" type="checkbox" name="agree_to_terms">&nbsp;
+					<label for="terms_check" style="display: inline; width: auto;" class="uk-form-label">I agree to the <a href="#">licensing agreement</a>.</label>
 				</div>
 				<div class="uk-form-row">
-					<input style="display: inline; width: auto; position: relative; top: -1px;" type="checkbox" name="subscribe_to_newsletter">&nbsp;
-					<label style="display: inline; width: auto;" class="uk-form-label">I would like product &amp; company updates.</label>
+					<input id="newsletter_check" style="display: inline; width: auto; position: relative; top: -1px;" type="checkbox" name="subscribe_to_newsletter">&nbsp;
+					<label for="newsletter_check" style="display: inline; width: auto;" class="uk-form-label">I would like product &amp; company updates.</label>
 				</div>
 				<div class="uk-form-row">
 					<br />
@@ -181,6 +191,14 @@ select {
 		
 	{{ Form::close() }}
 </article>
+<script type="text/javascript">
+$("input").click(function(event) {
+	if($(this).prev().hasClass("error")) {
+		$(this).prev().addClass("out");
+	}
+	
+});
+</script>
 @stop
 
 @section('scripts')
@@ -234,6 +252,11 @@ select {
 										$("input[name='billing_cc_cvc']").addClass('uk-form-danger')
 										$("input[name='billing_cc_cvc']").before('<span class="error" style="display: block;">' + response.error.message + '</span>')
 									}
+									
+									if(response.error.code == 'incorrect_number') {
+										$("input[name='billing_cc_number']").addClass('uk-form-danger')
+										$("input[name='billing_cc_number']").before('<span class="error" style="display: block;">' + response.error.message + '</span>')
+									}
 								
 								} else {
 									$('fieldset.billing').remove(); // No need to send the billing info to the server
@@ -248,8 +271,7 @@ select {
 					});		
 			},
 
-			planSelection : function() {
-
+			planSelection: function() {
 				$("#select_starter").click(function(ev) {
 					$(".plan.feature").removeClass('feature');
 					$(".uk-button-primary").removeClass('uk-button-primary');
@@ -267,12 +289,12 @@ select {
 					plans = $(".plan");
 					$(plans[1]).addClass('feature');
 					$("#select_business").addClass('uk-button-primary');
-					$("#total_due_today").html("<strong>$100.00</strong>");
+					$("#total_due_today").html("<strong>$375.00</strong>");
 					return false;
 				});
 			
 				$("#select_enterprise").click(function(ev) {
-					window.location = "http://nosprawl.com/"
+					window.location = "http://nosprawl.com/";
 					return false;
 				});
 			}	
@@ -280,7 +302,6 @@ select {
 		} // end nsStripe
 
 		nsRegistration.init();
-
 	});
 	</script>
 

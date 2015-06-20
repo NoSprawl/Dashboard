@@ -143,11 +143,16 @@ class AuthController extends BaseController {
 			$user->save();
 			
 			// Once we know the user has been created on our end, create the stripe customer
-			$customer = Stripe_Customer::create(array(
-				"email" => $input['email'],
-			  "description" => "User ID: " . $user->id . "\nName: " . $user->full_name,
-			  "card" => $input['stripe_token'] // obtained with Stripe.js
-			));
+			try {
+				$customer = Stripe_Customer::create(array(
+					"email" => $input['email'],
+				  "description" => "User ID: " . $user->id . "\nName: " . $user->full_name,
+				  "card" => $input['stripe_token'] // obtained with Stripe.js
+				));
+				
+			} catch (Exception $exception) {
+				 return Redirect::to('register')->withErrors(array('message' => array("card_error" => $exception->message())));
+			}
 			
 			$subscription = $customer->subscriptions->create(array(
 				"plan" => $input['plan'],

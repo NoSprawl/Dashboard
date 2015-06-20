@@ -3,9 +3,7 @@ include('Net/SSH2.php');
 include('Crypt/RSA.php');
 
 class DeployAgentToNode {
-
-    public function fire($job, $data)
-    {
+    public function fire($job, $data) {
 			$output = new Symfony\Component\Console\Output\ConsoleOutput();
 			$node = Node::find($data['message']['node_id']);
 			// Make sure node exists
@@ -103,8 +101,6 @@ class DeployAgentToNode {
 							
 							return $job->delete();
 						}
-						
-						return false;
 						
 						$ssh->exec("(curl " . $latest_version_url . " > nosprawl-installer.rb) && sudo ruby nosprawl-installer.rb && rm -rf nosprawl-installer.rb");
 						$result = $ssh->read();

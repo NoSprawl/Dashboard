@@ -11,10 +11,14 @@
 	<link rel="stylesheet" type="text/css" href="/css/tooltipster.css" />
 	<link rel="stylesheet" type="text/css" href="/css/themes/tooltipster-light.css" />
 	<link rel="stylesheet" type="text/css" href="/css/toggle.css" />
+	<link rel="stylesheet" type="text/css" href="/css/components/datepicker.css"></style>
+	<link rel="stylesheet" type="text/css" href="/css/components/datepicker.almost-flat.css"></style>
+	<link rel="stylesheet" type="text/css" href="/css/c3.min.css" />
  	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/uikit.min.js"></script>
   <script type="text/javascript" src="/js/jquery.tooltipster.min.js"></script>
 	<script type="text/javascript" src="/js/nos.keyupload.js"></script>
+	<script type="text/javascript" src="/js/c3.min.js"></script>
 </head>
 <body>
 	@if(Session::has('message'))

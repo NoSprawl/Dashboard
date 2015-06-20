@@ -132,7 +132,7 @@ div.limbo.out {
 	
 	<div id="unmanaged_nodes" class="nos-hidable" style="<?php if(sizeof($page_data['managed_nodes']) != 0) {echo 'display: none;';} ?>">
 		<div class="uk-grid uk-grid-collapse nos-title-row">
-	    <div class="uk-width-1-6">Patch Management</div>
+	    <div class="uk-width-1-6">Node Management</div>
 	    <div class="uk-width-1-6">Node Status</div>
 			<div class="uk-width-1-6">Platform &amp; Provider</div>
 			<div class="uk-width-1-6">Physical Location</div>

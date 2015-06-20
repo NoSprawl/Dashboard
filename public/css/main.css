@@ -1630,6 +1630,47 @@ a.problem.highlight span {
 	color: #444;
 }
 
+.uk-form-row {
+	position: relative;
+}
+
 #topography {
 	height: 470px;
+	position: relative;
+}
+
+span.error {
+	font-size: .9em;
+	position: absolute;
+	color: red;
+	display: block;
+	padding: 4px 8px 4px 8px;
+	border-radius: 4px;
+	right: 0;
+	top: 27px;
+	-webkit-transition: all .3s;
+}
+
+#card_area_preview .number.display {
+	min-width: 274px;
+}
+
+span.error.out {
+	opacity: 0;
+	top: -5px;
+}
+
+.nos-dash-after:after {
+	content: " ";
+	background: rgb(204,204,204);
+	width: 10px;
+	height: 1px;
+	position: absolute;
+	top: 20px;
+	right: -22px;
+}
+
+.nos-reporting-shift {
+	position: relative;
+	padding-top: 8px;
 }
