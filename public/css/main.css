@@ -1737,8 +1737,9 @@ footer {
 	height: 41px;
 	color: #777;
 	padding: 20px 0 0 0;
-	z-index: 1;
+	z-index: 2;
 	position: relative;
+	background: white;
 }
 
 #signup_from_signin {

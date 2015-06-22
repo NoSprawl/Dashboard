@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'pgsql',
+	'default' => 'application',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -45,9 +45,21 @@ return array(
 	*/
 
 	'connections' => array(
-		'pgsql' => array(
+		'application' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'aws-us-east-1-portal.4.dblayer.com',
+			'database' => 'nosprawl_prod_1',
+			'username' => 'admin',
+			'password' => 'CIYVICKZYJBBXUAR',
+			'port'     => 10122,
+			'charset'  => 'utf8',
+			'prefix'   => '',
+			'schema'   => 'public',
+		),
+		
+		'analytics' => array(
+			'driver'   => 'pgsql',
+			'host'     => 'aws-us-east-1-portal.5.dblayer.com',
 			'database' => 'nosprawl_prod_1',
 			'username' => 'admin',
 			'password' => 'CIYVICKZYJBBXUAR',
