@@ -63,7 +63,7 @@ return array(
 			'database' => 'nosprawl_prod_1',
 			'username' => 'admin',
 			'password' => 'CIYVICKZYJBBXUAR',
-			'port'     => 10122,
+			'port'     => 10350,
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
