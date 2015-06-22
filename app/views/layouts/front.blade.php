@@ -145,12 +145,6 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-	if(window.innerHeight > $("#main").height() - ($("footer").height() + $("header").height())) {
-		$("#main").css({
-			"height": window.innerHeight - (71 * 2) + "px"
-		});
-	}
-	</script>
+	
 </body>
 </html>
