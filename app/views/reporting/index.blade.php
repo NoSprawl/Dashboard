@@ -53,7 +53,7 @@
 		<?php $count = sizeof($magnitude_info); ?>
 		<?php $loop_count = 0; ?>
 basic.bubbles([<?php foreach($magnitude_info as $name => $magnitude) { ?>
-	{name: '<?= $name; ?>', fillKey: 'defaultRadius', radius: <?= $magnitude['magnitude']; ?>, latitude: <?= $magnitude['lat']; ?>, longitude: <?= $magnitude['lon']; ?>, sp_details: "Rackspace: 1<br />AWS: 1"}<?php $loop_count++; if($loop_count != $count) {print(",");}} ?>], {
+	{name: '<?= $name; ?>', fillKey: 'defaultRadius', radius: <?= $magnitude['magnitude']; ?>, latitude: <?= $magnitude['lat']; ?>, longitude: <?= $magnitude['lon']; ?>, sp_details: ""}<?php $loop_count++; if($loop_count != $count) {print(",");}} ?>], {
 	  popupTemplate: function(geo, data) {
 return '<div class="hoverinfo">' + data.name + '<br />' + data.sp_details;
 	  }

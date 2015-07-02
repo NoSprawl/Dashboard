@@ -147,7 +147,7 @@ div.limbo.out {
 			<div class="uk-grid uk-grid-collapse nos-row">
 				<div class="uk-width-1-6 spinner_holder">
 				<?php if($node->service_provider_status != "terminated") { ?>
-					<?php if(!$node->limbo) { ?>
+					<?php if(!$node->limbo && $node->service_provider_status == 'running') { ?>
 					<div class="switch switch-yellow">
 					  <input type="radio" class="switch-input" name="toggle-enable-<?= $node->id; ?>" value="enable" id="toggle-enable-<?= $node->id; ?>">
 					  <label data-integration="<?= $integration->id ?>" for="toggle-enable-<?= $node->id; ?>" class="switch-label switch-label-off">Enabled</label>
@@ -158,12 +158,21 @@ div.limbo.out {
 					<?php } else { ?>
 						<?php $problems = $node->problems; ?>
 						<?php if(sizeof($problems) == 0) { ?>
+							<?php if($node->service_provider_status == 'running') { ?>
 							<div class="spinner">
 							  <div class="bounce1"></div>
 							  <div class="bounce2"></div>
 							  <div class="bounce3"></div>
 							</div>
 							<div class="limbo">Activating</div>
+							<?php } else { ?>
+							<div class="spinner">
+							  <div class="bounce1"></div>
+							  <div class="bounce2"></div>
+							  <div class="bounce3"></div>
+							</div>
+							<div class="limbo">Not available</div>
+							<?php } ?>
 						<?php } else { ?>
 							<?= (!$problems[0]->long_message) ? '<div class="problem_area hidden">': '<div class="problem_area hidden long">' ?>
 								<div class="nubcover"></div>

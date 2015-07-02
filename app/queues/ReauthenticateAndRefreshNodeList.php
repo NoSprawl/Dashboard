@@ -40,8 +40,14 @@ class ReauthenticateAndRefreshNodeList {
 			
 			foreach($service_provider_nodes as $service_provider_node) {
 				array_push($all_service_provider_ids, $service_provider_node['service_provider_id']);
-				
 				$node = Node::firstOrNew(array('service_provider_uuid' => $service_provider_node['service_provider_id'], 'integration_id' => $integration->id));
+				
+				// Delete the node if it's been terminated
+				if($node->service_provider_status == "terminated") {
+					$node->delete();
+					continue;
+				}
+				
 				$node->service_provider_status = $service_provider_node['service_provider_status'];
 				$node->service_provider_uuid = $service_provider_node['service_provider_id'];
 				$node->service_provider_base_image_id = $service_provider_node['service_provider_base_image_id'];

@@ -145,7 +145,7 @@ class DeployAgentToNode {
 						$installer_result = $ssh->read();
 						$installer_exit_status = $ssh->getExitStatus();
 						
-						if($installer_exit_status) {
+						if($installer_exit_status == 0) {
 							// Everything is good.
 							$node->limbo = false;
 							$node->save();

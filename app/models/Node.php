@@ -26,7 +26,8 @@ class Node extends Eloquent {
 			$snapshot->vulnerability_count_high = $node->packages()->where('vulnerability_severity', '>', 5)->groupBy('vulnerability_severity')->count();
 			$snapshot->vulnerability_count_low = $node->packages()->where('vulnerability_severity', '>', 0)->groupBy('vulnerability_severity')->count();
 			$snapshot->application_classification_id = 0;
-			$snapshot->save();			
+			$snapshot->service_provider_availability_zone = $node->service_provider_availability_zone;
+			$snapshot->save();
 			return true;
 		});
 		
@@ -41,6 +42,7 @@ class Node extends Eloquent {
 			$snapshot->vulnerability_count_high = $node->packages()->where('vulnerability_severity', '>', 5)->groupBy('vulnerability_severity')->count();
 			$snapshot->vulnerability_count_low = $node->packages()->where('vulnerability_severity', '>', 0)->groupBy('vulnerability_severity')->count();
 			$snapshot->application_classification_id = 0;
+			$snapshot->service_provider_availability_zone = $node->service_provider_availability_zone;
 			$snapshot->save();			
 			return true;
 		});

@@ -13,6 +13,7 @@ class AlertsController extends BaseController {
 		$alert->value = $input['value'];
 		$alert->condition = $input['condition'];
 		$alert->user_id = $input['user'];
+		$alert->owner_user_id = $input['user'];
 		
 		$alert->save();
 		return Redirect::to('/alerts');

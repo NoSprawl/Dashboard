@@ -1,7 +1,7 @@
 <?php
 class ProcessAgentReport {
 	public function fire($job, $data) {
-		$output = new Symfony\Component\Console\Output\ConsoleOutput();
+		#$output = new Symfony\Component\Console\Output\ConsoleOutput();
 		$packages = $data['message']['pkginfo']['installed'];
 		$matched_public_ip = false;
 		$node = null;
@@ -9,10 +9,8 @@ class ProcessAgentReport {
 		$ip_node_id_count = array();
 		
 		foreach($data['message']['ips'] as $server_report_ip) {
-			$output->writeln($server_report_ip);
 			$db_ips = IpAddress::where('address', '=', $server_report_ip)->get();
 			foreach($db_ips as $db_ip) {
-				$output->writeln("matched " . $db_ip->address);
 				if(!isset($ip_node_id_count[$db_ip->node_id])) {
 					$ip_node_id_count[$db_ip->node_id] = 0;
 				} else {
@@ -148,6 +146,7 @@ class ProcessAgentReport {
 			$job->delete();
 			
 		} else {
+			$output = new Symfony\Component\Console\Output\ConsoleOutput();
 			$output->writeln("Got an agent report we couldn't match.");
 			$job->delete();
 		}
