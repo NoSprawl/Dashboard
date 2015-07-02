@@ -16,6 +16,13 @@ class Node extends Eloquent {
 		parent::boot();
 		
 		Node::created(function($node) {
+			$user = null;
+			if(is_null(Auth::user()->parent_user_id)) {
+				$user = Auth::user();
+			} else {
+				$user = User::find(Auth::user()->parent_user_id);
+			}
+			
 			$snapshot = new NodeSnapshot();
 			$snapshot->application_node_id = $node->id;
 			$snapshot->application_user_id = $node->owner_id;
@@ -27,6 +34,7 @@ class Node extends Eloquent {
 			$snapshot->vulnerability_count_low = $node->packages()->where('vulnerability_severity', '>', 0)->groupBy('vulnerability_severity')->count();
 			$snapshot->application_classification_id = 0;
 			$snapshot->service_provider_availability_zone = $node->service_provider_availability_zone;
+			$snapshot->account_nodes = $node->owner->nodes()->count();
 			$snapshot->save();
 			return true;
 		});
