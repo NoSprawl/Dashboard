@@ -85,6 +85,7 @@ class ProcessAgentReport {
 			
 			// DONT ROUND THE SCORE. MAKE THE FIELD A FLOAT.
 			// The use of round() here is really a disgrace.
+			// Might I add it's also pointless.
 			
 			$might_alert_for = array();
 			

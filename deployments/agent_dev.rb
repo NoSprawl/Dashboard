@@ -73,7 +73,7 @@ module NoSprawlReportingAgent
     
     def detect_package_manager
       disable_output
-      ['apt-get', 'yum', 'brew'].each do |package_manager|
+      ['apt-get', 'yum', 'brew', 'dpkg'].each do |package_manager|
         if system("which #{package_manager} > /dev/null 2>&1")
           enable_output
           @package_manager = package_manager
@@ -95,7 +95,7 @@ module NoSprawlReportingAgent
     end
     
     def versions
-      implementations = {'yum' => YumParse, 'apt-get' => AptParse}
+      implementations = {'yum' => YumParse, 'apt-get' => AptParse, 'dpkg' => AptParse}
       implementations[@package_manager].versions @package_manager
     end
     

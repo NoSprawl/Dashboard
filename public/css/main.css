@@ -720,6 +720,18 @@ input.sp-input {
 
 .sp-input-container { margin-bottom: 10px; }
 
+/* Kind of NoS Start */
+.bullet { font: 10px sans-serif; }
+.bullet .marker { stroke: #000; stroke-width: 2px; }
+.bullet .tick line { stroke: #666; stroke-width: .5px; }
+.bullet .range.s0 { fill: #eee; }
+.bullet .range.s1 { fill: #ddd; }
+.bullet .range.s2 { fill: #ccc; }
+.bullet .measure.s0 { fill: lightsteelblue; }
+.bullet .measure.s1 { fill: steelblue; }
+.bullet .title { font-size: 14px; font-weight: bold; }
+.bullet .subtitle { fill: #999; }
+
 /* NoS Start */
 body {
 	height: 100%;
@@ -1320,25 +1332,16 @@ div {
 	width: 41px;
 	z-index: 1;
 	border-right: 1px solid #eee;
+	background: white;
 	list-style: none;
 	margin: 0;
 	padding: 75px 0 0 0;
+	box-shadow: 1px 1px 1px #eee;
 	-webkit-transition: border-right .35s, left .35s;
 }
 
 #groups_panel.open {
 	left: 0px;
-}
-
-#groups_panel:after {
-	position: absolute;
-	top: 70px;
-	left: 0;
-	width: 100%;
-	height: 1px;
-	background: white;
-	content: " ";
-	z-index: 1;
 }
 
 #groups_panel input {
@@ -1733,13 +1736,12 @@ label {
 
 footer {
 	border-top: 1px solid #eee;
-	margin: 0px 0 0 0;
-	height: 41px;
+	margin: 20px 0 0 0;
+	height: 61px;
 	color: #777;
-	padding: 20px 0 0 0;
-	z-index: 2;
-	position: absolute;
-	bottom: 0;
+	padding: 20px 0 20px 0;
+	z-index: 0 !important;
+	position: relative;
 	width: 100%;
 	background: white;
 }

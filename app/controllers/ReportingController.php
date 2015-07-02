@@ -23,15 +23,17 @@ class ReportingController extends BaseController {
 					$sp = new $node->integration->service_provider();
 					$lat = $sp->lat_long_index[$node->service_provider_availability_zone]['lat'];
 					$lon = $sp->lat_long_index[$node->service_provider_availability_zone]['lon'];
-					$magnitude_info[$node->friendly_availability_zone] = array("magnitude" => 10, "lat" => $lat, "lon" => $lon, "sp_count" => array());
+					$magnitude_info[$node->friendly_availability_zone] = array("magnitude" => 10, "lat" => $lat, "lon" => $lon, "sp_count" => array(), "flat_count" => 0);
 				} else {
 					$magnitude_info[$node->friendly_availability_zone]['magnitude'] = $magnitude_info[$node->friendly_availability_zone]['magnitude'] + 10;
 				}
 				
 				if(!isset($magnitude_info[$node->friendly_availability_zone]['sp_count'][$node->integration->service_provider])) {
 					$magnitude_info[$node->friendly_availability_zone]['sp_count'][$node->integration->service_provider] = 1;
+					$magnitude_info[$node->friendly_availability_zone]['flat_count'] = 1;
 				} else {
 					$magnitude_info[$node->friendly_availability_zone]['sp_count'][$node->integration->service_provider]++;
+					$magnitude_info[$node->friendly_availability_zone]['flat_count']++;
 				}
 				
 			}

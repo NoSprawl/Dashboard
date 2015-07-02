@@ -253,7 +253,7 @@ div.limbo.out {
 		<?php $service_provider_cluster_id = (empty($node->service_provider_cluster_id)) ? 'None' : $node->service_provider_cluster_id; ?>
 		<?php $service_provider_description = ($node->description == " ") ? 'None' : $node->description; ?>
 		<div class="uk-grid uk-grid-collapse nos-row nos-activatable" rel="<?= $node->id; ?>" class="<?= $service_provider_cluster_id; ?>">
-			<div class="uk-width-1-6 node_status">
+			<div class="uk-width-1-6 node_status activatable">
 			<?php
 			if($node->vulnerable) {
 				if(!$node->severe_vulnerable) {
@@ -268,7 +268,7 @@ div.limbo.out {
 		
 			?>
 			</div>
-			<div class="uk-width-1-6 node_cloud_provider">
+			<div class="uk-width-1-6 node_cloud_provider activatable">
 				<a class="nos-integration-info trim_long" id='integration-tooltip-<?= $node->id; ?>' href="#"><?php
 					switch($integration->service_provider) {
 						case "AmazonWebServicesIntegration":
@@ -285,12 +285,12 @@ div.limbo.out {
 					print "<span class='package_man t_type'>" . ($node->virtual ? "Virtual" : "Metal") . "</span>";
 				?></a>
 			</div>
-			<div class="uk-width-1-6 node_last_updated">
-			<div class="trim_long shift5"><?= $node->friendly_availability_zone ?></div>
+			<div class="uk-width-1-6 node_last_updated activatable">
+			<div class="trim_long shift5 activatable"><?= $node->friendly_availability_zone ?></div>
 			</div>
-			<div class="uk-width-1-6 node_base_image_id"><div class="trim shift5"><?= $node->service_provider_base_image_id; ?></div></div>
-			<div class="uk-width-1-6 node_hostname"><div class="trim_long shift5"><?= $node->hostname; ?></div></div>
-			<div class="uk-width-1-6 node_packages"><div class="shift5">
+			<div class="uk-width-1-6 node_base_image_id activatable"><div class="trim shift5"><?= $node->service_provider_base_image_id; ?></div></div>
+			<div class="uk-width-1-6 node_hostname activatable"><div class="trim_long shift5"><?= $node->hostname; ?></div></div>
+			<div class="uk-width-1-6 node_packages activatable"><div class="shift5">
 				<?php foreach(NodeGroupAssociation::where('node_id', '=', $node->id)->get() as $grp) { ?>
 				<?php
 				$groupInfo = NodeGroup::find($grp->group_id);
@@ -380,7 +380,7 @@ div.limbo.out {
 		$(document).on("mousemove", window.draggingTagMouseMovementManagement);
 	});
 	
-	$("#managed_nodes .uk-width-1-6").click(function(ev) {
+	$("#managed_nodes .activatable").click(function(ev) {
 		$("#groups_panel").removeClass("open");
 		
 		if($("body").hasClass("ignoreClick")) {

@@ -84,13 +84,14 @@ class DeployAgentToNode {
 					exec('rm -rf /tmp/' . $unique_key_name);
 					
 					if(!$ssh->login($pem_key_reference->username, $key)) {
+						$output->writeln("ssh fail.");
 						continue;
 					} else {
+						$output->writeln("we are in ssh just fine.");
 						// Let's look for any problems running sudo first.
-						$ssh->exec("sudo -v");
-						$result = $ssh->read();
+						$ssh->exec("sudo whoami");
 						$exit_status = $ssh->getExitStatus();
-						if($exit_status != 0) {
+						if(!$exit_status && $exit_status != 0) {
 							// User can't sudo without a password. We can't auto-install.
 							$problem = new Problem();
 							$problem->description = "Couldn't deploy agent";
@@ -113,6 +114,9 @@ class DeployAgentToNode {
 							
 							return $job->delete();
 						}
+						
+						$result = $ssh->read();
+						$output->writeln($result);
 						
 						// Check for problems with curl
 						$ssh->exec("curl --help");
