@@ -36,9 +36,9 @@ class NodesController extends \BaseController {
 	
 	public function getVulnerabilityInfoFor() {
 		$input = Input::only('product', 'upstream_version');
-		$mongo_client = new MongoClient('mongodb://php_worker3:shadowwood@linus.mongohq.com:10026/nosprawl_vulnerabilities');
-		$mongo_database = $mongo_client->selectDB('nosprawl_vulnerabilities');
-		$mongo_collection = new MongoCollection($mongo_database, 'vulnerabilities');
+		$mongo_client = new MongoClient('mongodb://nos_app:shadowwood@capital.3.mongolayer.com:10201,capital.2.mongolayer.com:10201/vulnerabilities?replicaSet=set-5558d1202c6859fcde00176a');
+		$mongo_database = $mongo_client->selectDB('vulnerabilities');
+		$mongo_collection = new MongoCollection($mongo_database, 'processed');
 		$vulnerability_doc = $mongo_collection->findOne(array('product' => $input['product'], 'version' => $input['upstream_version']));
 		if($vulnerability_doc) {
 			return Response::json($vulnerability_doc);

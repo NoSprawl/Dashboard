@@ -148,6 +148,11 @@ class RackspaceCloudIntegration extends CloudIntegration {
 														   'platform' => ucfirst($platform)));
 		}
 		
+		// If nodes is empty, make attempt to list them through the legacy api.
+		if(empty($nodes)) {
+			$output->writeln("robby's account");
+		}
+		
 		return $nodes;
 	}
 	

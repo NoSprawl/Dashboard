@@ -10,8 +10,8 @@
 				<th width="70">Cloud</th>
 				<th width="110">Access Status</th>
 				<th width="190">Automatically Manage All</th>
-				<th>Node Credentials</th>
-				<th>Associated Nodes</th>
+				<th>Asset Credentials</th>
+				<th>Associated Assets</th>
 				<th>Actions</th>
 			</tr>
 		</thead>

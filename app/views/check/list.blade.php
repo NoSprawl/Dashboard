@@ -132,8 +132,8 @@ div.limbo.out {
 	
 	<div id="unmanaged_nodes" class="nos-hidable" style="<?php if(sizeof($page_data['managed_nodes']) != 0) {echo 'display: none;';} ?>">
 		<div class="uk-grid uk-grid-collapse nos-title-row">
-	    <div class="uk-width-1-6">Node Management</div>
-	    <div class="uk-width-1-6">Node Status</div>
+	    <div class="uk-width-1-6">Asset Management</div>
+	    <div class="uk-width-1-6">Asset Status</div>
 			<div class="uk-width-1-6">Platform &amp; Provider</div>
 			<div class="uk-width-1-6">Physical Location</div>
 			<div class="uk-width-2-6">Network Info</div>
@@ -290,12 +290,12 @@ div.limbo.out {
 			</div>
 			<div class="uk-width-1-6 node_base_image_id activatable"><div class="trim shift5"><?= $node->service_provider_base_image_id; ?></div></div>
 			<div class="uk-width-1-6 node_hostname activatable"><div class="trim_long shift5"><?= $node->hostname; ?></div></div>
-			<div class="uk-width-1-6 node_packages activatable"><div class="shift5">
+			<div class="uk-width-1-6 node_packages"><div class="shift5">
 				<?php foreach(NodeGroupAssociation::where('node_id', '=', $node->id)->get() as $grp) { ?>
 				<?php
 				$groupInfo = NodeGroup::find($grp->group_id);
 				?>
-				<div class="nos-deletable" rel="<?= $grp->id; ?>"><?= $groupInfo->name; ?><a href="#" class="remove">x</a></div>
+				<div class="nos-deletable" rel="<?= $grp->id; ?>"><span><?= $groupInfo->name; ?></span><a href="#" class="remove">x</a></div>
 				<?php } ?>
 			</div></div>
 		</div>
@@ -540,6 +540,50 @@ div.limbo.out {
 				$(this).addClass("highlight");
 			}
 		
+		});
+		
+	});
+	
+	// Generate modals
+	$(function(ev) {
+		function nos_modal(innerH) {
+			$("#groups_panel").removeClass("open");
+		
+			/*if($("body").hasClass("ignoreClick")) {
+				$("body").removeClass("ignoreClick");
+				return false;
+			}*/
+			
+			$("body").addClass('nos-overlay');
+			$("#whole-bird").after("<div id='nos_modal_container'><div id='nos_modal'><div class='modal-inner'>" + innerH + "</div></div></div>");
+			
+			setTimeout(function(ev) {
+				$("#nos_modal").addClass('active');
+			}, 150);
+			
+			
+			
+		}
+		
+		// Generate and display the policy form
+		$("body").on("click", ".nos-deletable", function(ev) {
+			nos_modal("<h4><span class='subject'>" + $("span", this).text() + "</span> Classification Policies</h4><div class='uk-grid'><div class='uk-grid-1-3'><label>Assets With This Classification</label></div><div class='uk-grid-2-3'><select><option value='CAN'>Can</option><option value='CAN'>Can't</option></select></div></div>");
+			ev.stopImmediatePropagation();
+			ev.stopPropagation();
+			ev.preventDefault();
+		});
+		
+		$("body").on("click", ".modal-inner", function(ev) {
+			ev.stopImmediatePropagation();
+		});
+		
+		$("body").on("click", "#nos_modal_container", function(ev) {
+			$("#groups_panel").addClass("open");
+			$("body").removeClass('nos-overlay');
+			setTimeout(function(ev) {
+				$("#nos_modal_container").remove();
+			}, 250);
+			
 		});
 		
 	});

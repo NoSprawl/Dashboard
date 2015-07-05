@@ -1,7 +1,5 @@
 <?php
-
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
-
+/* todo: This is really Classification */
 class NodeGroup extends Eloquent {
 	/**
 	 * The database table used by the model.

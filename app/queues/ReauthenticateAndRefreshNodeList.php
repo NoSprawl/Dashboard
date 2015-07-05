@@ -1,11 +1,9 @@
 <?php
-
 class ReauthenticateAndRefreshNodeList {
 	public function fire($job, $data) {
 		$output = new Symfony\Component\Console\Output\ConsoleOutput();
 		$json_array = json_decode($data['message']);
 		$service_provider = new $json_array->service_provider();
-		
 		# Ensure the integration still exists. If not, delete all the nodes and remove the job from the queue forever.
 		try {
 			$integration = Integration::findOrFail($json_array->db_integration_id);
@@ -34,7 +32,7 @@ class ReauthenticateAndRefreshNodeList {
 		
 		$all_service_provider_ids = [];
 		
-		if($service_provider_nodes) {
+		if($service_provider_nodes && sizeof($service_provider_nodes) > 0) {
 			$integration->status = "Confirmed";
 			$integration->save();
 			
@@ -90,15 +88,21 @@ class ReauthenticateAndRefreshNodeList {
 					$db_ip->save();					
 				}
 				
+				// Delete ips from the database that don't appear in client report
+				IpAddress::where('address', '=', $integration->id)->where('node_id', '=', $node->id)->whereNotIn('address', $service_provider_node['service_provider_ip_addresses'])->delete();
 			}
 			
+			// This is where we delete Nodes that no longer exist on the service provider side.
+			Node::where('integration_id', '=', $integration->id)->where('owner_id', '=', $user_id)->whereNotIn('service_provider_uuid', $all_service_provider_ids)->delete();
+			
 		} else {
+			if(sizeof($service_provider_nodes) == 0) {
+				
+			}
+			
 			$integration->status = "Bad";
 			$integration->save();
 		}
-		
-		//This is where we delete Nodes that no longer exist on the service provider side.
-		Node::where('integration_id', '=', $integration->id)->where('owner_id', '=', $user_id)->whereNotIn('service_provider_uuid', $all_service_provider_ids)->delete();
 		
 		// Do this job again in 30 seconds.
 		$job->release(900);
