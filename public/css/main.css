@@ -948,8 +948,26 @@ body.overlay #whole-bird, body.overlay2 #whole-bird, body.overlay3 #whole-bird, 
 
 .nos-modal {
 	position: fixed;
+	background: rgba(238,238,238,.75);
+	-webkit-box-shadow: 0px 0px 20px rgba(0,0,0,.2);
+	-webkit-filter: blur(4px);
+	opacity: 0;
+	transition: .25s -webkit-filter linear;
+	border-radius: 6px;
+	bottom: 0;
+	width: 480px;
+	left: 50%;
+	margin-left: -240px;
+	height: 285px;
+	top: 50%;
+	margin-top: -175px;
+	padding: 20px 30px 20px 30px;
+}
+
+.nos-modal-integration {
+	position: fixed;
 	background: rgba(255, 255, 255, .8);
-	box-shadow: 0px 0px 20px rgba(0, 0, 0, .35);
+	-webkit-box-shadow: 0px 0px 20px rgba(0,0,0,.2);
 	-webkit-filter: blur(4px);
 	opacity: 0;
 	transition: .25s -webkit-filter linear;
@@ -960,7 +978,7 @@ body.overlay #whole-bird, body.overlay2 #whole-bird, body.overlay3 #whole-bird, 
 	margin-left: -240px;
 	height: 285px;
 	top: 50%;
-	margin-top: -145px;
+	margin-top: -175px;
 	padding: 20px 30px 20px 30px;
 }
 
@@ -971,13 +989,13 @@ body.overlay #whole-bird, body.overlay2 #whole-bird, body.overlay3 #whole-bird, 
 	top: 10px;
 }
 
-.nos-modal h1 {
+.nos-modal h1, .nos-modal-integration h1 {
 	font-size: 1.2em;
 	border-bottom: 1px solid rgba(0,0,0,.2);
 	padding: 0 0 5px 0;
 }
 
-.nos-modal.final {
+.nos-modal.final, .nos-modal-integration.final {
 	-webkit-filter: blur(0px);
 	opacity: 1;
 }
@@ -1690,14 +1708,15 @@ span.error.out {
 	margin-top: -11px;
 }
 
-.nos-dash-after:after {
-	content: " ";
+.dashcol:after {
 	background: rgb(204,204,204);
 	width: 10px;
 	height: 1px;
 	position: absolute;
 	top: 20px;
-	right: -22px;
+	left: 13	px;
+	margin-left: 50%;
+	content: " ";
 }
 
 .nos-reporting-shift {

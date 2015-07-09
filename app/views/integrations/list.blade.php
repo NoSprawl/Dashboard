@@ -68,12 +68,11 @@
 	<p>To get started, click the Add Integration button below and choose your cloud provider.</p>
 	</div>
 	<?php } ?>
-	<button class="uk-button" data-uk-modal="{target:'#new-integration-form'}">Add Integration</button>
+	<button class="uk-button" id="add_integration_button">Add Integration</button>
 </article>
-<div id="new-integration-form" class="uk-modal">
-  <div class="uk-modal-dialog">
-  	<a class="uk-modal-close uk-close"></a>
-		{{ Form::open(['url' => 'integration', 'class' => 'uk-form-stacked uk-form']) }}
+<div id="new-integration-form" class="nos-modal-integration">
+  <div>
+		{{ Form::open(['url' => 'integration', 'class' => 'nos-int-form uk-form-stacked uk-form']) }}
 	    <fieldset>
         <legend>Add a New Integration</legend>
         <div class="uk-form-row">
@@ -83,10 +82,10 @@
 																										'RackspaceCloud' => 'Rackspace Cloud',
 																										'OpenStack' => 'OpenStack')) }}
         </div><br />
-				<div id="custom_integration_fields">
+				<div class="custom_integration_fields">
 				
 				</div><br />
-				<div id="submit_new_integration" class="uk-form-row" style="display: none;">
+				<div class="submit_new_integration" class="uk-form-row" style="display: none;">
 					{{ Form::submit('Authenticate', ['class' => 'submit uk-button uk-button-success uk-button-large']) }}
 				</div>
 	    </fieldset>
@@ -185,27 +184,50 @@
   </div>
 </div>
 <script type="text/javascript">
+function nos_modal(innerH) {
+	$("#groups_panel").removeClass("open");
+
+	/*if($("body").hasClass("ignoreClick")) {
+		$("body").removeClass("ignoreClick");
+		return false;
+	}*/
+	
+	$("body").addClass('nos-overlay');
+	$("#whole-bird").after("<div id='nos_modal_container'><div id='nos_modal'><div class='modal-inner'>" + innerH + "</div></div></div>");
+	
+	setTimeout(function(ev) {
+		$("#nos_modal").addClass('active');
+	}, 150);
+		
+}
+</script>
+<script type="text/javascript">
+$("#add_integration_button").click(function(ev) {
+	nos_modal($("#new-integration-form").html());
+});
+
 $(window.document).on('change', "select[name='integration_type']", function(change_event) {
 	$field = $(this);
 	(function getValidationFields($service_provider_field) {
 		$(".ajax-error").remove();
 		$service_provider_field.removeClass('uk-form-danger');
 		selected_service_provider = $service_provider_field.val();
-		$("#custom_integration_fields").html("");
-		$("#submit_new_integration").css('display', 'none');
+		$(".custom_integration_fields").html("");
+		$(".submit_new_integration").css('display', 'none');
 		if(selected_service_provider == -1) {
 			$service_provider_field.addClass('uk-form-danger');
 		} else {
 			$.post('/integrations/fields', {service_provider_name: selected_service_provider}, function(response) {
 				fields = eval("(" + response.service_provider_authorization_fields + ")");
 				description = eval("(" + response.service_provider_description + ")");
-				$("#custom_integration_fields").append(description);
+				$(".custom_integration_fields").append(description);
 				for(var i = 0; i < fields.length; i++) {
 					field = fields[i];
 					htmlField = '<div class="uk-form-row"><label class="uk-form-label">' + field[1] + '</label><input type="text" name="authorization_field_' + (i + 1) + '"></div>';
-					$("#custom_integration_fields").append(htmlField);
-					$("#submit_new_integration").css('display', 'block');
+					$(".custom_integration_fields").append(htmlField);
 				}
+				
+				$(".submit_new_integration").css('display', 'block');
 				
 			});
 			
@@ -225,17 +247,17 @@ $(function() {
 	
 })
 
-$(window.document).on('submit', "#new-integration-form", function(click_event) {
-	$form = $("#new-integration-form form");
+$(window.document).on('submit', ".nos-int-form", function(click_event) {
+	$form = $(".nos-int-form:visible");
 	$.post($form.attr("action"), $form.serialize(), function(post_response) {
 		if(post_response['status'] == 'created') {
 			$(".uk-modal-close:visible").trigger('click');
 		} else {
 			$(".ajax-error").remove();
 			if(post_response['status'] == "api_error") {
-				$(".uk-modal:visible form:visible .uk-form-row").first().prepend("<div class='ajax-error uk-alert uk-alert-danger'>Invalid credentials or insuficient permissions. Integration not added.</div>");
+				$(".modal-inner .uk-form-row").first().prepend("<div class='ajax-error uk-alert uk-alert-danger'>Invalid credentials or insuficient permissions. Integration not added.</div>");
 			} else if(post_response['status'] == "form_error") {
-				$(".uk-modal:visible form:visible .uk-form-row").first().prepend("<div class='ajax-error uk-alert uk-alert-danger'>All fields are required and duplicate Integrations are not allowed. Integration not added.</div>");
+				$(".modal-inner .uk-form-row").first().prepend("<div class='ajax-error uk-alert uk-alert-danger'>All fields are required and duplicate Integrations are not allowed. Integration not added.</div>");
 			}
 			
 			$(".uk-modal:visible form:visible input[type='text']").addClass('uk-form-danger');
@@ -245,6 +267,18 @@ $(window.document).on('submit', "#new-integration-form", function(click_event) {
 	});
 	
 	return false;
+});
+
+$("body").on("click", ".modal-inner", function(ev) {
+	ev.stopImmediatePropagation();
+});
+
+$("body").on("click", "#nos_modal_container", function(ev) {
+	$("body").removeClass('nos-overlay');
+	setTimeout(function(ev) {
+		$("#nos_modal_container").remove();
+	}, 250);
+	
 });
 
 $(".key_manage").click(function(click_event) {

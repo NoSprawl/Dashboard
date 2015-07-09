@@ -17,10 +17,13 @@ class Node extends Eloquent {
 		
 		Node::created(function($node) {
 			$user = null;
-			if(is_null(Auth::user()->parent_user_id)) {
-				$user = Auth::user();
-			} else {
-				$user = User::find(Auth::user()->parent_user_id);
+			if(!is_null(Auth::user())) {
+				if(is_null(Auth::user()->parent_user_id)) {
+					$user = Auth::user();
+				} else {
+					$user = User::find(Auth::user()->parent_user_id);
+				}
+				
 			}
 			
 			$snapshot = new NodeSnapshot();
@@ -41,10 +44,13 @@ class Node extends Eloquent {
 		
 		Node::updated(function($node) {
 			$user = null;
-			if(is_null(Auth::user()->parent_user_id)) {
-				$user = Auth::user();
-			} else {
-				$user = User::find(Auth::user()->parent_user_id);
+			if(!is_null(Auth::user())) {
+				if(is_null(Auth::user()->parent_user_id)) {
+					$user = Auth::user();
+				} else {
+					$user = User::find(Auth::user()->parent_user_id);
+				}
+				
 			}
 			
 			$snapshot = new NodeSnapshot();

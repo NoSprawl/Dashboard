@@ -14,6 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="/css/components/datepicker.css"></style>
 	<link rel="stylesheet" type="text/css" href="/css/components/datepicker.almost-flat.css"></style>
 	<link rel="stylesheet" type="text/css" href="/css/c3.min.css" />
+	<link rel="stylesheet" type="text/css" href="/js/datepicker/themes/classic.css" />
+	<link rel="stylesheet" type="text/css" href="/js/datepicker/themes/classic.date.css" />
+	<link rel="stylesheet" type="text/css" href="/js/datepicker/themes/classic.time.css" />
  	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/uikit.min.js"></script>
 	<script type="text/javascript" src="/js/components/grid.min.js"></script>

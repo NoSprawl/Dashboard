@@ -31,11 +31,9 @@
 			<?php } ?>
 		</tbody>
 	</table>
-	<button class="uk-button" data-uk-modal="{target:'#new-integration-form'}">Add Integration</button>
+	<button class="uk-button" id="add_integration_button">Add Integration</button>
 </article>
-<div id="new-integration-form" class="uk-modal">
-  <div class="uk-modal-dialog">
-  	<a class="uk-modal-close uk-close"></a>
+<div id="new-integration-form" class="nos-modal">
 		{{ Form::open(['url' => 'integration', 'class' => 'uk-form-stacked uk-form']) }}
 	    <fieldset>
         <legend>Add a New Integration</legend>
@@ -54,9 +52,10 @@
 				</div>
 	    </fieldset>
 		{{ Form::close() }}
-  </div>
 </div>
 <script type="text/javascript">
+
+
 $(window.document).on('change', "select[name='integration_type']", function(change_event) {
 	$field = $(this);
 	(function getValidationFields($service_provider_field) {

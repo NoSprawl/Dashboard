@@ -434,7 +434,7 @@ div.limbo.out {
 		$.post('/vulnerability_info_for', {'product': $(this).data('product'), 'upstream_version': $(this).data('version')}, function(result) {
 			if(!$(".vuln_info.active").length) {
 				vuln_btn.addClass('active');
-				vuln_btn.append('<div class="info_bubble"><div class="package-name">' + vuln_btn.data('product') + ' ' + vuln_btn.data('version') + '</div><div class="cve-id">' + result['cve_id'] + '</div><div class="i-description">' + result['vulnerability_summary'] + '</div><div class="risk-factor"><strong>Risk Score:</strong> ' + result['risk_score'] + '</div><div class="access-complexity"><strong>Access Complexity:</strong> ' + result['access_complexity'] + '</div><div class="authentication"><strong>Authentication:</strong> ' + result['autentication'] + '</div><div class="confidentiality-impact"><strong>Confidentiality Impact:</strong> ' + result['confidentiality_impact'] + '</div></div>');
+				vuln_btn.append('<div class="info_bubble"><div class="package-name">' + vuln_btn.data('product') + ' ' + vuln_btn.data('version') + '</div><div class="cve-id">' + result['cve_id'] + '</div><div class="i-description">' + result['vulnerability_summary'] + '</div><div class="risk-factor"><strong>Risk Score:</strong> ' + result['risk_score'] + '</div><div class="access-complexity"><strong>Access Complexity:</strong> ' + result['access_complexity'] + '</div><div class="authentication"></div><div class="confidentiality-impact"><strong>Confidentiality Impact:</strong> ' + result['confidentiality_impact'] + '</div></div>');
 			}
 			
 		});

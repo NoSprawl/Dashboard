@@ -86,12 +86,12 @@ class AmazonWebServicesIntegration extends CloudIntegration
 				} catch(Exception $e) {
 				
 				}
-				
+					
 				$all_ips = array();
 				
 				foreach($instance['NetworkInterfaces'] as $ni) {
 					foreach($ni['PrivateIpAddresses'] as $interface) {
-						array_push($all_ips, $interface['PrivateIpAddress'], $interface['Association']['PublicIp']);
+						array_push($all_ips, (isset($interface['PrivateIpAddress'])) ? $interface['PrivateIpAddress'] : null, (isset($interface['Association']['PublicIp'])) ? $interface['Association']['PublicIp'] : null);
 					}
 					
 				}

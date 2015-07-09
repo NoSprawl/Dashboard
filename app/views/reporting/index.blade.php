@@ -1,25 +1,48 @@
 @section('reporting_link') uk-active @stop
 
 @section('content')
-<script type="text/javascript" src="/js/components/datepicker.min.js"></script>
+<script type="text/javascript" src="/js/datepicker/picker.js"></script>
+<script type="text/javascript" src="/js/datepicker/picker.date.js"></script>
+<script type="text/javascript" src="/js/datepicker/picker.time.js"></script>
 <article class="uk-article">
 	<div class="uk-grid" id="reporting_grid">
-		<div class="uk-width-1-5">
+		<div class="uk-width-1-6">
 			<h1 class="uk-article-title">Reporting</h1>
 		</div>
-		<div class="uk-width-1-5"></div>
-		<div class="uk-width-1-5 nos-reporting-shift" style="text-align: right;">
-			<label for="dr1" style="position: relative; top: 3px; font-weight: bold; cursor: pointer;">Date Range</label>
+		<div class="uk-width-1-6"></div>
+		<div class="uk-width-4-6">
+			<div class="uk-grid" id="reporting_grid">
+				<div class="uk-width-2-10 nos-reporting-shift" style="text-align: right;">
+					<label for="dr1" style="position: relative; top: 3px; font-weight: bold; cursor: pointer;">Date Range</label>
+				</div>
+				<div class="uk-width-4-10 nos-reporting-shift">
+					<form class="uk-form">
+						<input id="dr1" type="text" placeholder="Start Date">
+					</form>
+				</div>
+				<div class="uk-width-4-10 nos-reporting-shift">
+					<form class="uk-form">
+						<input id="dr2" type="text" placeholder="End Date">
+					</form>
+				</div>
+			</div>
 		</div>
-		<div class="uk-width-1-5 nos-reporting-shift nos-dash-after">
-			<form class="uk-form">
-				<input id="dr1" type="" placeholder="Start Date" data-uk-datepicker="{format:'MM/DD/YYYY'}">
-			</form>
+	</div>
+	<h2>Risk</h2>
+	<div class="uk-grid">
+		<div class="uk-width-3-3" style="background: pink; height: 200px;">
+			Error
 		</div>
-		<div class="uk-width-1-5 nos-reporting-shift">
-			<form class="uk-form">
-				<input id="dr2" type="" placeholder="End Date" data-uk-datepicker="{format:'MM/DD/YYYY'}">
-			</form>
+	</div>
+	<div class="uk-grid">
+		<div class="uk-width-1-3" style="background: pink; height: 100px;">
+			Error
+		</div>
+		<div class="uk-width-1-3" style="background: pink; height: 100px;">
+			Error
+		</div>
+		<div class="uk-width-1-3" style="background: pink; height: 100px;">
+			Error
 		</div>
 	</div>
 	<h2>Managed Node Topography</h2>
@@ -54,6 +77,20 @@
 	<script type="text/javascript" src="/js/components/datamaps.world.min.js"></script>
 	<script type="text/javascript">
 	$(function(ev) {
+		$('#dr1, #dr2').pickadate({
+			format: 'mmmm dd, yyyy',
+		});
+		
+		$("body").on("change", "#dr1, #dr2", function(ev) {
+			if($("#dr1").val() == "" || $("#dr2").val() == "") {
+				// nothing
+			} else {
+				// something
+				
+			}
+			
+		});
+		
 		var basic = new Datamap({
 		  element: document.getElementById("topography"),
 			geographyConfig: {

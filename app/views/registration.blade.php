@@ -80,35 +80,31 @@ select {
 			<div class="pricing uk-grid uk-grid-preserve">
 				<div class="uk-width-medium-1-3">
 					<div class="plan uk-row">
-						<h3>Starter</h3>
+						<h3>Basic</h3>
 						<ul class="uk-list uk-list-line">
-							<li><strong>1</strong> User</li>
-							<li><strong>1</strong> Managed Node</li>
+							<li><strong>2</strong> Users</li>
+							<li><strong>2</strong> Managed Nodes</li>
 							<li>Cloud Integration</li>
-							<li>Base Image Patching</li>
 							<li>Asset Risk Ranking</li>
 							<li>Real-time Notifications</li>
 							<li>Real-time Risk Alerts</li>
-							<li>Base Image Accord</li>
 							<li>Detailed Reporting</li>
-							<li><button id="select_starter" class="uk-button uk-button-large">Free</button></li>
+							<li><button id="select_starter" class="uk-button uk-button-large">$99/month</button></li>
 						</ul>
 					</div>
 				</div>
 				<div class="uk-width-medium-1-3">
 					<div class="plan feature uk-row">
-						<h3>Business</h3>
+						<h3>Pro</h3>
 						<ul class="uk-list uk-list-line">
 							<li><strong>5</strong> Users</li>
 							<li><strong>10</strong> Managed Nodes</li>
 							<li>Cloud Integration</li>
-							<li>Base Image Patching</li>
 							<li>Asset Risk Ranking</li>
 							<li>Real-time Notifications</li>
 							<li>Real-time Risk Alerts</li>
-							<li>Base Image Accord</li>
 							<li>Detailed Reporting</li>
-							<li><button id="select_business" class="uk-button-primary uk-button uk-button-large">$375/month</button></li>
+							<li><button id="select_business" class="uk-button-primary uk-button uk-button-large">$299/month</button></li>
 						</ul>
 					</div>
 				</div>
@@ -119,11 +115,9 @@ select {
 							<li><strong>Unlimited</strong> Users</li>
 							<li><strong>Unlimited</strong> Managed Nodes</li>
 							<li>Cloud Integration</li>
-							<li>Base Image Patching</li>
 							<li>Asset Risk Ranking</li>
 							<li>Real-time Notifications</li>
 							<li>Real-time Risk Alerts</li>
-							<li>Base Image Accord</li>
 							<li>Detailed Reporting</li>
 							<li><button id="select_enterprise" class="uk-button uk-button-large">Contact Us</button></li>
 						</ul>
@@ -131,7 +125,7 @@ select {
 				</div>
 			</div>
 		</fieldset>
-		<span class="muted">($35 per additional node)</span>
+		<span class="muted">($10 per additional node)</span>
 		<fieldset class="uk-row billing">
 			<legend style="padding-bottom: 20px !important;">Billing Information</legend>
 			<div class="uk-grid uk-grid-preserve">
@@ -171,7 +165,7 @@ select {
 				<div class="uk-width-medium-1-3" id="confirmation_area">
 					<div class="uk-form-row">
 						<label class="uk-form-label">&nbsp;</label>
-						Due Today: <strong id="total_due_today"><strike class="lght">$375.00</strike> $0.00</strong>
+						Due Today: <strong id="total_due_today"><strike class="lght">$299.00</strike> $0.00</strong>
 					</div>
 					<div class="uk-form-row">
 						Next Billing Date: <strong>1/1/2016</strong>
@@ -284,7 +278,7 @@ $("input").focus(function(event) {
 					$("select[name='plan']").val("nosprawl-<?php if(App::isLocal()) {echo 'test';} else {echo 'live';} ?>-starter");
 					$(".plan").first().addClass('feature');
 					$("#select_starter").addClass('uk-button-primary');
-					$("#total_due_today").html("<strong id=\"total_due_today\">$0.00</strong>");
+					$("#total_due_today").html("<strong id=\"total_due_today\"><strike class=\"lght\">$99.00</strike> $0.00</strong>");
 					return false;
 				});
 			
@@ -295,7 +289,7 @@ $("input").focus(function(event) {
 					plans = $(".plan");
 					$(plans[1]).addClass('feature');
 					$("#select_business").addClass('uk-button-primary');
-					$("#total_due_today").html('<strong id="total_due_today"><strike class="lght">$375.00</strike> $0.00</strong>');
+					$("#total_due_today").html('<strong id="total_due_today"><strike class="lght">$299.00</strike> $0.00</strong>');
 					return false;
 				});
 			
