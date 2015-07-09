@@ -23,6 +23,7 @@
   <script type="text/javascript" src="/js/jquery.tooltipster.min.js"></script>
 	<script type="text/javascript" src="/js/nos.keyupload.js"></script>
 	<script type="text/javascript" src="/js/c3.min.js"></script>
+	<meta name="viewport" content="width=400, initial-scale=.8, user-scalable=yes">
 </head>
 <body>
 	@if(Session::has('message'))
