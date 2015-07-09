@@ -173,7 +173,7 @@ select {
 						Due Today: <strong id="total_due_today"><strike class="lght">$299.00</strike> $0.00</strong>
 					</div>
 					<div class="uk-form-row">
-						Next Billing Date: <strong>1/1/2016</strong>
+						Next Billing Date: <strong id="next_billing_date">1/1/2016</strong>
 					</div>
 					<div class="uk-form-row">
 						<label for="terms_check" style="display: inline; width: auto;" class="uk-form-label">I agree to the <a href="#">licensing agreement</a>.</label>&nbsp;
@@ -283,7 +283,16 @@ $("input").focus(function(event) {
 					$("select[name='plan']").val("nosprawl-<?php if(App::isLocal()) {echo 'test';} else {echo 'live';} ?>-starter");
 					$(".plan").first().addClass('feature');
 					$("#select_starter").addClass('uk-button-primary');
-					$("#total_due_today").html("<strong id=\"total_due_today\"><strike class=\"lght\">$99.00</strike> $0.00</strong>");
+					$("#total_due_today").html("<strike class=\"lght\">$99.00</strike> $0.00");
+					
+					var now = new Date();
+					if (now.getMonth() == 11) {
+					    var current = new Date(now.getFullYear() + 1, 0, 1);
+					} else {
+					    var current = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+					}
+					
+					$("#next_billing_date").html((current.getMonth() + 1) + "/" + (now.getDate() + "/") + current.getFullYear());
 					return false;
 				});
 			
@@ -294,7 +303,16 @@ $("input").focus(function(event) {
 					plans = $(".plan");
 					$(plans[1]).addClass('feature');
 					$("#select_business").addClass('uk-button-primary');
-					$("#total_due_today").html('<strong id="total_due_today"><strike class="lght">$299.00</strike> $0.00</strong>');
+					$("#total_due_today").html('<strike class="lght">$299.00</strike> $0.00');
+					
+					var now = new Date();
+					if (now.getMonth() == 11) {
+					    var current = new Date(now.getFullYear() + 1, 0, 1);
+					} else {
+					    var current = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+					}
+					
+					$("#next_billing_date").html((current.getMonth() + 1) + "/" + (now.getDate() + "/") + current.getFullYear());
 					return false;
 				});
 			
