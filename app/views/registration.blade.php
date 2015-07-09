@@ -19,6 +19,7 @@ select {
 						<p>All of our plans start with a 30 day free trial and your personal account manager is always one phone call away.</p>
 						<p>This is an instant-access registration process. Once you complete this form, you&rsquo;ll be logged into your NoSprawl dashboard immediately.</p>
 					</div>
+					<!--
 					<div class="uk-panel">
 						<div class="uk-row">
 							<blockquote>
@@ -33,6 +34,7 @@ select {
 							</blockquote>
 						</div>
 					</div>
+					-->
 				</div>
 				<div class="uk-width-large-2-3">
 					<legend>Account Information</legend>
