@@ -561,17 +561,15 @@ div.limbo.out {
 				$("#nos_modal").addClass('active');
 			}, 150);
 			
-			
-			
 		}
 		
 		// Generate and display the policy form
-		$("body").on("click", ".nos-deletable", function(ev) {
+		/*$("body").on("click", ".nos-deletable", function(ev) {
 			nos_modal("<h4><span class='subject'>" + $("span", this).text() + "</span> Classification Policies</h4><div class='uk-grid'><div class='uk-grid-1-3'><label>Assets With This Classification</label></div><div class='uk-grid-2-3'><select><option value='CAN'>Can</option><option value='CAN'>Can't</option></select></div></div>");
 			ev.stopImmediatePropagation();
 			ev.stopPropagation();
 			ev.preventDefault();
-		});
+		});*/
 		
 		$("body").on("click", ".modal-inner", function(ev) {
 			ev.stopImmediatePropagation();
