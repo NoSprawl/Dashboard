@@ -328,6 +328,15 @@ $("input").focus(function(event) {
 	});
 	
 	$(function(ev) {
+		var now = new Date();
+		if (now.getMonth() == 11) {
+		    var current = new Date(now.getFullYear() + 1, 0, 1);
+		} else {
+		    var current = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+		}
+		
+		$("#next_billing_date").html((current.getMonth() + 1) + "/" + (now.getDate() + "/") + current.getFullYear());
+		
 		window.recalcNoSReg = function(ev) {
 			if(window.innerWidth <= 1220) {
 				$("#billing_cc_info").removeClass("uk-width-medium-1-3").addClass("uk-width-medium-2-3");
