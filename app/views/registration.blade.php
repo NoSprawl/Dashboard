@@ -85,7 +85,8 @@ select {
 						<h3>Basic</h3>
 						<ul class="uk-list uk-list-line">
 							<li><strong>2</strong> Users</li>
-							<li><strong>2</strong> Managed Nodes</li>
+							<li><strong>2</strong> Managed Assets</li>
+							<li>Unlimited Unmanaged Assets</li>
 							<li>Cloud Integration</li>
 							<li>Asset Risk Ranking</li>
 							<li>Real-time Notifications</li>
@@ -100,7 +101,8 @@ select {
 						<h3>Pro</h3>
 						<ul class="uk-list uk-list-line">
 							<li><strong>5</strong> Users</li>
-							<li><strong>10</strong> Managed Nodes</li>
+							<li><strong>10</strong> Managed Assets</li>
+							<li>Unlimited Unmanaged Assets</li>
 							<li>Cloud Integration</li>
 							<li>Asset Risk Ranking</li>
 							<li>Real-time Notifications</li>
@@ -115,7 +117,8 @@ select {
 						<h3>Enterprise</h3>
 						<ul class="uk-list uk-list-line">
 							<li><strong>Unlimited</strong> Users</li>
-							<li><strong>Unlimited</strong> Managed Nodes</li>
+							<li><strong>Unlimited</strong> Managed Assets</li>
+							<li>Unlimited Unmanaged Assets</li>
 							<li>Cloud Integration</li>
 							<li>Asset Risk Ranking</li>
 							<li>Real-time Notifications</li>
@@ -127,7 +130,7 @@ select {
 				</div>
 			</div>
 		</fieldset>
-		<span class="muted">($10 per additional node)</span>
+		<span class="muted">($10 per additional managed asset)</span>
 		<fieldset class="uk-row billing">
 			<legend style="padding-bottom: 20px !important;">Billing Information</legend>
 			<div class="uk-grid uk-grid-preserve">
