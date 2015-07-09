@@ -4,6 +4,7 @@
 <script type="text/javascript" src="/js/datepicker/picker.js"></script>
 <script type="text/javascript" src="/js/datepicker/picker.date.js"></script>
 <script type="text/javascript" src="/js/datepicker/picker.time.js"></script>
+<meta name="viewport" content="width=400, initial-scale=.8, user-scalable=yes">
 <article class="uk-article">
 	<div class="uk-grid" id="reporting_grid">
 		<div class="uk-width-1-6">
