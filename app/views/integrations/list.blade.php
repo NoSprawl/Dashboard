@@ -251,7 +251,7 @@ $(window.document).on('submit', ".nos-int-form", function(click_event) {
 	$form = $(".nos-int-form:visible");
 	$.post($form.attr("action"), $form.serialize(), function(post_response) {
 		if(post_response['status'] == 'created') {
-			$(".uk-modal-close:visible").trigger('click');
+			$("#nos_modal_container").trigger('click');
 		} else {
 			$(".ajax-error").remove();
 			if(post_response['status'] == "api_error") {
