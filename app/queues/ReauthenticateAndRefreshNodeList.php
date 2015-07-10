@@ -10,7 +10,12 @@ class ReauthenticateAndRefreshNodeList {
 			$integration = Integration::findOrFail($json_array->db_integration_id);
 		} catch (Exception $e) {
 			$output->writeln("kill the node");
-			Node::where('integration_id', '=', $json_array->db_integration_id)->delete();
+			try {
+				Node::where('integration_id', '=', $json_array->db_integration_id)->delete();
+			} catch (Exception $e) {
+				
+			}
+			
 			return $job->delete();
 		}
 		
