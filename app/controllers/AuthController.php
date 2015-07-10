@@ -173,14 +173,15 @@ class AuthController extends BaseController {
 				$message->to($user->email)->subject('Welcome to NoSprawl!');
 			});
 			
-			$storage = new ArrayStorage();
-			$tracker = new EventTracker($storage);
+			//$storage = new ArrayStorage();
+			//$tracker = new EventTracker($storage);
 			
-			$tracker->trackEvent(['action' => 'created_account']);
+			//$tracker->trackEvent(['action' => 'created_account']);
 			
 			Auth::login($user, true);
 
-			return Redirect::to('/')->with('tracker', $tracker);
+			//return Redirect::to('/')->with('tracker', $tracker);
+			return Redirect::to('/');
 		}
 
 		return Redirect::to('register')->withErrors($validator);
