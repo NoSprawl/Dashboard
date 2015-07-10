@@ -180,10 +180,10 @@ class AuthController extends BaseController {
 			
 			Auth::login($user, true);
 
-			return Redirect::to('/');
+			return Redirect::to('/')->with('tracker', $tracker);
 		}
 
-		return Redirect::to('register')->withErrors($validator)->with('tracker', $tracker);
+		return Redirect::to('register')->withErrors($validator);
 
 	}
 

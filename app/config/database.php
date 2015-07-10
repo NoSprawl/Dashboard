@@ -48,7 +48,7 @@ return array(
 		'application' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'aws-us-east-1-portal.4.dblayer.com',
-			'database' => 'nosprawl_analytics',
+			'database' => 'nosprawl_application',
 			'username' => 'admin',
 			'password' => 'CIYVICKZYJBBXUAR',
 			'port'     => 10122,
@@ -60,7 +60,7 @@ return array(
 		'analytics' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'aws-us-east-1-portal.4.dblayer.com',
-			'database' => 'nosprawl_application',
+			'database' => 'nosprawl_analytics',
 			'username' => 'admin',
 			'password' => 'CIYVICKZYJBBXUAR',
 			'port'     => 10122,
