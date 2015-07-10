@@ -1,4 +1,6 @@
 <?php
+use Betacie\Google\Tracker\EventTracker;
+use Betacie\Google\Storage\ArrayStorage;
 
 class AuthController extends BaseController {
 	protected $layout = 'layouts.front';
@@ -170,13 +172,18 @@ class AuthController extends BaseController {
 			Mail::queue('emails.auth.welcome', [], function($message) use($user){
 				$message->to($user->email)->subject('Welcome to NoSprawl!');
 			});
-
+			
+			$storage = new ArrayStorage();
+			$tracker = new EventTracker($storage);
+			
+			$tracker->trackEvent(['action' => 'created_account']);
+			
 			Auth::login($user, true);
 
 			return Redirect::to('/');
 		}
 
-		return Redirect::to('register')->withErrors($validator);
+		return Redirect::to('register')->withErrors($validator)->with('tracker', $tracker);
 
 	}
 

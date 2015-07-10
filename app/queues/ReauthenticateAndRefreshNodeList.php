@@ -3,6 +3,7 @@ class ReauthenticateAndRefreshNodeList {
 	public function fire($job, $data) {
 		$output = new Symfony\Component\Console\Output\ConsoleOutput();
 		$json_array = json_decode($data['message']);
+		$output->writeln($json_array);
 		$service_provider = new $json_array->service_provider();
 		# Ensure the integration still exists. If not, delete all the nodes and remove the job from the queue forever.
 		try {
