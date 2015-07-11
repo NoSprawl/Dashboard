@@ -123,7 +123,12 @@ class ProcessAgentReport {
 					
 				}
 				
-				$packages_index[$document['product']]->save();
+				try {
+					$package_record->save();
+				}  catch (Exception $e) {
+					$packages_index[$document['product']]->save();
+				}
+				
 			}
 			
 			$node->save();
