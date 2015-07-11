@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('nikita', 'nikita.local', 'nikita.attlocal.net'),
+	'local' => array('nikita.attlocal.net'),
 
 ));
 

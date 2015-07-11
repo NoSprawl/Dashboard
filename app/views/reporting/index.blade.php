@@ -17,12 +17,12 @@
 				</div>
 				<div class="uk-width-4-10 nos-reporting-shift">
 					<form class="uk-form">
-						<input id="dr1" type="text" placeholder="Start Date">
+						<input id="dr1" type="text" placeholder="Start Date" value="<?= date('F j, Y', strtotime('monday this week')) ?>">
 					</form>
 				</div>
 				<div class="uk-width-4-10 nos-reporting-shift">
 					<form class="uk-form">
-						<input id="dr2" type="text" placeholder="End Date">
+						<input id="dr2" type="text" placeholder="End Date" value="<?= date('F j, Y') ?>">
 					</form>
 				</div>
 			</div>
@@ -30,8 +30,8 @@
 	</div>
 	<h2>Risk</h2>
 	<div class="uk-grid">
-		<div class="uk-width-3-3" style="background: pink; height: 200px;">
-			Error
+		<div class="uk-width-3-3" id="riskline" style="height: 200px;">
+			<svg></svg>
 		</div>
 	</div>
 	<div class="uk-grid">
@@ -73,6 +73,7 @@
 	</div>
 	
 	<script type="text/javascript" src="/js/components/d3.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/js/nv.d3.min.js"></script>
 	<script type="text/javascript" src="/js/components/topojson.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="/js/components/datamaps.world.min.js"></script>
 	<script type="text/javascript">
@@ -174,6 +175,57 @@
 	});
 	
 
+	
+	</script>
+	<script>
+	/*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
+	$(function(ev) {
+		nv.addGraph(function() {
+		  var chart = nv.models.lineChart()
+		                .margin({left: 61})  //Adjust chart margins to give the x-axis some breathing room.
+		                .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+		                .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
+		                .showYAxis(true)        //Show the y-axis
+		                .showXAxis(true)        //Show the x-axis
+		  ;
+
+		  chart.xAxis     //Chart x-axis settings
+		      .axisLabel('Time (ms)')
+		      .tickFormat(d3.format(function(d) {return d3.time.format('%b %d')(new Date(d));}));
+
+		  chart.yAxis     //Chart y-axis settings
+		      .axisLabel('Risk (r)')
+		      .tickFormat(d3.format('.02f'));
+
+		  /* Done setting the chart up? Time to render it!*/
+		  var myData = [
+			    {
+			      values: [{x: 1436624206737, y: 180}, {x: 1436624206738, y: 50}, {x: 1436624206739, y: 60}, {x: 1436624216739, y: 69}],      //values - represents the array of {x,y} data points
+			      key: 'High Risk Issues', //key  - the name of the series.
+			      color: '#ff7f0e'  //color - optional: choose your own line color.
+			    },
+			    {
+			      values: [{x: 1436624206737, y: 160}, {x: 1436624206738, y: 55}, {x: 1436624206739, y: 20}, {x: 1436624216739, y: 56}],
+			      key: 'Low Risk Issues',
+			      color: '#2ca02c'
+			    },
+			    {
+			      values: [{x: 1436624206737, y: 120}, {x: 1436624206738, y: 50}, {x: 1436624206739, y: 50}, {x: 1436624216739, y: 20}],
+			      key: 'Total Risk Level',
+			      color: '#0078EF'
+			    }
+			  ];   //You need data...
+
+		  d3.select('#riskline svg')    //Select the <svg> element you want to render the chart in.   
+		      .datum(myData)         //Populate the <svg> element with chart data...
+		      .call(chart);          //Finally, render the chart!
+
+		  //Update the chart when window resizes.
+		  nv.utils.windowResize(function() { chart.update() });
+		  return chart;
+		});
+		
+	});
 	
 	</script>
 </article>
