@@ -27,7 +27,9 @@ class ProcessAgentReport {
 		asort($ip_node_id_count, SORT_NUMERIC);
 		end($ip_node_id_count);
 		$matched_node_id = key($ip_node_id_count);
-				
+		
+		$output->writeln("hi");
+		
 		$node = Node::find($matched_node_id);
 				
 		if($node) {
