@@ -68,6 +68,9 @@ class ProcessAgentReport {
 				}
 				
 				$package_record = Package::firstOrNew(array('name' => $package_version[0], 'node_id' => $node->id));
+				if(!$package_record->version) {
+					$package_record->version = $package_version[1];
+				}
 				
 				try {
 					$package_record->save();
