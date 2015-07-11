@@ -72,7 +72,7 @@ class ProcessAgentReport {
 				try {
 					$package_record->save();
 				} catch (Exception $e) {
-					$output->writeln("couldn't save record");
+					$output->writeln("couldn't save record" . print_r($e->getMessage()));
 				}
 				
 				$packages_index[$package_record->name] = $package_record;
