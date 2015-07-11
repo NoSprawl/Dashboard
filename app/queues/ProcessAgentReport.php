@@ -68,9 +68,8 @@ class ProcessAgentReport {
 				}
 				
 				$package_record = Package::firstOrNew(array('name' => $package_version[0], 'node_id' => $node->id));
-				if(!$package_record->version) {
+				if(is_null($package_record->version) || is_null($package_record->application_package_vulnerability_severity)) {
 					$package_record->version = $package_version[1];
-					$package_record->application_package_vulnerability_severity = 0;
 				}
 				
 				try {
@@ -124,9 +123,9 @@ class ProcessAgentReport {
 				}
 				
 				try {
-					$package_record->save();
-				}  catch (Exception $e) {
 					$packages_index[$document['product']]->save();
+				}  catch (Exception $e) {
+					
 				}
 				
 			}
