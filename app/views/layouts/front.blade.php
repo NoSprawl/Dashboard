@@ -164,10 +164,7 @@
 	</script>
 	<?php
 	if(!is_null(Auth::user())) {
-		FS.identify(Auth::user()->id, {
-		  displayName: Auth::user()->name,
-		  email: Auth::user()->email
-		});
+		echo("<script type'text/javascript'>FS.identify(Auth::user()->id, {displayName: Auth::user()->name, email: Auth::user()->email});</script>");
 	}
 	?>
 </body>
