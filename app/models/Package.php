@@ -15,7 +15,7 @@ class Package extends Eloquent {
 	public static function boot() {
 		parent::boot();
 		
-		Package::created(function($package) {			
+		/*Package::created(function($package) {			
 			$snapshot = new PackageSnapshot();
 			$snapshot->application_package_id = $package->id;
 			$snapshot->application_package_name = $package->name;
@@ -33,7 +33,7 @@ class Package extends Eloquent {
 			$snapshot->application_package_vulnerability_severity = $package->vulnerability_severity;
 			$snapshot->save();			
 			return true;
-		});
+		});*/
 		
 	}
 	
