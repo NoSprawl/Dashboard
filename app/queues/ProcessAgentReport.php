@@ -69,8 +69,6 @@ class ProcessAgentReport {
 				
 				$package_record = Package::firstOrNew(array('name' => $package_version[0], 'node_id' => $node->id));
 				
-				$output->writeln(print_r($package_record->save()));
-				
 				$packages_index[$package_record->name] = $package_record;
 				
 				// Set up query cache. Only one query per agent report. That is crucial. Multiple queries would kill everything.
@@ -116,6 +114,10 @@ class ProcessAgentReport {
 				}
 				
 				$packages_index[$document['product']]->save();
+			}
+			
+			foreach($packages_index as $name => $package) {
+				$package->save()
 			}
 			
 			$node->save();

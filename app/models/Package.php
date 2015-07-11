@@ -12,7 +12,7 @@ class Package extends Eloquent {
 
 	protected $fillable = ['name', 'version', 'node_id', 'created_at'];
 	
-	/*public static function boot() {
+	public static function boot() {
 		parent::boot();
 		
 		Package::created(function($package) {			
@@ -35,7 +35,7 @@ class Package extends Eloquent {
 			return true;
 		});
 		
-	}*/
+	}
 	
 	public function node() {
 		return $this->belongsTo('Node', 'node_id');
