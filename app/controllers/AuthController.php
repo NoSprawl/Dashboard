@@ -3,7 +3,7 @@ use Betacie\Google\Tracker\EventTracker;
 use Betacie\Google\Storage\ArrayStorage;
 
 class AuthController extends BaseController {
-	protected $layout = 'layouts.fronthome';
+	protected $layout = 'layouts.front';
 	
 	public function getRegistration() {
 
