@@ -117,7 +117,7 @@ class ProcessAgentReport {
 			}
 			
 			foreach($packages_index as $name => $package) {
-				$package->save()
+				$package->save();
 			}
 			
 			$node->save();
