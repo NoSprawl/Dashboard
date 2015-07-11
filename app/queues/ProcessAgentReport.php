@@ -1,6 +1,7 @@
 <?php
 class ProcessAgentReport {
 	public function fire($job, $data) {
+		try {
 		$output = new Symfony\Component\Console\Output\ConsoleOutput();
 		$packages = $data['message']['pkginfo']['installed'];
 		$matched_public_ip = false;
@@ -166,6 +167,10 @@ class ProcessAgentReport {
 			$output->writeln("Got an agent report we couldn't match.");
 			$job->delete();
 		}
+		
+	} catch (Exception $e) {
+		$output->writeln("error" . $e->getMessage());
+	}
 		
 	}
 	
