@@ -10,7 +10,7 @@ require 'fileutils'
 
 if $stdout.isatty
   if !Process.uid.zero?
-    puts "NoSprawl needs root permission to create a crontab ('*/5 * * * *') and to move the agent script to /usr/local/sbin or /usr/local/bin. Once the agent crontab is running, this environment will report basic information to NoSprawl."
+    puts "NoSprawl needs root permission to create a crontab ('0 1,13 * * *') and to move the agent script to /usr/local/sbin or /usr/local/bin. Once the agent crontab is running, this environment will report basic information to NoSprawl."
     puts "Permissions failure. Re-run with sudo."
     abort
   end
@@ -28,7 +28,7 @@ if $stdout.isatty
   end
   
   ruby_loc = `which ruby`.strip
-  `echo '*/5 * * * * #{ruby_loc} /usr/local/sbin/nosprawl.rb' | sudo crontab`
+  `echo '0 1,13 * * * #{ruby_loc} /usr/local/sbin/nosprawl.rb' | sudo crontab`
 end
 
 class Selfie

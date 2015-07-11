@@ -20,7 +20,11 @@ class Package extends Eloquent {
 			$snapshot->application_package_id = $package->id;
 			$snapshot->application_package_name = $package->name;
 			$snapshot->application_package_version = $package->version;
-			$snapshot->application_package_vulnerability_severity = $package->vulnerability_severity;
+			$severity = $package->vulnerability_severity;
+			if(!$package->vulnerability_severity) {
+				$severity = 0;
+			}
+			$snapshot->application_package_vulnerability_severity = $severity;
 			$snapshot->save();
 			return true;
 		});
@@ -30,8 +34,12 @@ class Package extends Eloquent {
 			$snapshot->application_package_id = $package->id;
 			$snapshot->application_package_name = $package->name;
 			$snapshot->application_package_version = $package->version;
-			$snapshot->application_package_vulnerability_severity = $package->vulnerability_severity;
-			$snapshot->save();			
+			$severity = $package->vulnerability_severity;
+			if(!$package->vulnerability_severity) {
+				$severity = 0;
+			}
+			$snapshot->application_package_vulnerability_severity = $severity;
+			$snapshot->save();
 			return true;
 		});
 		
