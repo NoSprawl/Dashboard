@@ -256,12 +256,7 @@ div.limbo.out {
 			<div class="uk-width-1-6 node_status activatable">
 			<?php
 			if($node->vulnerable) {
-				if(!$node->severe_vulnerable) {
-					print "<span class='stopped'></span><span class='statuslabel'>Low Risk</span>";
-				} else {
-					print "<span class='stopped'></span><span class='statuslabel'>High Risk</span>";
-				}
-			
+				print "<span class='stopped'></span><span class='statuslabel'>High Risk</span>";
 			} else {
 				print "<span class='running'></span><span class='statuslabel'>Healthy</span>";
 			}
