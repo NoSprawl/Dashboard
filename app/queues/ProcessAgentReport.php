@@ -48,7 +48,6 @@ class ProcessAgentReport {
 			$packages_index = array();
 			
 			foreach($packages as $package_version) {
-				$output->writeln(print_r($package_version));
 				// Get rid of debian epochs
 				//https://ask.fedoraproject.org/en/question/6987/whats-the-meaning-of-the-number-which-appears-sometimes-when-i-use-yum-to-install-a-fedora-package-before-a-colon-at-the-beginning-of-the-name-of-the/
 				$explode_epoch = explode(":", $package_version[1]);
@@ -69,6 +68,8 @@ class ProcessAgentReport {
 				}
 				
 				$package_record = Package::firstOrNew(array('name' => $package_version[0], 'node_id' => $node->id));
+				
+				$output->writeln(print_r($package_record));
 				
 				$package_record->save();
 				$packages_index[$package_record->name] = $package_record;
