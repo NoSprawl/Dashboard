@@ -28,8 +28,7 @@
 			<form class="uk-form">
 				<fieldset>
 					<legend style="margin: 0; padding: 0;">Don&rsquo;t have an account yet?</legend>
-					<p>It&rsquo;s easy to get started. Sign up for a free trial or <a href="#">contact us</a> to see the full power of NoSprawl&rsquo;s patch management solution.</p>
-					<a class="uk-button uk-button-success nos-blue" href="/register">Sign up for free</a>
+					<p>It&rsquo;s easy to get started. Sign up for the private beta by <a href="http://nosprawl.com/">contacting us</a> to see the full power of NoSprawl&rsquo;s solution.</p>
 				</fieldset>
 			</form>
 		</div>

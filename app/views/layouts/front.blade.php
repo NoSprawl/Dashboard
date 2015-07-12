@@ -66,7 +66,7 @@
 								<li>{{link_to_route('signout', 'Sign out')}}</li>
 							@else
 								<li class="@section('signin_link')@show">{{link_to_route('signin', 'Sign in')}}</li>
-								<li class="@section('signup_link')@show">{{link_to_route('signup', 'Sign up')}}</li>
+								<!--<li class="@section('signup_link')@show">{{link_to_route('signup', 'Sign up')}}</li>-->
 							@endif
 	        	</ul>
 			  	</div>
