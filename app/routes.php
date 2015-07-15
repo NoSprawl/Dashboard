@@ -50,4 +50,5 @@ Route::group(array('before' => 'auth'), function()
 	Route::post('groupAssoc/delete/{groupAssocId}', ['uses' => 'GroupsController@deleteAssoc']);
 	Route::post('/users/delete/{user_id}', ['uses' => 'AuthController@deleteUser']);
 	Route::post('/remediation/{remediation_id}', ['uses' => 'RemediationsController@remediate']);
+	Route::post('/reporting/getDataFor/{start}/{end}', ['uses' => 'ReportingController@getReportingDataForRange']);
 });

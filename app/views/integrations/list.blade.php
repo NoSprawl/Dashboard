@@ -169,7 +169,7 @@
 			</div>
 		</div>
 		<div class="uk-width-1-2">
-				<ul class="uk-list uk-list uk-width-medium-1-3" id="keys_area">
+				<ul class="uk-list uk-list" id="keys_area">
 					<li class="sk-spinner sk-spinner-wave">
 						<div class="sk-rect1"></div>
 					  <div class="sk-rect2"></div>
@@ -240,7 +240,12 @@ $(function() {
 	$('.key_manage').click(function(ev) {
 		$.post("/keyNamesFor/" + $(this).parent().parent().data("integration-id"), function(response) {
 			$("#keys_area").html("");
-			$("#keys_area").append("<li>" + response + "</li>");
+			$.each(response, function(index, item) {
+				console.log(item);
+				
+				$("#keys_area").append("<li>" + item['username'] + "@" + item['remote_url'] + "</li>");
+			});
+			
 		});
 		
 	});

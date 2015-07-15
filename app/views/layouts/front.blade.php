@@ -154,10 +154,5 @@
 			</div>
 		</div>
 	</div>
-	<?php
-	if(!is_null(Auth::user())) {
-		echo("<script type='text/javascript'>FS.identify('" . Auth::user()->id . "', {displayName: '" . Auth::user()->name . "', email: '" . Auth::user()->email . "'});</script>");
-	}
-	?>
 </body>
 </html>

@@ -19,7 +19,7 @@ class IntegrationsController extends BaseController {
 	}
 	
 	public function getKeyNamesFor($integration_id) {
-		$keyNames = DB::table('key_references')->where('integration_id', '=', $integration_id)->lists('remote_url');
+		$keyNames = DB::table('key_references')->where('integration_id', '=', $integration_id)->get();
 		return Response::json($keyNames);
 	}
 	

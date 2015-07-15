@@ -173,56 +173,75 @@
 		renderBar("node_risk_regional", [ 18, 10, 13, 19, 5 ]);
 		
 	});
-	
-
-	
 	</script>
 	<script>
-	/*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
 	$(function(ev) {
-		nv.addGraph(function() {
-		  var chart = nv.models.lineChart()
-		                .margin({left: 61})  //Adjust chart margins to give the x-axis some breathing room.
-		                .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
-		                .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
-		                .showYAxis(true)        //Show the y-axis
-		                .showXAxis(true)        //Show the x-axis
-		  ;
+		function renderLineChart(toDom, xLabel, yLabel, data) {
+			nv.addGraph(function() {
+			  var chart = nv.models.lineChart()
+			                .margin({left: 61})  //Adjust chart margins to give the x-axis some breathing room.
+			                .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+			                .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
+			                .showYAxis(true)        //Show the y-axis
+			                .showXAxis(true)        //Show the x-axis
+			  ;
 
-		  chart.xAxis     //Chart x-axis settings
-		      .axisLabel('Time (ms)')
-		      .tickFormat(d3.format(function(d) {return d3.time.format('%b %d')(new Date(d));}));
+			  chart.xAxis     //Chart x-axis settings
+			      .axisLabel(xLabel)
+			      .tickFormat(function(d) {return d3.time.format("%x")(new Date(d))});
 
-		  chart.yAxis     //Chart y-axis settings
-		      .axisLabel('Risk (r)')
-		      .tickFormat(d3.format('.02f'));
+			  chart.yAxis     //Chart y-axis settings
+			      .axisLabel(yLabel)
+			      .tickFormat(d3.format('.02f'));
+						
+			  d3.select('#riskline svg')    //Select the <svg> element you want to render the chart in.   
+			      .datum(data)         //Populate the <svg> element with chart data...
+			      .call(chart);          //Finally, render the chart!
 
-		  /* Done setting the chart up? Time to render it!*/
-		  var myData = [
-			    {
-			      values: [{x: 1436624206737, y: 180}, {x: 1436624206738, y: 50}, {x: 1436624206739, y: 60}, {x: 1436624216739, y: 69}],      //values - represents the array of {x,y} data points
-			      key: 'High Risk Issues', //key  - the name of the series.
-			      color: '#ff7f0e'  //color - optional: choose your own line color.
-			    },
-			    {
-			      values: [{x: 1436624206737, y: 160}, {x: 1436624206738, y: 55}, {x: 1436624206739, y: 20}, {x: 1436624216739, y: 56}],
-			      key: 'Low Risk Issues',
-			      color: '#2ca02c'
-			    },
-			    {
-			      values: [{x: 1436624206737, y: 120}, {x: 1436624206738, y: 50}, {x: 1436624206739, y: 50}, {x: 1436624216739, y: 20}],
-			      key: 'Total Risk Level',
-			      color: '#0078EF'
-			    }
-			  ];   //You need data...
-
-		  d3.select('#riskline svg')    //Select the <svg> element you want to render the chart in.   
-		      .datum(myData)         //Populate the <svg> element with chart data...
-		      .call(chart);          //Finally, render the chart!
-
-		  //Update the chart when window resizes.
-		  nv.utils.windowResize(function() { chart.update() });
-		  return chart;
+			  //Update the chart when window resizes.
+			  nv.utils.windowResize(function() { chart.update() });
+			  return chart;
+			});
+			
+		}
+		
+		var data = [];
+		
+		$.post("/reporting/getDataFor/" + $("#dr1").val() + "/" + $("#dr2").val(), function(result) {
+			// Date groups
+			var all_risk_obj = {values: [], key: 'Total Risk', color: '#0078EF'};
+			var high_risk_obj = {values: [], key: 'High Risk Issues', color: '#ff7f0e'};
+			var low_risk_obj = {values: [], key: 'Low Risk Issues', color: '#2ca02c'};
+			
+			$.each(result, function(index, item) {
+				// Risk groups
+				var all_risk_total = 0;
+				var high_risk_total = 0;
+				var low_risk_total = 0;
+				
+				$.each(item['all_risk'], function(ind, ite) {
+					all_risk_total = all_risk_total + parseInt(ite['application_package_vulnerability_severity']);
+				});
+				
+				all_risk_obj['values'].push({x: Date.parse(index), y: all_risk_total});
+				
+				$.each(item['high_risk'], function(ind, ite) {
+					high_risk_total = high_risk_total + parseInt(ite['application_package_vulnerability_severity']);
+				});
+				
+				high_risk_obj['values'].push({x: Date.parse(index), y: high_risk_total});
+				
+				$.each(item['low_risk'], function(ind, ite) {
+					low_risk_total = low_risk_total + parseInt(ite['application_package_vulnerability_severity']);
+				});
+				
+				low_risk_obj['values'].push({x: Date.parse(index), y: low_risk_total});
+				
+			});
+			
+			data.push(all_risk_obj, high_risk_obj, low_risk_obj);
+			
+			renderLineChart("#riskline svg", "Date (d)", "Risk (r)", data);
 		});
 		
 	});

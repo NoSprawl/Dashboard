@@ -6,7 +6,30 @@ class ReportingController extends BaseController {
 	public function __construct() {
 
 	}
-
+	
+	public function getReportingDataForRange($start, $end) {
+		$all_data = PackageSnapshot::whereBetween('created_at', array(new \DateTime($start), new \DateTime($end)))->groupBy('id')->groupBy('application_package_id')->groupBy('created_at')->get();
+		$riskByDateAndSeverity = array();
+		foreach($all_data as $data) {
+			$date = Date("D, d M Y", strtotime($data->created_at . ""));
+			$created_at_string = $date . "";
+			if(!array_key_exists($created_at_string, $riskByDateAndSeverity)) {
+				$riskByDateAndSeverity[$created_at_string] = array('all_risk' => array(), 'high_risk' => array(), 'low_risk' => array());
+			}
+			
+			if($data->application_package_vulnerability_severity > 5.9) {
+				array_push($riskByDateAndSeverity[$created_at_string]['high_risk'], $data);
+			} else {
+				array_push($riskByDateAndSeverity[$created_at_string]['low_risk'], $data);
+			}
+			
+			array_push($riskByDateAndSeverity[$created_at_string]['all_risk'], $data);
+			
+		}
+		
+		return Response::json($riskByDateAndSeverity);
+	}
+	
 	public function reportingIndex() {
 		$user = null;
 		if(is_null(Auth::user()->parent_user_id)) {
