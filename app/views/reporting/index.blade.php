@@ -250,6 +250,7 @@
 		updateRiskChart();
 		
 		$("#dr1, #dr2").change(function(ev) {
+			$("#riskline").html("<svg></svg>")
 			updateRiskChart();
 		});
 		
