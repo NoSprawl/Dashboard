@@ -242,7 +242,7 @@
 			
 				data.push(all_risk_obj, high_risk_obj, low_risk_obj);
 			
-				renderLineChart("#riskline svg", "Date (d)", "Risk (r)", data);
+				renderLineChart("#riskline svg", "Date", "Risk", data);
 			});
 			
 		}

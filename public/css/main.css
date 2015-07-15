@@ -1830,3 +1830,7 @@ footer {
 #nos_modal_container #nos_modal .modal-inner h4 span.subject {
 	font-weight: bold;
 }
+
+svg.nvd3-svg {
+	overflow: visible;
+}

@@ -8,7 +8,8 @@ class ReportingController extends BaseController {
 	}
 	
 	public function getReportingDataForRange($start, $end) {
-		$all_data = PackageSnapshot::whereBetween('created_at', array(new \DateTime($start), new \DateTime($end)))->groupBy('id')->groupBy('application_package_id')->groupBy('created_at')->get();
+		$diff24Hours = new DateInterval('PT24H');
+		$all_data = PackageSnapshot::whereBetween('created_at', array(new \DateTime($start), (new \DateTime($end))->add($diff24Hours)))->groupBy('id')->groupBy('application_package_id')->groupBy('created_at')->get();
 		$riskByDateAndSeverity = array();
 		foreach($all_data as $data) {
 			$date = Date("D, d M Y", strtotime($data->created_at . ""));
