@@ -205,43 +205,52 @@
 			
 		}
 		
-		var data = [];
+		function updateRiskChart() {
+			var data = [];
 		
-		$.post("/reporting/getDataFor/" + $("#dr1").val() + "/" + $("#dr2").val(), function(result) {
-			// Date groups
-			var all_risk_obj = {values: [], key: 'Total Risk', color: '#0078EF'};
-			var high_risk_obj = {values: [], key: 'High Risk Issues', color: '#ff7f0e'};
-			var low_risk_obj = {values: [], key: 'Low Risk Issues', color: '#2ca02c'};
+			$.post("/reporting/getDataFor/" + $("#dr1").val() + "/" + $("#dr2").val(), function(result) {
+				// Date groups
+				var all_risk_obj = {values: [], key: 'Total Risk', color: '#0078EF'};
+				var high_risk_obj = {values: [], key: 'High Risk Issues', color: '#ff7f0e'};
+				var low_risk_obj = {values: [], key: 'Low Risk Issues', color: '#2ca02c'};
 			
-			$.each(result, function(index, item) {
-				// Risk groups
-				var all_risk_total = 0;
-				var high_risk_total = 0;
-				var low_risk_total = 0;
+				$.each(result, function(index, item) {
+					// Risk groups
+					var all_risk_total = 0;
+					var high_risk_total = 0;
+					var low_risk_total = 0;
 				
-				$.each(item['all_risk'], function(ind, ite) {
-					all_risk_total = all_risk_total + parseInt(ite['application_package_vulnerability_severity']);
+					$.each(item['all_risk'], function(ind, ite) {
+						all_risk_total = all_risk_total + parseInt(ite['application_package_vulnerability_severity']);
+					});
+				
+					all_risk_obj['values'].push({x: Date.parse(index), y: all_risk_total});
+				
+					$.each(item['high_risk'], function(ind, ite) {
+						high_risk_total = high_risk_total + parseInt(ite['application_package_vulnerability_severity']);
+					});
+				
+					high_risk_obj['values'].push({x: Date.parse(index), y: high_risk_total});
+				
+					$.each(item['low_risk'], function(ind, ite) {
+						low_risk_total = low_risk_total + parseInt(ite['application_package_vulnerability_severity']);
+					});
+				
+					low_risk_obj['values'].push({x: Date.parse(index), y: low_risk_total});
+				
 				});
-				
-				all_risk_obj['values'].push({x: Date.parse(index), y: all_risk_total});
-				
-				$.each(item['high_risk'], function(ind, ite) {
-					high_risk_total = high_risk_total + parseInt(ite['application_package_vulnerability_severity']);
-				});
-				
-				high_risk_obj['values'].push({x: Date.parse(index), y: high_risk_total});
-				
-				$.each(item['low_risk'], function(ind, ite) {
-					low_risk_total = low_risk_total + parseInt(ite['application_package_vulnerability_severity']);
-				});
-				
-				low_risk_obj['values'].push({x: Date.parse(index), y: low_risk_total});
-				
+			
+				data.push(all_risk_obj, high_risk_obj, low_risk_obj);
+			
+				renderLineChart("#riskline svg", "Date (d)", "Risk (r)", data);
 			});
 			
-			data.push(all_risk_obj, high_risk_obj, low_risk_obj);
-			
-			renderLineChart("#riskline svg", "Date (d)", "Risk (r)", data);
+		}
+		
+		updateRiskChart();
+		
+		$("#dr1, #dr2").change(function(ev) {
+			updateRiskChart();
 		});
 		
 	});
