@@ -182,13 +182,12 @@
 			                .margin({left: 61})  //Adjust chart margins to give the x-axis some breathing room.
 			                .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
 			                .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
-			                .showYAxis(true)        //Show the y-axis
-			                .showXAxis(true)        //Show the x-axis
-			  ;
+			                .showYAxis(true)
+				 							.showXAxis(true)
 
 			  chart.xAxis     //Chart x-axis settings
 			      .axisLabel(xLabel)
-			      .tickFormat(function(d) {return d3.time.format("%x")(new Date(d))});
+			      .tickFormat(function(d) {return d3.time.format("%m/%d/%Y")(new Date(d))});
 
 			  chart.yAxis     //Chart y-axis settings
 			      .axisLabel(yLabel)
@@ -211,15 +210,17 @@
 			$.post("/reporting/getDataFor/" + $("#dr1").val() + "/" + $("#dr2").val(), function(result) {
 				// Date groups
 				var all_risk_obj = {values: [], key: 'Total Risk', color: '#0078EF'};
-				var high_risk_obj = {values: [], key: 'High Risk Issues', color: '#ff7f0e'};
+				var high_risk_obj = {values: [], key: 'High Risk Issues', color: '#FF3300'};
 				var low_risk_obj = {values: [], key: 'Low Risk Issues', color: '#2ca02c'};
+				var medium_risk_obj = {values: [], key: 'Medium Risk Issues', color: '#FFFF00'};
 			
 				$.each(result, function(index, item) {
 					// Risk groups
 					var all_risk_total = 0;
 					var high_risk_total = 0;
 					var low_risk_total = 0;
-				
+					var medium_risk_total = 0;
+					
 					$.each(item['all_risk'], function(ind, ite) {
 						all_risk_total = all_risk_total + parseInt(ite['application_package_vulnerability_severity']);
 					});
@@ -236,11 +237,17 @@
 						low_risk_total = low_risk_total + parseInt(ite['application_package_vulnerability_severity']);
 					});
 				
-					low_risk_obj['values'].push({x: Date.parse(index), y: low_risk_total});
+					low_risk_obj['values'].push({x: Date.parse(index), y: medium_risk_total});
+					
+					$.each(item['medium_risk'], function(ind, ite) {
+						medium_risk_total = medium_risk_total + parseInt(ite['application_package_vulnerability_severity']);
+					});
+				
+					medium_risk_obj['values'].push({x: Date.parse(index), y: low_risk_total});
 				
 				});
-			
-				data.push(all_risk_obj, high_risk_obj, low_risk_obj);
+				
+				data.push(all_risk_obj, high_risk_obj, medium_risk_obj, low_risk_obj);
 			
 				renderLineChart("#riskline svg", "Date", "Risk", data);
 			});

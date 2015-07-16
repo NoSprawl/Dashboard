@@ -8,18 +8,22 @@ class ReportingController extends BaseController {
 	}
 	
 	public function getReportingDataForRange($start, $end) {
-		$diff24Hours = new DateInterval('PT24H');
-		$all_data = PackageSnapshot::whereBetween('created_at', array(new \DateTime($start), (new \DateTime($end))->add($diff24Hours)))->groupBy('id')->groupBy('application_package_id')->groupBy('created_at')->get();
+		$all_data = PackageSnapshot::whereBetween('created_at', array(new \DateTime($start), new \DateTime($end)))->groupBy('id')->groupBy('application_package_id')->groupBy('created_at')->get()->sortBy('created_at');
 		$riskByDateAndSeverity = array();
 		foreach($all_data as $data) {
-			$date = Date("D, d M Y", strtotime($data->created_at . ""));
-			$created_at_string = $date . "";
+			$data->created_at = $data->created_at;
+			$created_at_string = $data->created_at . "";
 			if(!array_key_exists($created_at_string, $riskByDateAndSeverity)) {
-				$riskByDateAndSeverity[$created_at_string] = array('all_risk' => array(), 'high_risk' => array(), 'low_risk' => array());
+				$riskByDateAndSeverity[$created_at_string] = array('all_risk' => array(), 'high_risk' => array(), 'low_risk' => array(), 'medium_risk' => array());
 			}
 			
-			if($data->application_package_vulnerability_severity > 5.9) {
-				array_push($riskByDateAndSeverity[$created_at_string]['high_risk'], $data);
+			if($data->application_package_vulnerability_severity > 4.5) {
+				if($data->application_package_vulnerability_severity < 7) {
+					array_push($riskByDateAndSeverity[$created_at_string]['medium_risk'], $data);
+				} else {
+					array_push($riskByDateAndSeverity[$created_at_string]['high_risk'], $data);
+				}
+				
 			} else {
 				array_push($riskByDateAndSeverity[$created_at_string]['low_risk'], $data);
 			}
