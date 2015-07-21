@@ -1834,3 +1834,15 @@ footer {
 svg.nvd3-svg {
 	overflow: visible;
 }
+
+#keys_area {
+	font-size: .9em;
+}
+
+.glyph_link:hover {
+	text-decoration: none;
+}
+
+.glyph_link:hover span {
+	text-decoration: underline;
+}

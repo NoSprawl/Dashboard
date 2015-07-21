@@ -144,7 +144,7 @@ div.limbo.out {
 			<?php $service_provider_cluster_id = (empty($node->service_provider_cluster_id)) ? 'None' : $node->service_provider_cluster_id; ?>
 			<?php $service_provider_description = ($node->description == " ") ? 'None' : $node->description; ?>
 			
-			<div class="uk-grid uk-grid-collapse nos-row">
+			<div class="uk-grid uk-grid-collapse nos-row" data-windows-bool="<?= (strtoupper($node->platform) == 'WINDOWS') ? 'true' : 'false' ?>">
 				<div class="uk-width-1-6 spinner_holder">
 				<?php if($node->service_provider_status != "terminated") { ?>
 					<?php if(!$node->limbo && $node->service_provider_status == 'running') { ?>
@@ -540,24 +540,24 @@ div.limbo.out {
 	});
 	
 	// Generate modals
+	function nos_modal(innerH) {
+		$("#groups_panel").removeClass("open");
+	
+		/*if($("body").hasClass("ignoreClick")) {
+			$("body").removeClass("ignoreClick");
+			return false;
+		}*/
+		
+		$("body").addClass('nos-overlay');
+		$("#whole-bird").after("<div id='nos_modal_container'><div id='nos_modal'><div class='modal-inner'>" + innerH + "</div></div></div>");
+		
+		setTimeout(function(ev) {
+			$("#nos_modal").addClass('active');
+		}, 150);
+		
+	}
+	
 	$(function(ev) {
-		function nos_modal(innerH) {
-			$("#groups_panel").removeClass("open");
-		
-			/*if($("body").hasClass("ignoreClick")) {
-				$("body").removeClass("ignoreClick");
-				return false;
-			}*/
-			
-			$("body").addClass('nos-overlay');
-			$("#whole-bird").after("<div id='nos_modal_container'><div id='nos_modal'><div class='modal-inner'>" + innerH + "</div></div></div>");
-			
-			setTimeout(function(ev) {
-				$("#nos_modal").addClass('active');
-			}, 150);
-			
-		}
-		
 		// Generate and display the policy form
 		/*$("body").on("click", ".nos-deletable", function(ev) {
 			nos_modal("<h4><span class='subject'>" + $("span", this).text() + "</span> Classification Policies</h4><div class='uk-grid'><div class='uk-grid-1-3'><label>Assets With This Classification</label></div><div class='uk-grid-2-3'><select><option value='CAN'>Can</option><option value='CAN'>Can't</option></select></div></div>");
@@ -570,8 +570,11 @@ div.limbo.out {
 			ev.stopImmediatePropagation();
 		});
 		
-		$("body").on("click", "#nos_modal_container", function(ev) {
-			$("#groups_panel").addClass("open");
+		$("body").on("click", "#nos_modal_container, .nos-modal-close", function(ev) {
+			if($("#managed_nodes").is(":visible")) {
+				$("#groups_panel").addClass("open");
+			}
+			
 			$("body").removeClass('nos-overlay');
 			setTimeout(function(ev) {
 				$("#nos_modal_container").remove();
@@ -584,15 +587,4 @@ div.limbo.out {
 </article>
 <script type="text/javascript" src="/js/nos.toggle.js"></script>
 <script type="text/javascript" src="/js/nos.tabs.js"></script>
-<script type="text/javascript">
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-55660254-1', 'auto');
-	<?php if(isset($tracker)) {
-		echo $tracker->render();
-	} ?>
-</script>
 @stop

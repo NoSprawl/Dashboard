@@ -241,8 +241,6 @@ $(function() {
 		$.post("/keyNamesFor/" + $(this).parent().parent().data("integration-id"), function(response) {
 			$("#keys_area").html("");
 			$.each(response, function(index, item) {
-				console.log(item);
-				
 				$("#keys_area").append("<li>" + item['username'] + "@" + item['remote_url'] + "</li>");
 			});
 			

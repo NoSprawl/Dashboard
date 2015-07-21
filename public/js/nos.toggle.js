@@ -1,6 +1,11 @@
 window.tempDisableModals = false;
 
 $('.switch label').click(function(ev) {
+	if($(this).closest('.nos-row').data('windows-bool') === true) {
+		nos_modal("<h4>Windows Deployment Instructions</h4><p>The Windows agent must be deployed manually. Simply run the linked MSI on any Windows node in this list and it will automatically be managed &amp; monitored.</p><a class='glyph_link' href='https://s3-us-west-1.amazonaws.com/agent.nosprawl.software/NoSAgent.msi'><img style='top: 0px; position: relative;' src='/svg/windows.svg' width='18px'> <span>Download The Agent</span></a><br /><br /><a class='nos-modal-close uk-button'>Back</a>");
+		return false;
+	} 
+	
 	if($(this).hasClass('switch-label-off') && !$(this).parent().hasClass('switch-yellow')) {ev.preventDefault(); ev.stopPropagation(); return false;}
 	$(this).parent().toggleClass('switch-yellow');
 	if(!window.tempDisableModals) {
