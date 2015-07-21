@@ -58,7 +58,7 @@
 					@if(Auth::check())
 		        <li class="@section('check_link')@show">{{link_to_route('check', 'Environment Status')}}</li>
 		        <li class="@section('integrations_link')@show">{{link_to_route('integrations', 'Integrations')}}</li>
-						<li class="@section('reporting_link')@show">{{link_to_route('reporting', 'Reporting')}}</li>
+						<!--<li class="@section('reporting_link')@show">{{link_to_route('reporting', 'Reporting')}}</li>-->
 		        <li class="@section('alerts_link')@show">{{link_to_route('alerts', 'Alerts')}}</li>
 						<li class="@section('users_link')@show">{{link_to_route('users', 'Users')}}</li>
 					@endif

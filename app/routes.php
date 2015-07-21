@@ -16,6 +16,7 @@ Route::post('register', 'AuthController@postRegistration');
 Route::get('logout', ['uses' => 'AuthController@getLogout', 'as' => 'signout']);
 Route::get('login', ['uses' => 'AuthController@getLogin', 'as' => 'signin']);
 Route::post('login', 'AuthController@postLogin');
+Route::get('/vip', 'AuthController@vip');
 
 Route::get('/signup/{token}', ['uses' => 'AuthController@onboard', 'as' => 'onboard_user']);
 Route::post('/onboard', ['uses' => 'AuthController@postRegistrationFromSubuser', 'as' => 'finalize_onboard']);

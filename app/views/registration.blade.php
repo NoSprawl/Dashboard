@@ -72,10 +72,15 @@ select {
 							</div>
 						</div><!-- /uk-width-1-2 -->
 					</div><!-- /uk-form-row -->
+					<?php if(Cookie::get('vip')) { ?>
+					<br />
+					{{ Form::submit('Enter the Private Beta', ['class' => 'nos-reg-submit submit uk-button uk-button-success uk-button-large']) }}
+					<?php } ?>
 				</div><!-- /uk-width-2-3 -->
 			</div><!-- /uk-grid uk-grid-preserve -->
 		</fieldset>
-		<br />{{-- @TODO style this so a br isn't necessary --}}
+		<br />
+		<?php if(!Cookie::get('vip')) { ?>
 		<fieldset class="uk-row">
 			<?= Form::select('plan', ['nosprawl-' . (App::isLocal() ? 'test' : 'live') . '-business' => 'Business', 'nosprawl-' . (App::isLocal() ? 'test' : 'live') . '-starter' => 'Starter']) ?>
 			<legend style="padding-bottom: 1px !important;">Choose a Plan</legend>
@@ -191,7 +196,7 @@ select {
 			</div>
 			<script type="text/javascript" src="/js/card.js"></script>
 		</fieldset>
-		
+		<?php } ?>
 		<br /><br /><br />{{-- @TODO style this so a br isn't necessary --}}
 		
 	{{ Form::close() }}
@@ -229,6 +234,7 @@ $("input").focus(function(event) {
 				
 				  Stripe.setPublishableKey('{{ (App::isLocal() ? Config::get("stripe.development.public") : Config::get("stripe.production.public")) }}');
 					$(function() {
+						<?php if(!Cookie::get('vip')) { ?>
 					  $('form').submit(function(event) {
 							$("input").removeClass('uk-form-danger')
 							$("span.error").remove();
@@ -273,6 +279,7 @@ $("input").focus(function(event) {
 						
 							return false;
 					  });
+						<?php } ?>
 					});		
 			},
 

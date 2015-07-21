@@ -11,8 +11,7 @@ class AuthController extends BaseController {
 
 	}
 	
-	public function onboard($token)
-	{
+	public function onboard($token) {
 		$user = LimboUser::where('user_confirmation_token', $token)->first();
 		
 		if(count($user) > 0) {
@@ -21,6 +20,10 @@ class AuthController extends BaseController {
 			return Redirect::to('/');
 		}
 		
+	}
+	
+	public function vip() {
+		return Redirect::to('/register')->withCookie(Cookie::make('vip', true, 120));
 	}
 	
 	public function deleteUser($user_id) {
@@ -145,22 +148,28 @@ class AuthController extends BaseController {
 			$user->password = Hash::make($input['password']);
 			
 			// Once we know the user has been created on our end, create the stripe customer
-			try {
-				$customer = Stripe_Customer::create(array(
-					"email" => $input['email'],
-				  "description" => "User ID: " . $user->id . "\nName: " . $user->full_name,
-				  "card" => $input['stripe_token'] // obtained with Stripe.js
-				));
+			if(!Cookie::get('vip')) {
+			
+				try {
+					$customer = Stripe_Customer::create(array(
+						"email" => $input['email'],
+					  "description" => "User ID: " . $user->id . "\nName: " . $user->full_name,
+					  "card" => $input['stripe_token'] // obtained with Stripe.js
+					));
 				
-			} catch (Exception $exception) {
-				 return Redirect::to('register')->withErrors(array('message' => array("card_error" => print_r($exception))));
+				} catch (Exception $exception) {
+					 return Redirect::to('register')->withErrors(array('message' => array("card_error" => print_r($exception))));
+				}
+			
+				$subscription = $customer->subscriptions->create(array(
+					"plan" => $input['plan'],
+				));
+			
+				$user->stripe_customer_id = $customer->id;
+				
+			} else {
+				$user->stripe_customer_id = 123;
 			}
-			
-			$subscription = $customer->subscriptions->create(array(
-				"plan" => $input['plan'],
-			));
-			
-			$user->stripe_customer_id = $customer->id;
 			
 			try {
 				$user->save();
@@ -169,9 +178,9 @@ class AuthController extends BaseController {
 			}
 			
 			// In theory the customer has been charged at this point
-			Mail::queue('emails.auth.welcome', [], function($message) use($user){
+			/*Mail::queue('emails.auth.welcome', [], function($message) use($user){
 				$message->to($user->email)->subject('Welcome to NoSprawl!');
-			});
+			});*/
 			
 			//$storage = new ArrayStorage();
 			//$tracker = new EventTracker($storage);
