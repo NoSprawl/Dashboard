@@ -10,11 +10,11 @@ class ReauthenticateAndRefreshNodeList {
 		} catch (Exception $e) {
 			try {
 				Node::where('integration_id', '=', $json_array->db_integration_id)->delete();
+				return $job->delete();
 			} catch (Exception $e) {
 				
 			}
 			
-			return $job->delete();
 		}
 		
 		$user_id = $integration->user_id;
