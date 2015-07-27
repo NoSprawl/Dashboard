@@ -1365,7 +1365,7 @@ div {
 	left: -45px;
 	height: 100%;
 	width: 41px;
-	z-index: 1;
+	z-index: 5;
 	border-right: 1px solid #eee;
 	background: white;
 	list-style: none;
