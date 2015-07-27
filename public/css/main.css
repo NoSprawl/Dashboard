@@ -1794,6 +1794,7 @@ footer {
 	position: relative;
 	width: 100%;
 	background: white;
+	display: none;
 }
 
 #signup_from_signin {
