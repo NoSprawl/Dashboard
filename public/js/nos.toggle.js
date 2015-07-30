@@ -1,5 +1,15 @@
 window.tempDisableModals = false;
 
+$('.win_manual').click(function(ev) {
+	nos_modal("<h4>Windows Deployment Instructions</h4><p>The Windows agent can be deployed manually. Simply run the linked MSI on any Windows asset in this list and it will automatically be managed &amp; monitored.</p><a class='glyph_link' href='https://s3-us-west-1.amazonaws.com/agent.nosprawl.software/NoSAgent.msi'><img style='top: 0px; position: relative;' src='/svg/windows.svg' width='18px'> <span>Download The Agent</span></a><br /><br /><a class='nos-modal-close uk-button'>Back</a>");
+	return false;
+});
+
+$('.linux_manual').click(function(ev) {
+	nos_modal("<h4>Linux Deployment Instructions</h4><p>The Linux agent can be deployed manually. Simply run the linked Ruby script on any Linux asset in this list and it will automatically be managed &amp; monitored.</p><a class='glyph_link' href='https://s3-us-west-1.amazonaws.com/agent.nosprawl.software/nosprawl.rb'><img style='top: 0px; position: relative;' src='/svg/linux.svg' width='18px'> <span>Download The Agent</span></a><br /><br /><a class='nos-modal-close uk-button'>Back</a>");
+	return false;
+});
+
 $('.switch label').click(function(ev) {
 	if($(this).closest('.nos-row').data('windows-bool') === true) {
 		nos_modal("<h4>Windows Deployment Instructions</h4><p>The Windows agent must be deployed manually. Simply run the linked MSI on any Windows node in this list and it will automatically be managed &amp; monitored.</p><a class='glyph_link' href='https://s3-us-west-1.amazonaws.com/agent.nosprawl.software/NoSAgent.msi'><img style='top: 0px; position: relative;' src='/svg/windows.svg' width='18px'> <span>Download The Agent</span></a><br /><br /><a class='nos-modal-close uk-button'>Back</a>");

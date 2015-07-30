@@ -132,8 +132,8 @@ div.limbo.out {
 	
 	<div id="unmanaged_nodes" class="nos-hidable" style="<?php if(sizeof($page_data['managed_nodes']) != 0) {echo 'display: none;';} ?>">
 		<div class="uk-grid uk-grid-collapse nos-title-row">
-	    <div class="uk-width-1-6">Asset Management</div>
-	    <div class="uk-width-1-6">Asset Status</div>
+	    <div class="uk-width-1-6">Auto Manage</div>
+	    <div class="uk-width-1-6">Manual Deploy</div>
 			<div class="uk-width-1-6">Platform &amp; Provider</div>
 			<div class="uk-width-1-6">Physical Location</div>
 			<div class="uk-width-2-6">Network Info</div>
@@ -195,20 +195,14 @@ div.limbo.out {
 				</div>
 				<div class="uk-width-1-6" style="position: relative;">
 					<?php
-					switch($node->service_provider_status) {
-						case "stopped":
-							print "<span class='stopped'></span><span class='statuslabel'>Stopped</span>";
-						break;
+					if($node->platform == "Windows") {
+						print "<a class=\"win_manual\" href=\"#\">Deploy</a>";
 					
-						case "running":
-							print "<span class='running'></span><span class='statuslabel'>Running</span>";
-						break;
-					
-						case "starting":
-							print "<span class='starting'></span><span class='statuslabel'>Starting</span>";
-						break;
+					} else {
+						print "<a class=\"linux_manual\" href=\"#\">Deploy</a>";
 					}
 					?>
+					<span style='top: 1px; position: relative;'></span>
 				</div>
 				<div class="uk-width-1-6">
 					<?php
