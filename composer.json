@@ -15,7 +15,7 @@
 		"stripe/stripe-php": "~1.17",
 		"aws/aws-sdk-php": "2.*",
 		"rackspace/php-opencloud": "dev-master",
-		"felixkiss/uniquewith-validator": "1.1.1",
+		"felixkiss/uniquewith-validator": "2.*",
 		"doctrine/dbal": "~2",
 		"darsain/laravel-console": "dev-master",
 		"mongofill/mongofill": "dev-bsd-compat",
