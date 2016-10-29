@@ -8,19 +8,17 @@ class KeysController extends \BaseController {
                                                 'secret' => 'OynHu9+HLsQhN3HGG7fbmN3PzFShPXBiuCjq8hE6'
                                               ),
                                               'version' => '2006-03-01',
-											  'region' => 'us-east-2'
+											  'region' => 'us-east-1'
                                               ));
 		
 		$key = new Key();
 		
 		if(Input::file('key') != null) {
-			exec('openssl rsa -noout -in ' . Input::file('key')->getRealPath(), $cli_output, $cli_exec_result_success);
-			
-			// lmao why is this logic reversed? and it works?
-			if(!$cli_exec_result_success) {
+			exec('openssl rsa -noout -in ' . Input::file('key')->getRealPath(), $cli_output, $cli_exec_result_error);
+			if(!$cli_exec_result_error) {
 				
 				$s3->putObject(array(
-			    'Bucket'     => (App::isLocal() ? 'keys.nosprawl.software' : 'keys.nosprawl.software'),
+			    'Bucket'     => (App::isLocal() ? 'nos.keys' : 'nos.keys'),
 			    'Key'        => Input::file('key')->getClientOriginalName(),
 			    'SourceFile' => Input::file('key')->getRealPath(),
 				));
