@@ -47,11 +47,11 @@ return array(
 	'connections' => array(
 		'application' => array(
 			'driver'   => 'pgsql',
-			'host'     => 'aws-us-east-1-portal.4.dblayer.com',
-			'database' => 'nosprawl_application',
-			'username' => 'admin',
-			'password' => 'CIYVICKZYJBBXUAR',
-			'port'     => 10122,
+			'host'     => 'nosprawlprod.cgcuin4lcyqb.us-east-1.rds.amazonaws.com',
+			'database' => 'nosprawlprod',
+			'username' => 'nosprawlprod',
+			'password' => 'H38kVnftVTmJzjt4kU20vtUuoU8vjmKxL9iGDvXY',
+			'port'     => 5432,
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
@@ -59,11 +59,11 @@ return array(
 		
 		'analytics' => array(
 			'driver'   => 'pgsql',
-			'host'     => 'aws-us-east-1-portal.4.dblayer.com',
-			'database' => 'nosprawl_analytics',
-			'username' => 'admin',
-			'password' => 'CIYVICKZYJBBXUAR',
-			'port'     => 10122,
+			'host'     => 'nosprawlanalyt.cgcuin4lcyqb.us-east-1.rds.amazonaws.com',
+			'database' => 'nosprawlanalyt',
+			'username' => 'nosprawlanalyt',
+			'password' => 'F02TFX7YsrkSRJ4uPSesmGes3PU1C51yB7t34p3G',
+			'port'     => 5432,
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
