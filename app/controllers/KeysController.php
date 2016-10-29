@@ -4,8 +4,8 @@ class KeysController extends \BaseController {
 	public function upload()
 	{
 		$s3 = \Aws\S3\S3Client::factory(array('credentials' => array(
-                                                'key' => 'AKIAIUCV4E2L4HDCDOUA',
-                                                'secret' => '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'
+                                                'key' => 'AKIAI3QACZD36BKSE6PQ',
+                                                'secret' => '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'
                                               ),
                                               'version' => '2006-03-01',
 											  'region' => 'us-east-1'

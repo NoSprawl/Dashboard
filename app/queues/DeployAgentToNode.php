@@ -24,10 +24,10 @@ class DeployAgentToNode {
 			}
 									
 			// Keys are always stored on S3. This is the NoS account.
-			$s3 = \Aws\S3\S3Client::factory(array('key' => 'AKIAIUCV4E2L4HDCDOUA',
-												  'secret' => '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',
+			$s3 = \Aws\S3\S3Client::factory(array('key' => 'AKIAI3QACZD36BKSE6PQ',
+												  'secret' => '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',
                                                   'version' => '2006-03-01',
-												  'region' => 'us-east-2'));
+												  'region' => 'us-east-1'));
 			
 			$all_keys = Key::where('integration_id', '=', $data['message']['integration_id'])->get();
 			
