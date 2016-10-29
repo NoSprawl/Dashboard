@@ -82,7 +82,7 @@ select {
 		<br />
 		<?php if(!Cookie::get('vip')) { ?>
 		<fieldset class="uk-row">
-			<?= Form::select('plan', ['nosprawl-' . (App::isLocal() ? 'test' : 'live') . '-business' => 'Business', 'nosprawl-' . (App::isLocal() ? 'test' : 'live') . '-starter' => 'Starter']) ?>
+			<?= Form::select('plan', ['nosprawl-' . (!App::isLocal() ? 'test' : 'live') . '-business' => 'Business', 'nosprawl-' . (!App::isLocal() ? 'test' : 'live') . '-starter' => 'Starter']) ?>
 			<legend style="padding-bottom: 1px !important;">Choose a Plan</legend>
 			<div class="pricing uk-grid uk-grid-preserve">
 				<div class="uk-width-medium-1-3">
@@ -232,7 +232,7 @@ $("input").focus(function(event) {
 			
 				// This identifies your website in the createToken call below
 				
-				  Stripe.setPublishableKey('{{ (App::isLocal() ? Config::get("stripe.development.public") : Config::get("stripe.production.public")) }}');
+				  Stripe.setPublishableKey('{{ (!App::isLocal() ? Config::get("stripe.development.public") : Config::get("stripe.production.public")) }}');
 					$(function() {
 						<?php if(!Cookie::get('vip')) { ?>
 					  $('form').submit(function(event) {
@@ -287,7 +287,7 @@ $("input").focus(function(event) {
 				$("#select_starter").click(function(ev) {
 					$(".plan.feature").removeClass('feature');
 					$(".uk-button-primary").removeClass('uk-button-primary');
-					$("select[name='plan']").val("nosprawl-<?php if(App::isLocal()) {echo 'test';} else {echo 'live';} ?>-starter");
+					$("select[name='plan']").val("nosprawl-<?php if(!App::isLocal()) {echo 'test';} else {echo 'live';} ?>-starter");
 					$(".plan").first().addClass('feature');
 					$("#select_starter").addClass('uk-button-primary');
 					$("#total_due_today").html("<strike class=\"lght\">$99.00</strike> $0.00");
@@ -306,7 +306,7 @@ $("input").focus(function(event) {
 				$("#select_business").click(function(ev) {
 					$(".plan.feature").removeClass('feature');
 					$(".uk-button-primary").removeClass('uk-button-primary');
-					$("select[name='plan']").val("nosprawl-<?php if(App::isLocal()) {echo 'test';} else {echo 'live';} ?>-business");
+					$("select[name='plan']").val("nosprawl-<?php if(!App::isLocal()) {echo 'test';} else {echo 'live';} ?>-business");
 					plans = $(".plan");
 					$(plans[1]).addClass('feature');
 					$("#select_business").addClass('uk-button-primary');
