@@ -13,7 +13,7 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"stripe/stripe-php": "~1.17",
-		"aws/aws-sdk-php": "2.*",
+		"aws/aws-sdk-php": "3.19.20",
 		"rackspace/php-opencloud": "dev-master",
 		"felixkiss/uniquewith-validator": "1.1.1",
 		"doctrine/dbal": "~2",
@@ -21,7 +21,7 @@
 		"mongofill/mongofill": "dev-bsd-compat",
 		"intouch/laravel-newrelic": "*",
 		"keis/just-ssh": "dev-master",
-		"phpseclib/phpseclib": "~0.3.10",
+		"phpseclib/phpseclib": "0.3.*",
 		"betacie/google-analytics": "0.1.*"
 	},
 	"autoload": {
