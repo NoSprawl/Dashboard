@@ -65,7 +65,7 @@ class DeployAgentToNode {
 				if($pem_key_reference->remote_url) {
 					$unique_key_name = rand(0,9999) . $pem_key_reference->remote_url;
 					
-					$key_bucket = (App::isLocal() ? 'devkeys.nosprawl.software' : 'keys.nosprawl.software');
+					$key_bucket = (App::isLocal() ? 'nos.keys' : 'nos.keys');
 					$s3->getObject(array('Bucket' => $key_bucket, 'Key' => $pem_key_reference->remote_url, 'SaveAs' => '/tmp/' . $unique_key_name));
 					
 					exec('chmod 400 /tmp/' . $unique_key_name);
