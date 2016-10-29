@@ -21,7 +21,7 @@
 		"mongofill/mongofill": "dev-bsd-compat",
 		"intouch/laravel-newrelic": "*",
 		"keis/just-ssh": "dev-master",
-		"phpseclib/phpseclib": "^2.0",
+		"phpseclib/phpseclib": "0.3.*",
 		"betacie/google-analytics": "0.1.*"
 	},
 	"autoload": {
