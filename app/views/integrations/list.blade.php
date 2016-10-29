@@ -55,7 +55,7 @@
 					</td>
 					
 					
-					<td><a style="position: relative; padding-top: 2px; display: block; font-size: .95em;" rel="<?= $integration['id']; ?>" class="key_manage" href="#"><i class="fa fa-key">&nbsp;&nbsp;</i>Manage Keys</a></td>
+					<td><a style="position: relative; padding-top: 2px; display: block; font-size: .95em; z-index: 300;" rel="<?= $integration['id']; ?>" class="key_manage" href="#"><i class="fa fa-key">&nbsp;&nbsp;</i>Manage Keys</a></td>
 					<td style="text-align: center;"><div style="position: relative; padding-top: 2px;"><?php echo $integration->node_count(); ?></div></td>
 					<td><a data-method="post" href="/integration/delete/<?php echo $integration['id'] ?>">Delete</a><!-- | <a data-method="post" href="/integration/enqueueJobs/<?php echo $integration['id'] ?>">Check Queue</a>--></td>
 				</tr>
