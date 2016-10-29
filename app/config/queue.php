@@ -31,8 +31,8 @@ return array(
 	'connections' => array(
 		'sqs' => array(
 			'driver' => 'sqs',
-			'key'    => 'AKIAJS5YYIOIIT3XI2EA',
-			'secret' => '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',
+			'key'    => 'AKIAICJF7IR3TI5SJE4Q',
+			'secret' => '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',
 			'queue'  => 'https://sqs.us-east-1.amazonaws.com/373233922238/nosprawl-sqs-va',
 			'region' => 'us-east-1',
 		)
