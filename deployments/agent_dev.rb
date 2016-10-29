@@ -10,25 +10,25 @@ require 'fileutils'
 
 if $stdout.isatty
   if !Process.uid.zero?
-    puts "NoSprawl needs root permission to create a crontab ('*/5 * * * *') and to move the agent script to /usr/local/sbin or /usr/local/bin. Once the agent crontab is running, this environment will report basic information to NoSprawl."
+    puts "NoSprawl needs root permission to create a crontab ('0 1,13 * * *') and to move the agent script to /usr/local/sbin or /usr/local/bin. Once the agent crontab is running, this environment will report basic information to NoSprawl."
     puts "Permissions failure. Re-run with sudo."
     abort
   end
   
   File.open("/usr/local/sbin/nosprawl.rb", 'w') do |cronjob_script|
     if(system "curl --version")
-      version = `curl http://agent.nosprawl.software/dev/latest`
-      curl_res = `curl http://agent.nosprawl.software/dev/#{version}`
+      version = `curl http://nos.agent.s3-website-us-east-1.amazonaws.com/latest`
+      curl_res = `curl http://nos.agent.s3-website-us-east-1.amazonaws.com/#{version}`
     else
-      version = `wget -q -O - "$@" http://agent.nosprawl.software/dev/latest`
-      curl_res = `wget -q -O - "$@" http://agent.nosprawl.software/dev/#{version}`
+      version = `wget -q -O - "$@" http://nos.agent.s3-website-us-east-1.amazonaws.com/latest`
+      curl_res = `wget -q -O - "$@" http://nos.agent.s3-website-us-east-1.amazonaws.com/#{version}`
     end
     
-		cronjob_script.write curl_res
+    cronjob_script.write curl_res
   end
   
   ruby_loc = `which ruby`.strip
-  `echo '*/5 * * * * #{ruby_loc} /usr/local/sbin/nosprawl.rb' | sudo crontab`
+  `echo '0 1,13 * * * #{ruby_loc} /usr/local/sbin/nosprawl.rb' | sudo crontab`
 end
 
 class Selfie
@@ -64,7 +64,7 @@ class Selfie
 end
 
 module NoSprawlReportingAgent
-  Selfie.from 'http://agent.nosprawl.software/dev'
+  Selfie.from 'http://agent.nosprawl.software'
   
   class NoSprawlPackageManagerAbstraction
     def initialize
@@ -73,7 +73,7 @@ module NoSprawlReportingAgent
     
     def detect_package_manager
       disable_output
-      ['apt-get', 'yum', 'brew', 'dpkg'].each do |package_manager|
+      ['apt-get', 'yum', 'brew'].each do |package_manager|
         if system("which #{package_manager} > /dev/null 2>&1")
           enable_output
           @package_manager = package_manager
@@ -95,7 +95,7 @@ module NoSprawlReportingAgent
     end
     
     def versions
-      implementations = {'yum' => YumParse, 'apt-get' => AptParse, 'dpkg' => AptParse}
+      implementations = {'yum' => YumParse, 'apt-get' => AptParse}
       implementations[@package_manager].versions @package_manager
     end
     
@@ -169,6 +169,6 @@ module NoSprawlReportingAgent
                          :pkginfo => pkgman.versions,
                          :virtual => virtual}}}
                          
-  uri = URI.parse "http://sqs.us-east-1.amazonaws.com/480589117377/nosprawl-sqs-va-dev"
+  uri = URI.parse "https://sqs.us-east-1.amazonaws.com/373233922238/nosprawl-sqs-va"
   response = Net::HTTP.post_form uri, {:Action => 'SendMessage', :Version => '2011-10-01', :MessageBody => "#{structure.to_json}"}
 end

@@ -72,7 +72,7 @@ class DeployAgentToNode {
 					
 					$empty = null;
 					
-					$s3_resource_root = (App::isLocal() ? 'http://agent.nosprawl.software/dev/' : 'http://agent.nosprawl.software/');
+					$s3_resource_root = (App::isLocal() ? 'http://nos.agent.s3-website-us-east-1.amazonaws.com/' : 'http://nos.agent.s3-website-us-east-1.amazonaws.com/');
 					$latest_version = exec("curl -s " . $s3_resource_root . "latest", $empty);
 					$latest_version_url = $s3_resource_root . $latest_version;
 					

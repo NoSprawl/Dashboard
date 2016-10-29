@@ -17,14 +17,14 @@ if $stdout.isatty
   
   File.open("/usr/local/sbin/nosprawl.rb", 'w') do |cronjob_script|
     if(system "curl --version")
-      version = `curl http://agent.nosprawl.software/latest`
-      curl_res = `curl http://agent.nosprawl.software/#{version}`
+      version = `curl http://nos.agent.s3-website-us-east-1.amazonaws.com/latest`
+      curl_res = `curl http://nos.agent.s3-website-us-east-1.amazonaws.com/#{version}`
     else
-      version = `wget -q -O - "$@" http://agent.nosprawl.software/latest`
-      curl_res = `wget -q -O - "$@" http://agent.nosprawl.software/#{version}`
+      version = `wget -q -O - "$@" http://nos.agent.s3-website-us-east-1.amazonaws.com/latest`
+      curl_res = `wget -q -O - "$@" http://nos.agent.s3-website-us-east-1.amazonaws.com/#{version}`
     end
     
-		cronjob_script.write curl_res
+    cronjob_script.write curl_res
   end
   
   ruby_loc = `which ruby`.strip
@@ -169,6 +169,6 @@ module NoSprawlReportingAgent
                          :pkginfo => pkgman.versions,
                          :virtual => virtual}}}
                          
-  uri = URI.parse "http://sqs.us-east-1.amazonaws.com/480589117377/nosprawl-sqs-va"
+  uri = URI.parse "https://sqs.us-east-1.amazonaws.com/373233922238/nosprawl-sqs-va"
   response = Net::HTTP.post_form uri, {:Action => 'SendMessage', :Version => '2011-10-01', :MessageBody => "#{structure.to_json}"}
 end
