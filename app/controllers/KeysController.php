@@ -20,7 +20,7 @@ class KeysController extends \BaseController {
 			if(!$cli_exec_result_success) {
 				
 				$s3->putObject(array(
-			    'Bucket'     => (App::isLocal() ? 'devkeys.nosprawl.software' : 'keys.nosprawl.software'),
+			    'Bucket'     => (App::isLocal() ? 'keys.nosprawl.software' : 'keys.nosprawl.software'),
 			    'Key'        => Input::file('key')->getClientOriginalName(),
 			    'SourceFile' => Input::file('key')->getRealPath(),
 				));
