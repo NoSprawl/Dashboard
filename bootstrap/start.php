@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('resin', 'ip-10-0-10-106'),
+	'local' => array('resin'),
 
 ));
 
